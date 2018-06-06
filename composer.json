@@ -1,0 +1,24 @@
+{
+    "name": "yeelight/miot-api",
+    "description": "小米IOT控制端API及小米IOT设备规范的 PHP 实现",
+    "type": "library",
+    "require": {
+        "php": "5.6"
+    },
+    "require-dev": {
+        "php": "5.6"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "lixiaodong",
+            "email": "lixiaodong@yeelight.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Yeelight\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
