@@ -7,16 +7,19 @@
  */
 namespace Yeelight\Specification;
 
-use Yeelight\Exception\SpecificationErrorException;
-use Yeelight\Validator\Urn;
-
 abstract class SpecificationType implements ISpecificationType
 {
+    /**
+     * @var SpecificationType, 简写为type
+     * 必须是URN表达式
+     */
+    protected $type;
+
+    protected $urn;
+
     public function __construct($urn)
     {
-        if (!Urn::validate($urn)) {
-            throw new SpecificationErrorException('Invalid URN!');
-        }
+
     }
 
     public function getType()
@@ -31,7 +34,8 @@ abstract class SpecificationType implements ISpecificationType
 
     public function setType($urn)
     {
-
+        $this->urn = new Urn($urn);
+        $this->type = $this->urn->getExpression();
     }
 
     public function setDescription($description)
