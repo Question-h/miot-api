@@ -38,6 +38,22 @@ class Urn
     private $expression;
 
     /**
+     * 小米 URN 规范所包含的字段
+     * <URN> ::= "urn:"<namespace>":"<type>":"<name>":"<value>[":"<vendor-product>":"<version>]
+     * 
+     * @var array
+     */
+    private $columns = [
+        'urn',
+        'namespace',
+        'type',
+        'name',
+        'value',
+        'vendor_product',
+        'version',
+    ];
+
+    /**
      * 第一个字段必须为urn，否则视为非法urn
      *
      * @var $urn
@@ -51,6 +67,17 @@ class Urn
      * @var $namespace
      */
     private $namespace = 'miot-spec-v2';
+
+    /**
+     * 合法的namespace
+     *
+     * @var array
+     */
+    private $valid_namespaces = [
+        'miot-spec',        // 小米定义的规范
+        'miot-spec-v2',     // 小米定义的规范版本2
+        'bluetooth-spec',   // 蓝牙联盟定义的规范
+    ];
 
     /**
      * SpecificationType (类型，简写为: type)
@@ -67,6 +94,19 @@ class Urn
     private $type = 'property';
 
     /**
+     * 合法的type
+     *
+     * @var array
+     */
+    private $valid_types = [
+        'property',     // 属性
+        'action',       // 方法
+        'event',        // 事件
+        'service',      // 服务
+        'device',       // 设备
+    ];
+
+    /**
      * 有意义的单词或单词组合(小写字母)
      * 多个单词用"-"间隔，比如：
      *
@@ -80,6 +120,14 @@ class Urn
     private $name;
 
     /**
+     * name的正则
+     * 单词或单词组合(小写字母)
+     * 多个单词用"-"间隔
+     * @var string
+     */
+    private $name_reg = '/^[a-z][a-z\-]+[a-z]$/';
+
+    /**
      * 16进制字符串，使用UUID前8个字符，如：
      *
      * 00002A06
@@ -88,6 +136,14 @@ class Urn
      * @var $value
       */
     private $value;
+
+    /**
+     * value正则
+     * 16进制字符串，使用UUID前8个字符
+     *
+     * @var string
+     */
+    private $value_reg = '/^([0-9A-F]{8})$/';
 
     /**
      * 厂家+产品代号 (这个字段只有在设备实例定义里出现)
@@ -103,12 +159,29 @@ class Urn
     private $vendor_product;
 
     /**
+     * 厂家+产品代号正则
+     * 单词或单词组合(小写字母)
+     * 多个单词用"-"间隔
+     * @var string
+     */
+    private $vendor_product_reg = '/^([a-z0-9\-]+)$/';
+
+    /**
      * 版本号，只能是数字 (这个字段只有在设备实例定义里出现)
      * 如: 1, 2, 3
      *
      * @var $version
      */
     private $version;
+
+    /**
+     * 版本号正则
+     * 只能是数字
+     *
+     * @var string
+     */
+    private $version_reg = '/^([0-9]+)$/';
+
 
     public function __construct($urn)
     {
@@ -118,6 +191,7 @@ class Urn
 
         $this->original = $urn;
 
+        // 执行解析
         $this->_parse();
     }
 
@@ -146,6 +220,10 @@ class Urn
      */
     public function setUrn($urn)
     {
+        if ($urn != $this->urn) {
+            throw new SpecificationErrorException('必须为urn，否则视为非法urn');
+        }
+
         $this->urn = $urn;
     }
 
@@ -162,6 +240,10 @@ class Urn
      */
     public function setNamespace($namespace)
     {
+        if (!in_array($namespace, $this->valid_namespaces)) {
+            throw new SpecificationErrorException('非法 namespace');
+        }
+
         $this->namespace = $namespace;
     }
 
@@ -178,6 +260,10 @@ class Urn
      */
     public function setType($type)
     {
+        if (!in_array($type, $this->valid_types)) {
+            throw new SpecificationErrorException('非法 type');
+        }
+
         $this->type = $type;
     }
 
@@ -194,6 +280,10 @@ class Urn
      */
     public function setName($name)
     {
+        if (!preg_match($this->name_reg, $name)) {
+            throw new SpecificationErrorException('非法 name');
+        }
+
         $this->name = $name;
     }
 
@@ -210,6 +300,10 @@ class Urn
      */
     public function setValue($value)
     {
+        if (!preg_match($this->value_reg, $value)) {
+            throw new SpecificationErrorException('非法 value');
+        }
+
         $this->value = $value;
     }
 
@@ -226,6 +320,10 @@ class Urn
      */
     public function setVendorProduct($vendor_product)
     {
+        if (!preg_match($this->vendor_product_reg, $vendor_product)) {
+            throw new SpecificationErrorException('非法 厂家+产品代号');
+        }
+
         $this->vendor_product = $vendor_product;
     }
 
@@ -242,6 +340,10 @@ class Urn
      */
     public function setVersion($version)
     {
+        if (!preg_match($this->version_reg, $version)) {
+            throw new SpecificationErrorException('非法 版本号');
+        }
+
         $this->version = $version;
     }
 
@@ -254,47 +356,50 @@ class Urn
     }
 
     /**
+     * 根据各字段生成解析格式化后的urn
      *
      * @return string
      */
     private function setExpression()
     {
-        $this->expression = '';
+        $expression = '';
 
-        if ($this->urn) {
-            $this->expression .= $this->urn;
+        foreach ($this->columns as $index => $column) {
+            $fncName = 'get' . ucfirst(
+                    preg_replace_callback('/_([a-zA-Z])/', function($match){
+                        return strtoupper($match[1]);
+                    }, $column)
+                );
+
+            if (method_exists($this, $fncName) && $this->{$fncName}()) {
+                $expression .= $this->delimiter . $this->{$fncName}();
+            }
         }
 
-        if ($this->namespace) {
-            $this->expression .= $this->delimiter . $this->namespace;
-        }
-
-        if ($this->type) {
-            $this->expression .= $this->delimiter . $this->type;
-        }
-
-        if ($this->name) {
-            $this->expression .= $this->delimiter . $this->name;
-        }
-
-        if ($this->value) {
-            $this->expression .= $this->delimiter . $this->value;
-        }
-
-        if ($this->vendor_product) {
-            $this->expression .= $this->delimiter . $this->vendor_product;
-        }
-
-        if ($this->version) {
-            $this->expression .= $this->delimiter . $this->version;
-        }
+        $this->expression = trim($expression, $this->delimiter);
 
         return $this->expression;
     }
 
+    /**
+     * urn 解析器
+     *
+     * @return mixed
+     */
     private function _parse()
     {
+        $parses = explode($this->delimiter, $this->original);
 
+        foreach ($this->columns as $index => $column) {
+            $fncName = 'set' . ucfirst(
+                    preg_replace_callback('/_([a-zA-Z])/', function($match){
+                        return strtoupper($match[1]);
+                    }, $column)
+                );
+            if (method_exists($this, $fncName) && isset($parses[$index])) {
+                $this->{$fncName}($parses[$index]);
+            }
+        }
 
         $this->setExpression();
 
