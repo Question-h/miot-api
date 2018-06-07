@@ -217,6 +217,7 @@ class Urn
 
     /**
      * @param mixed $urn
+     * @throws SpecificationErrorException
      */
     public function setUrn($urn)
     {
@@ -237,6 +238,7 @@ class Urn
 
     /**
      * @param mixed $namespace
+     * @throws SpecificationErrorException
      */
     public function setNamespace($namespace)
     {
@@ -257,6 +259,7 @@ class Urn
 
     /**
      * @param mixed $type
+     * @throws SpecificationErrorException
      */
     public function setType($type)
     {
@@ -277,6 +280,7 @@ class Urn
 
     /**
      * @param mixed $name
+     * @throws SpecificationErrorException
      */
     public function setName($name)
     {
@@ -297,6 +301,7 @@ class Urn
 
     /**
      * @param mixed $value
+     * @throws SpecificationErrorException
      */
     public function setValue($value)
     {
@@ -317,6 +322,7 @@ class Urn
 
     /**
      * @param mixed $vendor_product
+     * @throws SpecificationErrorException
      */
     public function setVendorProduct($vendor_product)
     {
@@ -337,6 +343,7 @@ class Urn
 
     /**
      * @param mixed $version
+     * @throws SpecificationErrorException
      */
     public function setVersion($version)
     {

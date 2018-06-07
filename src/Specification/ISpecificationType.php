@@ -14,13 +14,13 @@ interface ISpecificationType
 
     public function getType();
 
-    public function getDescription();
-
     public function setType($urn);
+
+    public function getDescription();
 
     public function setDescription($description);
 
-    public function context();
+    public function getContext();
 
-    public function parse($context);
+    public function init($context);
 }

@@ -15,11 +15,23 @@ abstract class SpecificationType implements ISpecificationType
      */
     protected $type;
 
+    /**
+     * 描述
+     * 纯文本字段
+     *
+     * @var
+     */
+    protected $description;
+
+    /**
+     * 必须是符合 RFC 2141 和小米规范的 urn
+     * @var
+     */
     protected $urn;
 
     public function __construct($urn)
     {
-
+        $this->setType($urn);
     }
 
     public function getType()
@@ -27,28 +39,33 @@ abstract class SpecificationType implements ISpecificationType
 
     }
 
-    public function getDescription()
-    {
-
-    }
-
+    /**
+     * 根据urn设置 type和 urn
+     *
+     * @param $urn
+     */
     public function setType($urn)
     {
         $this->urn = new Urn($urn);
         $this->type = $this->urn->getExpression();
     }
 
+    public function getDescription()
+    {
+
+    }
+
     public function setDescription($description)
     {
-
+        $this->description = $description;
     }
 
-    public function context()
+    public function getContext()
     {
 
     }
 
-    public function parse($context)
+    public function init($context)
     {
 
     }
