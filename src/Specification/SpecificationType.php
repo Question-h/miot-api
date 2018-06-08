@@ -7,7 +7,11 @@
  */
 namespace Yeelight\Specification;
 
-abstract class SpecificationType implements ISpecificationType
+use Yeelight\Specification\Interfaces\SpecificationType as SpecificationTypeInterface;
+use Yeelight\Specification\Interfaces\Instance;
+use Yeelight\Specification\Interfaces\Urn;
+
+abstract class SpecificationType implements SpecificationTypeInterface
 {
     /**
      * @var SpecificationType, 简写为type
@@ -29,14 +33,26 @@ abstract class SpecificationType implements ISpecificationType
      */
     protected $urn;
 
-    public function __construct($urn)
+    /**
+     * type对象
+     * @var
+     */
+    protected $instance;
+
+    /**
+     * http Client
+     * @var
+     */
+    protected $httpClient;
+
+    public function __construct(Urn $urn)
     {
         $this->setType($urn);
     }
 
     public function getType()
     {
-
+        return $this->type;
     }
 
     /**
@@ -44,15 +60,15 @@ abstract class SpecificationType implements ISpecificationType
      *
      * @param $urn
      */
-    public function setType($urn)
+    public function setType(Urn $urn)
     {
-        $this->urn = new Urn($urn);
+        $this->urn = $urn;
         $this->type = $this->urn->getExpression();
     }
 
     public function getDescription()
     {
-
+        return $this->description;
     }
 
     public function setDescription($description)
@@ -60,13 +76,22 @@ abstract class SpecificationType implements ISpecificationType
         $this->description = $description;
     }
 
-    public function getContext()
+    public function getInstance()
     {
-
+        return $this->instance;
     }
 
-    public function init($context)
+    public function getInstanceContext()
     {
+        if ($this->instance instanceof Instance) {
+            return $this->instance->toContext();
+        } else {
+            return null;
+        }
+    }
 
+    public function setInstance(Instance $instance)
+    {
+        $this->instance = $instance;
     }
 }

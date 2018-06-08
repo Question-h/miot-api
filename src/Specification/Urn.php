@@ -9,8 +9,9 @@
 namespace Yeelight\Specification;
 
 use Yeelight\Exception\SpecificationErrorException;
+use Yeelight\Specification\Interfaces\Urn as UrnInterface;
 
-class Urn
+class Urn implements UrnInterface
 {
     /**
      * 符合 RFC 2141 的 URN正则规则
