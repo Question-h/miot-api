@@ -5,9 +5,9 @@
  * Date: 18-6-8
  * Time: 下午5:17
  */
-namespace Yeelight\Specification;
+namespace Yeelight\Contract;
 
-use Yeelight\Specification\Interfaces\RemoteSpec as RemoteSpecInterface;
+use Yeelight\Contract\Interfaces\RemoteSpec as RemoteSpecInterface;
 use GuzzleHttp\Client;
 
 class RemoteSpec implements RemoteSpecInterface

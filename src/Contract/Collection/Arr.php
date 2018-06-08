@@ -1,6 +1,6 @@
 <?php
 
-namespace Yeelight\Specification\Collection;
+namespace Yeelight\Contract\Collection;
 
 use ArrayAccess;
 use InvalidArgumentException;

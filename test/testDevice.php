@@ -9,8 +9,8 @@
 
 require_once '../vendor/autoload.php';
 
-use Yeelight\Specification\Urn;
-use Yeelight\Specification\DeviceSpecification;
+use Yeelight\Contract\Urn;
+use Yeelight\Contract\Specification\DeviceSpecification;
 
 $context = '
 {

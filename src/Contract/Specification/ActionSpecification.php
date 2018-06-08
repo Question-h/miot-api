@@ -5,9 +5,9 @@
  * Date: 18-6-8
  * Time: 下午3:43
  */
-namespace Yeelight\Specification;
+namespace Yeelight\Contract\Specification;
 
-class EventSpecification extends Specification
+class ActionSpecification extends Specification
 {
 
 }

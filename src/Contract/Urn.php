@@ -6,10 +6,10 @@
  * Time: 下午5:58
  */
 
-namespace Yeelight\Specification;
+namespace Yeelight\Contract;
 
 use Yeelight\Exception\SpecificationErrorException;
-use Yeelight\Specification\Interfaces\Urn as UrnInterface;
+use Yeelight\Contract\Interfaces\Urn as UrnInterface;
 
 class Urn implements UrnInterface
 {

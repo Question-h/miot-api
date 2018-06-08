@@ -1,16 +1,16 @@
 <?php
 
-namespace Yeelight\Specification\Collection;
+namespace Yeelight\Contract\Collection;
 
 /**
- * @mixin \Yeelight\Specification\Collection\Collection
+ * @mixin \Yeelight\Contract\Collection\Collection
  */
 class HigherOrderCollectionProxy
 {
     /**
      * The collection being operated on.
      *
-     * @var \Yeelight\Specification\Collection\Collection
+     * @var \Yeelight\Contract\Collection\Collection
      */
     protected $collection;
 
@@ -24,7 +24,7 @@ class HigherOrderCollectionProxy
     /**
      * Create a new proxy instance.
      *
-     * @param  \Yeelight\Specification\Collection\Collection  $collection
+     * @param  \Yeelight\Contract\Collection\Collection  $collection
      * @param  string  $method
      * @return void
      */

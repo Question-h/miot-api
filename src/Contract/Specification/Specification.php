@@ -5,10 +5,10 @@
  * Date: 18-6-7
  * Time: 下午5:49
  */
-namespace Yeelight\Specification;
+namespace Yeelight\Contract\Specification;
 
-use Yeelight\Specification\Interfaces\Specification as SpecificationInterface;
-use Yeelight\Specification\Collection\Collection;
+use Yeelight\Contract\Interfaces\Specification as SpecificationInterface;
+use Yeelight\Contract\Collection\Collection;
 
 abstract class Specification implements SpecificationInterface
 {

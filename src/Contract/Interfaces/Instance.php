@@ -6,7 +6,7 @@
  * Time: 下午6:09
  */
 
-namespace Yeelight\Specification\Interfaces;
+namespace Yeelight\Contract\Interfaces;
 
 interface Instance
 {

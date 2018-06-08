@@ -5,11 +5,11 @@
  * Date: 18-6-6
  * Time: 下午6:25
  */
-namespace Yeelight\Specification;
+namespace Yeelight\Contract\Instance;
 
-use Yeelight\Specification\Interfaces\Instance as InstanceInterface;
-use Yeelight\Specification\Interfaces\Specification;
-use Yeelight\Specification\Interfaces\Urn;
+use Yeelight\Contract\Interfaces\Instance as InstanceInterface;
+use Yeelight\Contract\Interfaces\Specification;
+use Yeelight\Contract\Interfaces\Urn;
 
 abstract class Instance implements InstanceInterface
 {

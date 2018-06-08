@@ -6,7 +6,7 @@
  * Time: 下午5:16
  */
 
-namespace Yeelight\Specification\Interfaces;
+namespace Yeelight\Contract\Interfaces;
 
 interface RemoteSpec
 {

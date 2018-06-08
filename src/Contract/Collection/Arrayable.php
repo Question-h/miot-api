@@ -1,6 +1,6 @@
 <?php
 
-namespace Yeelight\Specification\Collection;
+namespace Yeelight\Contract\Collection;
 
 interface Arrayable
 {
