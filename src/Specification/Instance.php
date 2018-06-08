@@ -8,6 +8,7 @@
 namespace Yeelight\Specification;
 
 use Yeelight\Specification\Interfaces\Instance as InstanceInterface;
+use Yeelight\Specification\Collection\Collection;
 
 abstract class Instance implements InstanceInterface
 {
@@ -18,16 +19,48 @@ abstract class Instance implements InstanceInterface
     public function __construct($context)
     {
         $this->context = $context;
-        $this->fromContext();
+        $this->init();
     }
 
-    private function fromContext()
+    protected function init()
     {
-        $this->collection = json_decode($this->context, true);
+        $this->collection = new Collection(json_decode($this->context, true));
     }
 
     public function toContext()
     {
         return $this->context;
+    }
+
+    public function toCollection()
+    {
+        return $this->collection;
+    }
+
+    public function toJson()
+    {
+        return $this->collection->toJson();
+    }
+
+    public function toArray()
+    {
+        return $this->collection->toArray();
+    }
+
+    public function __get($key)
+    {
+        return $this->collection->offsetGet($key);
+    }
+
+    /**
+     * Proxy a method call onto the collection items.
+     *
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return $this->collection->{$method}(...$parameters);
     }
 }

@@ -12,4 +12,10 @@ interface Instance
     public function __construct($context);
 
     public function toContext();
+
+    public function toCollection();
+
+    public function toArray();
+
+    public function toJson();
 }
