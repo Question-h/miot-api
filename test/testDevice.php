@@ -9,9 +9,8 @@
 
 require_once '../vendor/autoload.php';
 
-use Yeelight\Specification\Instance;
 use Yeelight\Specification\Urn;
-use Yeelight\Specification\Device;
+use Yeelight\Specification\DeviceSpecification;
 
 $context = '
 {
@@ -127,7 +126,7 @@ $context = '
 ';
 
 $urn = new Urn('urn:miot-spec-v2:device:light:0000A001:yeelink-bslamp1:1');
-$device = new Device($context);
+$device = new DeviceSpecification($context);
 
 // 根据键获取值
 $services = $device->services;

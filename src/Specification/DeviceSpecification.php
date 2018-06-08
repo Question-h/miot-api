@@ -7,7 +7,7 @@
  */
 namespace Yeelight\Specification;
 
-class Device extends Instance
+class DeviceSpecification extends Specification
 {
     protected $serviceInstances;
 
@@ -17,7 +17,7 @@ class Device extends Instance
         $services = $this->services;
         if (!empty($services)) {
             foreach ($services as $index => $service) {
-                $this->serviceInstances[] = new Service($service['type']);
+                $this->serviceInstances[] = new ServiceSpecification($service['type']);
             }
         }
     }

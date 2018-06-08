@@ -7,7 +7,7 @@
  */
 namespace Yeelight\Specification;
 
-class Service extends Instance
+class ActionSpecification extends Specification
 {
 
 }

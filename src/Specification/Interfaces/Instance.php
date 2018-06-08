@@ -2,20 +2,25 @@
 /**
  * Created by PhpStorm.
  * User: sheldon
- * Date: 18-6-7
- * Time: 下午5:53
+ * Date: 18-6-6
+ * Time: 下午6:09
  */
+
 namespace Yeelight\Specification\Interfaces;
 
 interface Instance
 {
-    public function __construct($context);
+    public function __construct(Urn $urn);
 
-    public function toContext();
+    public function getType();
 
-    public function toCollection();
+    public function setType(Urn $urn);
 
-    public function toArray();
+    public function getDescription();
 
-    public function toJson();
+    public function setDescription($description);
+
+    public function getSpecification();
+
+    public function setSpecification(Specification $context);
 }

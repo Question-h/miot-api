@@ -2,65 +2,96 @@
 /**
  * Created by PhpStorm.
  * User: sheldon
- * Date: 18-6-7
- * Time: 下午5:49
+ * Date: 18-6-6
+ * Time: 下午6:25
  */
 namespace Yeelight\Specification;
 
 use Yeelight\Specification\Interfaces\Instance as InstanceInterface;
-use Yeelight\Specification\Collection\Collection;
+use Yeelight\Specification\Interfaces\Specification;
+use Yeelight\Specification\Interfaces\Urn;
 
 abstract class Instance implements InstanceInterface
 {
-    private $context;
+    /**
+     * @var Instance, 简写为type
+     * 必须是URN表达式
+     */
+    protected $type;
 
-    private $collection;
+    /**
+     * 描述
+     * 纯文本字段
+     *
+     * @var
+     */
+    protected $description;
 
-    public function __construct($context)
+    /**
+     * 必须是符合 RFC 2141 和小米规范的 urn
+     * @var
+     */
+    protected $urn;
+
+    /**
+     * type对象
+     * @var
+     */
+    protected $specification;
+
+    /**
+     * http Client
+     * @var
+     */
+    protected $httpClient;
+
+    public function __construct(Urn $urn)
     {
-        $this->context = $context;
-        $this->init();
+        $this->setType($urn);
     }
 
-    protected function init()
+    public function getType()
     {
-        $this->collection = new Collection(json_decode($this->context, true));
-    }
-
-    public function toContext()
-    {
-        return $this->context;
-    }
-
-    public function toCollection()
-    {
-        return $this->collection;
-    }
-
-    public function toJson()
-    {
-        return $this->collection->toJson();
-    }
-
-    public function toArray()
-    {
-        return $this->collection->toArray();
-    }
-
-    public function __get($key)
-    {
-        return $this->collection->offsetGet($key);
+        return $this->type;
     }
 
     /**
-     * Proxy a method call onto the collection items.
+     * 根据urn设置 type和 urn
      *
-     * @param  string  $method
-     * @param  array  $parameters
-     * @return mixed
+     * @param $urn
      */
-    public function __call($method, $parameters)
+    public function setType(Urn $urn)
     {
-        return $this->collection->{$method}(...$parameters);
+        $this->urn = $urn;
+        $this->type = $this->urn->getExpression();
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getSpecification()
+    {
+        return $this->specification;
+    }
+
+    public function getSpecificationContext()
+    {
+        if ($this->specification instanceof Specification) {
+            return $this->specification->toContext();
+        } else {
+            return null;
+        }
+    }
+
+    public function setSpecification(Specification $specification)
+    {
+        $this->specification = $specification;
     }
 }
