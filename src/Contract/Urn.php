@@ -6,10 +6,10 @@
  * Time: 下午5:58
  */
 
-namespace Yeelight\Contract;
+namespace MiotApi\Contract;
 
-use Yeelight\Exception\SpecificationErrorException;
-use Yeelight\Contract\Interfaces\Urn as UrnInterface;
+use MiotApi\Exception\SpecificationErrorException;
+use MiotApi\Contract\Interfaces\Urn as UrnInterface;
 
 class Urn implements UrnInterface
 {

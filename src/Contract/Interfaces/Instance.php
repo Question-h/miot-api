@@ -6,7 +6,7 @@
  * Time: 下午6:09
  */
 
-namespace Yeelight\Contract\Interfaces;
+namespace MiotApi\Contract\Interfaces;
 
 interface Instance
 {

@@ -5,7 +5,7 @@
  * Date: 18-6-8
  * Time: 下午3:43
  */
-namespace Yeelight\Contract\Specification;
+namespace MiotApi\Contract\Specification;
 
 class DeviceSpecification extends Specification
 {

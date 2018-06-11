@@ -5,7 +5,7 @@
  * Date: 18-6-6
  * Time: 下午6:28
  */
-namespace Yeelight\Exception;
+namespace MiotApi\Exception;
 
 use Exception;
 

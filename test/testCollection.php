@@ -8,14 +8,14 @@
 
 require_once '../vendor/autoload.php';
 
-use Yeelight\Specification\Collection\Collection;
+use MiotApi\Contract\Collection\Collection;
 
 if (! function_exists('collect')) {
     /**
      * Create a collection from the given value.
      *
      * @param  mixed  $value
-     * @return \Yeelight\Specification\Collection\Collection
+     * @return \MiotApi\Contract\Collection\Collection
      */
     function collect($value = null)
     {

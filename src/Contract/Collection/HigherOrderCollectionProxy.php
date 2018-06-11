@@ -1,16 +1,16 @@
 <?php
 
-namespace Yeelight\Contract\Collection;
+namespace MiotApi\Contract\Collection;
 
 /**
- * @mixin \Yeelight\Contract\Collection\Collection
+ * @mixin \MiotApi\Contract\Collection\Collection
  */
 class HigherOrderCollectionProxy
 {
     /**
      * The collection being operated on.
      *
-     * @var \Yeelight\Contract\Collection\Collection
+     * @var \MiotApi\Contract\Collection\Collection
      */
     protected $collection;
 
@@ -24,7 +24,7 @@ class HigherOrderCollectionProxy
     /**
      * Create a new proxy instance.
      *
-     * @param  \Yeelight\Contract\Collection\Collection  $collection
+     * @param  \MiotApi\Contract\Collection\Collection  $collection
      * @param  string  $method
      * @return void
      */

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yeelight\Contract\Collection;
+namespace MiotApi\Contract\Collection;
 
 interface Arrayable
 {

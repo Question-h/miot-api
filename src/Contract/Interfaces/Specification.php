@@ -5,7 +5,7 @@
  * Date: 18-6-7
  * Time: 下午5:53
  */
-namespace Yeelight\Contract\Interfaces;
+namespace MiotApi\Contract\Interfaces;
 
 interface Specification
 {

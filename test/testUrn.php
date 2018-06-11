@@ -8,7 +8,7 @@
 
 require_once '../vendor/autoload.php';
 
-use Yeelight\Contract\Urn;
+use MiotApi\Contract\Urn;
 
 // 测试urn
 // 参考 http://miot-spec.org/miot-spec-v2/instances

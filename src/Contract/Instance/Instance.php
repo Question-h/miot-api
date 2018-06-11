@@ -5,11 +5,11 @@
  * Date: 18-6-6
  * Time: 下午6:25
  */
-namespace Yeelight\Contract\Instance;
+namespace MiotApi\Contract\Instance;
 
-use Yeelight\Contract\Interfaces\Instance as InstanceInterface;
-use Yeelight\Contract\Interfaces\Specification;
-use Yeelight\Contract\Interfaces\Urn;
+use MiotApi\Contract\Interfaces\Instance as InstanceInterface;
+use MiotApi\Contract\Interfaces\Specification;
+use MiotApi\Contract\Interfaces\Urn;
 
 abstract class Instance implements InstanceInterface
 {
