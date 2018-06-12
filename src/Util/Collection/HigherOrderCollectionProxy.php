@@ -1,16 +1,16 @@
 <?php
 
-namespace MiotApi\Contract\Collection;
+namespace MiotApi\Util\Collection;
 
 /**
- * @mixin \MiotApi\Contract\Collection\Collection
+ * @mixin \MiotApi\Util\Collection\Collection
  */
 class HigherOrderCollectionProxy
 {
     /**
      * The collection being operated on.
      *
-     * @var \MiotApi\Contract\Collection\Collection
+     * @var \MiotApi\Util\Collection\Collection
      */
     protected $collection;
 
@@ -24,7 +24,7 @@ class HigherOrderCollectionProxy
     /**
      * Create a new proxy instance.
      *
-     * @param  \MiotApi\Contract\Collection\Collection  $collection
+     * @param  \MiotApi\Util\Collection\Collection $collection
      * @param  string  $method
      * @return void
      */

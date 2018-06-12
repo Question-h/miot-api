@@ -1,6 +1,6 @@
 <?php
 
-namespace MiotApi\Contract\Collection;
+namespace MiotApi\Util\Collection;
 
 interface Jsonable
 {

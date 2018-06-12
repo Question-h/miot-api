@@ -6,9 +6,9 @@
  * Time: 下午2:02
  */
 
-use MiotApi\Contract\Collection\Arrayable;
-use MiotApi\Contract\Collection\Collection;
-use MiotApi\Contract\Collection\Jsonable;
+use MiotApi\Util\Collection\Arrayable;
+use MiotApi\Util\Collection\Collection;
+use MiotApi\Util\Collection\Jsonable;
 
 class CollectionTest extends PHPUnit_Framework_TestCase
 {
