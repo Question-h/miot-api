@@ -8,19 +8,32 @@
 namespace MiotApi\Contract;
 
 use MiotApi\Contract\Interfaces\RemoteSpec as RemoteSpecInterface;
-use GuzzleHttp\Client;
+use MiotApi\Util\Request;
 
 class RemoteSpec implements RemoteSpecInterface
 {
-    private $baseUrl = 'http://miot-spec.org/miot-spec-v2/';
+    private static $host = 'miot-spec.org';
 
-    public static function get($url)
+    private static $namespaces = 'miot-spec-v2';
+
+    private static $timeout = 30;
+
+    public static function get($uri, $params = [])
     {
-        $client = new Client();
-        $res = $client->request('GET', $url);
+        $http = new Request(
+            self::$host,
+            self::$namespaces . '/' . $uri,
+            80,
+            true,
+            self::$timeout);
 
-        if ($res->getStatusCode() == 200) {
-            return $res->getBody();
+        $result = $http
+            ->setQueryParams($params)
+            ->execute()
+            ->getResponseText();
+
+        if ($result) {
+            return $result;
         }
 
         return null;

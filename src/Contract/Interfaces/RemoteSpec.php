@@ -10,5 +10,5 @@ namespace MiotApi\Contract\Interfaces;
 
 interface RemoteSpec
 {
-    public static function get($url);
+    public static function get($uri, $query);
 }

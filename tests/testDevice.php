@@ -9,8 +9,8 @@
 
 require_once '../vendor/autoload.php';
 
-use MiotApi\Contract\Urn;
 use MiotApi\Contract\Specification\DeviceSpecification;
+use MiotApi\Contract\Urn;
 
 $context = '
 {
