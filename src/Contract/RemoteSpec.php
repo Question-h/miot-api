@@ -7,10 +7,10 @@
  */
 namespace MiotApi\Contract;
 
-use MiotApi\Contract\Interfaces\RemoteSpec as RemoteSpecInterface;
+use MiotApi\Util\Jsoner\Jsoner;
 use MiotApi\Util\Request;
 
-class RemoteSpec implements RemoteSpecInterface
+class RemoteSpec extends Jsoner
 {
     private static $host = 'miot-spec.org';
 
@@ -18,7 +18,19 @@ class RemoteSpec implements RemoteSpecInterface
 
     private static $timeout = 30;
 
-    public static function get($uri, $params = [])
+    const INSTANCES = 'instances';
+
+    public static function instances()
+    {
+        $instances = Jsoner::load(self::INSTANCES);
+        if (!$instances) {
+            $instances = self::fetch(self::INSTANCES);
+            Jsoner::fill($instances, self::INSTANCES);
+        }
+        return $instances;
+    }
+
+    public static function fetch($uri, $params = [])
     {
         $http = new Request(
             self::$host,

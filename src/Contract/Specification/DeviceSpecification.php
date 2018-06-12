@@ -21,6 +21,7 @@ class DeviceSpecification extends Specification
             }
         }
     }
+
     /**
      * @return mixed
      */

@@ -13,33 +13,49 @@ use MiotApi\Util\Collection\Collection;
 
 class Jsoner extends Collection
 {
-    public function load($file)
+    const CACHE_DIR = 'json_cache';
+
+    public static function load($file)
     {
         try {
-            $items = JsonLoader::fileToArray($file);
-            return $this->make($items);
+            $items = JsonLoader::fileToArray(self::getCacheDir() . $file);
+            if (!empty($items)) {
+                return self::make($items);
+            }
+            return false;
         } catch (JsonException $exception) {
             return false;
         }
     }
 
-    public function fill($data, $file)
+    public static function fill($data, $file)
     {
         try {
-            $items = JsonLoader::dataToFile($data, $file);
-            return $this->make($items);
+            $items = JsonLoader::dataToFile($data, self::getCacheDir() . $file);
+            if (!empty($items)) {
+                return self::make($items);
+            }
+            return false;
         } catch (JsonException $exception) {
             return false;
         }
     }
 
-    public function fillArray($array, $file)
+    public static function fillArray($array, $file)
     {
         try {
-            $items = JsonLoader::arrayToFile($array, $file);
-            return $this->make($items);
+            $items = JsonLoader::arrayToFile($array, self::getCacheDir() . $file);
+            if (!empty($items)) {
+                return self::make($items);
+            }
+            return false;
         } catch (JsonException $exception) {
             return false;
         }
+    }
+
+    public static function getCacheDir()
+    {
+        return dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . self::CACHE_DIR . DIRECTORY_SEPARATOR;
     }
 }
