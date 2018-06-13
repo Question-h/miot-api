@@ -30,12 +30,15 @@ class DeviceSpecification extends Specification
      */
     protected $optionalServices;
 
+    /**
+     * @throws \MiotApi\Exception\SpecificationErrorException
+     */
     public function init()
     {
         parent::init();
 
         if ($this->has('required-services')) {
-            $requiredServices = $this->{'required-services'};
+            $requiredServices = $this->__get('required-services');
             if (!empty($requiredServices)) {
                 foreach ($requiredServices as $index => $service) {
                     $this->requiredServices[] = new ServiceSpecification($service);
@@ -44,7 +47,7 @@ class DeviceSpecification extends Specification
         }
 
         if ($this->has('required-services')) {
-            $optionalServices = $this->{'optional-services'};
+            $optionalServices = $this->__get('optional-services');
             if (!empty($optionalServices)) {
                 foreach ($optionalServices as $index => $service) {
                     $this->optionalServices[] = new ServiceSpecification($service);

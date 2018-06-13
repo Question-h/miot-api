@@ -61,12 +61,15 @@ class ServiceSpecification extends Specification
      */
     protected $optionalProperties;
 
+    /**
+     * @throws \MiotApi\Exception\SpecificationErrorException
+     */
     public function init()
     {
         parent::init();
 
         if ($this->has('required-actions')) {
-            $requiredActions = $this->{'required-actions'};
+            $requiredActions = $this->__get('required-actions');
             if (!empty($requiredActions)) {
                 foreach ($requiredActions as $index => $action) {
                     $this->requiredActions[] = new ActionSpecification($action);
@@ -75,7 +78,7 @@ class ServiceSpecification extends Specification
         }
 
         if ($this->has('optional-actions')) {
-            $optionalActions = $this->{'optional-actions'};
+            $optionalActions = $this->__get('optional-actions');
             if (!empty($optionalActions)) {
                 foreach ($optionalActions as $index => $action) {
                     $this->optionalActions[] = new ActionSpecification($action);
@@ -84,7 +87,7 @@ class ServiceSpecification extends Specification
         }
 
         if ($this->has('required-events')) {
-            $requiredEvents = $this->{'required-events'};
+            $requiredEvents = $this->__get('required-events');
             if (!empty($requiredEvents)) {
                 foreach ($requiredEvents as $index => $event) {
                     $this->requiredEvents[] = new EventSpecification($event);
@@ -93,7 +96,7 @@ class ServiceSpecification extends Specification
         }
 
         if ($this->has('optional-events')) {
-            $optionalEvents = $this->{'optional-events'};
+            $optionalEvents = $this->__get('optional-events');
             if (!empty($optionalEvents)) {
                 foreach ($optionalEvents as $index => $event) {
                     $this->optionalEvents[] = new EventSpecification($event);
@@ -102,7 +105,7 @@ class ServiceSpecification extends Specification
         }
 
         if ($this->has('required-properties')) {
-            $requiredProperties = $this->{'required-properties'};
+            $requiredProperties = $this->__get('required-properties');
             if (!empty($requiredProperties)) {
                 foreach ($requiredProperties as $index => $property) {
                     $this->requiredProperties[] = new PropertySpecification($property);
@@ -111,7 +114,7 @@ class ServiceSpecification extends Specification
         }
 
         if ($this->has('optional-properties')) {
-            $optionalProperties = $this->{'optional-properties'};
+            $optionalProperties = $this->__get('optional-properties');
             if (!empty($optionalProperties)) {
                 foreach ($optionalProperties as $index => $property) {
                     $this->optionalProperties[] = new PropertySpecification($property);
