@@ -8,8 +8,8 @@
 
 namespace MiotApi\Contract;
 
-use MiotApi\Exception\SpecificationErrorException;
 use MiotApi\Contract\Interfaces\Urn as UrnInterface;
+use MiotApi\Exception\SpecificationErrorException;
 
 class Urn implements UrnInterface
 {
@@ -38,6 +38,7 @@ class Urn implements UrnInterface
      */
     private $expression;
 
+
     /**
      * 小米 URN 规范所包含的字段
      * <URN> ::= "urn:"<namespace>":"<type>":"<name>":"<value>[":"<vendor-product>":"<version>]
@@ -52,6 +53,26 @@ class Urn implements UrnInterface
         'value',
         'vendor_product',
         'version',
+    ];
+
+    /**
+     * 各类型的预订义的基础urn
+     * @var $base_urn
+     */
+    private $base_urn;
+
+    /**
+     * 预订义的小米 URN 规范所包含的字段
+     * <URN> ::= "urn:"<namespace>":"<type>":"<name>":"<value>
+     *
+     * @var array
+     */
+    private $base_columns = [
+        'urn',
+        'namespace',
+        'type',
+        'name',
+        'value'
     ];
 
     /**
@@ -184,6 +205,11 @@ class Urn implements UrnInterface
     private $version_reg = '/^([0-9]+)$/';
 
 
+    /**
+     * Urn constructor.
+     * @param $urn
+     * @throws SpecificationErrorException
+     */
     public function __construct($urn)
     {
         if (!$this->validate($urn)) {
@@ -358,6 +384,40 @@ class Urn implements UrnInterface
     /**
      * @return mixed
      */
+    public function getBaseUrn()
+    {
+        return $this->base_urn;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    private function setBaseUrn()
+    {
+        $base_urn = '';
+
+        foreach ($this->base_columns as $index => $column) {
+            $fncName = 'get' . ucfirst(
+                    preg_replace_callback('/_([a-zA-Z])/', function ($match) {
+                        return strtoupper($match[1]);
+                    }, $column)
+                );
+
+            if (method_exists($this, $fncName) && $this->{$fncName}()) {
+                $base_urn .= $this->delimiter . $this->{$fncName}();
+            }
+        }
+
+        $this->base_urn = trim($base_urn, $this->delimiter);
+
+        return $this->base_urn;
+    }
+
+
+    /**
+     * @return mixed
+     */
     public function getExpression()
     {
         return $this->expression;
@@ -410,6 +470,7 @@ class Urn implements UrnInterface
         }
 
         $this->setExpression();
+        $this->setBaseUrn();
 
         return $this->expression;
     }

@@ -15,11 +15,19 @@ class Jsoner extends Collection
 {
     const CACHE_DIR = 'json_cache';
 
+    const SUFFIX = '.json';
+
+    /**
+     * 读取json文件里的内容为数组
+     * @param $file
+     * @return bool|Jsoner
+     */
     public static function load($file)
     {
         try {
-            $items = JsonLoader::fileToArray(self::getCacheDir() . $file);
-            if (!empty($items)) {
+            $items = JsonLoader::fileToArray(self::getCacheDir() . $file . self::SUFFIX);
+
+            if (!empty($items) && !isset($items['error-code'])) {
                 return self::make($items);
             }
             return false;
@@ -28,11 +36,17 @@ class Jsoner extends Collection
         }
     }
 
+    /**
+     * json数据存储成json文件
+     * @param $data
+     * @param $file
+     * @return bool|Jsoner
+     */
     public static function fill($data, $file)
     {
         try {
-            $items = JsonLoader::dataToFile($data, self::getCacheDir() . $file);
-            if (!empty($items)) {
+            $items = JsonLoader::dataToFile($data, self::getCacheDir() . $file . self::SUFFIX);
+            if (!empty($items) && !isset($items['error-code'])) {
                 return self::make($items);
             }
             return false;
@@ -41,11 +55,17 @@ class Jsoner extends Collection
         }
     }
 
+    /**
+     * 数组缓存成json文件
+     * @param $array
+     * @param $file
+     * @return bool|Jsoner
+     */
     public static function fillArray($array, $file)
     {
         try {
-            $items = JsonLoader::arrayToFile($array, self::getCacheDir() . $file);
-            if (!empty($items)) {
+            $items = JsonLoader::arrayToFile($array, self::getCacheDir() . $file . self::SUFFIX);
+            if (!empty($items) && !isset($items['error-code'])) {
                 return self::make($items);
             }
             return false;
@@ -54,6 +74,10 @@ class Jsoner extends Collection
         }
     }
 
+    /**
+     * 取缓存文件路径
+     * @return string
+     */
     public static function getCacheDir()
     {
         return dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . self::CACHE_DIR . DIRECTORY_SEPARATOR;
