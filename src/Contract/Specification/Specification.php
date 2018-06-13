@@ -8,28 +8,58 @@
 namespace MiotApi\Contract\Specification;
 
 use MiotApi\Contract\Interfaces\Specification as SpecificationInterface;
-use MiotApi\Contract\Collection\Collection;
+use MiotApi\Contract\RemoteSpec;
+use MiotApi\Contract\Urn;
+use MiotApi\Util\Collection\Collection;
 
 abstract class Specification implements SpecificationInterface
 {
-    private $context;
-
     private $collection;
 
-    public function __construct($context)
+    private $urn;
+
+    /**
+     * 描述: 纯文本字段
+     * @var
+     */
+    private $description;
+
+    /**
+     * Specification constructor.
+     * @param $urn
+     * @throws \MiotApi\Exception\SpecificationErrorException
+     */
+    public function __construct($urn)
     {
-        $this->context = $context;
+        $this->urn = new Urn($urn);
         $this->init();
     }
 
-    protected function init()
+    public function init()
     {
-        $this->collection = new Collection(json_decode($this->context, true));
+        $instanceType = $this->urn->getType();
+        $items = RemoteSpec::{$instanceType}($this->urn->getBaseUrn());
+        $this->collection = new Collection($items);
+    }
+
+    public function getUrn()
+    {
+        return $this->urn;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     public function toContext()
     {
-        return $this->context;
+        return $this->toJson();
     }
 
     public function toCollection()

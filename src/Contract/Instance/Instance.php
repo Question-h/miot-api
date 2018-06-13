@@ -39,11 +39,6 @@ abstract class Instance implements InstanceInterface
      */
     protected $specification;
 
-    /**
-     * http Client
-     * @var
-     */
-    protected $httpClient;
 
     public function __construct(Urn $urn)
     {

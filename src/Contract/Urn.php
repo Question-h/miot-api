@@ -147,7 +147,7 @@ class Urn implements UrnInterface
      * 多个单词用"-"间隔
      * @var string
      */
-    private $name_reg = '/^[a-z][a-z\-]+[a-z]$/';
+    private $name_reg = '/^[a-z][a-z\-]*[a-z]$/';
 
     /**
      * 16进制字符串，使用UUID前8个字符，如：

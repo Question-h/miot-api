@@ -9,7 +9,13 @@ namespace MiotApi\Contract\Interfaces;
 
 interface Specification
 {
-    public function __construct($context);
+    public function __construct($urn);
+
+    public function getUrn();
+
+    public function getType();
+
+    public function getDescription();
 
     public function toContext();
 
