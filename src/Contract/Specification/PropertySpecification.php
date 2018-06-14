@@ -118,6 +118,7 @@ class PropertySpecification extends Specification
         'kelvin',
         'pascal',
         'arcdegrees',
+        'rgb',
     ];
 
     /**
@@ -179,6 +180,7 @@ class PropertySpecification extends Specification
     {
         return $this->format;
     }
+
 
     /**
      * @return mixed

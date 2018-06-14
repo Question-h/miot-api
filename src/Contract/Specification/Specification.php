@@ -14,15 +14,15 @@ use MiotApi\Util\Collection\Collection;
 
 abstract class Specification implements SpecificationInterface
 {
-    private $collection;
+    protected $collection;
 
-    private $urn;
+    protected $urn;
 
     /**
      * 描述: 纯文本字段
      * @var
      */
-    private $description;
+    protected $description;
 
     /**
      * Specification constructor.

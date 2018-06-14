@@ -7,31 +7,14 @@
  */
 namespace MiotApi\Contract\Instance;
 
-use MiotApi\Contract\Interfaces\Instance as InstanceInterface;
-use MiotApi\Contract\Interfaces\Specification;
-use MiotApi\Contract\Interfaces\Urn;
+use MiotApi\Contract\RemoteSpec;
+use MiotApi\Contract\Specification\DeviceSpecification;
+use MiotApi\Contract\Specification\Specification;
+use MiotApi\Util\Collection\Collection;
 
-abstract class Instance implements InstanceInterface
+class Instance extends Specification
 {
-    /**
-     * @var Instance, 简写为type
-     * 必须是URN表达式
-     */
-    protected $type;
-
-    /**
-     * 描述
-     * 纯文本字段
-     *
-     * @var
-     */
-    protected $description;
-
-    /**
-     * 必须是符合 RFC 2141 和小米规范的 urn
-     * @var
-     */
-    protected $urn;
+    protected $servicesNode;
 
     /**
      * type对象
@@ -39,36 +22,75 @@ abstract class Instance implements InstanceInterface
      */
     protected $specification;
 
-
-    public function __construct(Urn $urn)
+    /**
+     * @throws \MiotApi\Exception\SpecificationErrorException
+     */
+    public function init()
     {
-        $this->setType($urn);
-    }
-
-    public function getType()
-    {
-        return $this->type;
+        $items = RemoteSpec::instance($this->urn->getExpression());
+        $this->collection = new Collection($items);
+        $this->specification = new DeviceSpecification($this->getType());
+        $this->initServices();
     }
 
     /**
-     * 根据urn设置 type和 urn
-     *
-     * @param $urn
+     * @throws \MiotApi\Exception\SpecificationErrorException
      */
-    public function setType(Urn $urn)
+    public function initServices()
     {
-        $this->urn = $urn;
-        $this->type = $this->urn->getExpression();
+        if ($this->has('services')) {
+            $services = $this->get('services');
+            if (!empty($services)) {
+                foreach ($services as $index => $service) {
+                    $this->servicesNode[$service['iid']] = new Service($service);
+                }
+            }
+        }
     }
 
-    public function getDescription()
+    /**
+     * 根据服务的实例id获取服务实例
+     *
+     * @param $siid
+     * @return mixed
+     */
+    public function service($siid)
     {
-        return $this->description;
+        return $this->servicesNode[$siid];
     }
 
-    public function setDescription($description)
+    /**
+     * 根据服务的实例id和属性的实例id获取属性实例
+     *
+     * @param $siid
+     * @param $piid
+     * @return mixed
+     */
+    public function property($siid, $piid)
     {
-        $this->description = $description;
+        return $this->getPropertiesNode($siid)[$piid];
+    }
+
+    /**
+     * 获取设备的服务实例列表
+     *
+     * @return mixed
+     */
+    public function getServicesNode()
+    {
+        return $this->servicesNode;
+    }
+
+    /**
+     * 根据服务实例id 获取属性列表
+     * @param $siid
+     * @return mixed
+     */
+    public function getPropertiesNode($siid)
+    {
+        $service = $this->service($siid);
+
+        return $service->getPropertiesNode;
     }
 
     public function getSpecification()
@@ -78,15 +100,6 @@ abstract class Instance implements InstanceInterface
 
     public function getSpecificationContext()
     {
-        if ($this->specification instanceof Specification) {
-            return $this->specification->toContext();
-        } else {
-            return null;
-        }
-    }
-
-    public function setSpecification(Specification $specification)
-    {
-        $this->specification = $specification;
+        return $this->specification->toContext();
     }
 }
