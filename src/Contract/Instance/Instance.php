@@ -36,7 +36,7 @@ class Instance extends Specification
     /**
      * @throws \MiotApi\Exception\SpecificationErrorException
      */
-    public function initServices()
+    protected function initServices()
     {
         if ($this->has('services')) {
             $services = $this->get('services');
@@ -90,7 +90,7 @@ class Instance extends Specification
     {
         $service = $this->service($siid);
 
-        return $service->getPropertiesNode;
+        return $service->getPropertiesNode();
     }
 
     public function getSpecification()

@@ -53,13 +53,13 @@ class Service extends Specification
     /**
      * @throws \MiotApi\Exception\SpecificationErrorException
      */
-    public function initProperties()
+    protected function initProperties()
     {
         if ($this->has('properties')) {
             $properties = $this->get('properties');
             if (!empty($properties)) {
                 foreach ($properties as $index => $property) {
-                    $this->propertiesNode[$property['iid']] = new Service($property);
+                    $this->propertiesNode[$property['iid']] = new Property($property);
                 }
             }
         }
@@ -68,6 +68,11 @@ class Service extends Specification
     public function getIid()
     {
         return $this->iid;
+    }
+
+    public function property($piid)
+    {
+        return $this->propertiesNode[$piid];
     }
 
     public function getPropertiesNode()

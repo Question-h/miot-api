@@ -17,7 +17,7 @@ class InstanceTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $urn = 'urn:miot-spec-v2:device:light:0000A001:philips-moonlight:1';
+        $urn = 'urn:miot-spec-v2:device:light:0000A001:yeelink-bslamp1:1';
 
         $this->instance = new Instance($urn);
     }
@@ -30,11 +30,51 @@ class InstanceTest extends PHPUnit_Framework_TestCase
 
     public function testInit()
     {
-        var_dump($this->instance);
+        $this->assertEquals('urn:miot-spec-v2:device:light:0000A001:yeelink-bslamp1:1', $this->instance->getType());
+        foreach ($this->instance->getServicesNode() as $service) {
+            $this->assertInstanceOf(\MiotApi\Contract\Instance\Service::class, $service);
+        }
+    }
+
+    public function testGetServicesNode()
+    {
+        foreach ($this->instance->getServicesNode() as $index => $service) {
+            $this->assertInstanceOf(\MiotApi\Contract\Instance\Service::class, $service);
+            $this->assertEquals($index, $service->getIid());
+        }
+    }
+
+    public function testGetPropertiesNode()
+    {
+        foreach ($this->instance->getPropertiesNode(2) as $index => $property) {
+            $this->assertInstanceOf(\MiotApi\Contract\Instance\Property::class, $property);
+            $this->assertEquals($index, $property->getIid());
+        }
+    }
+
+    public function testService()
+    {
+        $this->assertInstanceOf(\MiotApi\Contract\Instance\Service::class, $this->instance->service(2));
+        $this->assertEquals(2, $this->instance->service(2)->getIid());
+    }
+
+    public function testProperty()
+    {
+        $this->assertInstanceOf(\MiotApi\Contract\Instance\Property::class, $this->instance->property(2, 2));
+        $this->assertEquals([
+            0,
+            100,
+            1
+        ], $this->instance->property(2, 2)->getValueRange());
     }
 
     public function testGetSpecification()
     {
+        $this->assertInstanceOf(\MiotApi\Contract\Specification\DeviceSpecification::class, $this->instance->getSpecification());
+    }
 
+    public function testGetSpecificationContext()
+    {
+        $this->assertEquals(json_encode(\MiotApi\Util\Jsoner\Jsoner::load('device/urn:miot-spec-v2:device:light:0000A001')), $this->instance->getSpecificationContext());
     }
 }
