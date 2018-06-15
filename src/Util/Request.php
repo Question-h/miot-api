@@ -263,7 +263,8 @@ class Request
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             }
         } else if ($type === 'PUT') {
-            curl_setopt($ch, CURLOPT_PUT, true);
+            //curl_setopt($ch, CURLOPT_PUT, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
         } else {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
         }
@@ -284,7 +285,7 @@ class Request
         } else {
             $protocol = 'http';
         }
-        if (!empty($this->additonalCurlOpts)) {
+        if (!empty($this->additionalCurlOpts)) {
             foreach ($this->additionalCurlOpts as $option => $value) {
                 curl_setopt($ch, $option, $value);
             }
@@ -301,6 +302,7 @@ class Request
         }
         // Execute!
         $rsp = curl_exec($ch);
+
         $this->curl = $ch;
         $this->executed = true;
 
@@ -359,7 +361,7 @@ class Request
         if ($type === 'POST') {
             $this->setHeader('Content-Type', 'application/x-www-form-urlencoded');
             $this->setHeader('Content-Length', strlen($data));
-            $get_data = property_exists($this, 'query') && $this->query ? HTTPRequest::param($this->query) : false;
+            $get_data = property_exists($this, 'query') && $this->query ? Request::param($this->query) : false;
         } else {
             $this->setHeader('Content-Type', 'text/plain');
             $this->setHeader('Content-Length', strlen($crlf));
@@ -368,7 +370,7 @@ class Request
             if (isset($get_data)) {
                 $get_data = $data;
             } else if ($this->query) {
-                $get_data = HTTPRequest::param($this->query);
+                $get_data = Request::param($this->query);
             }
         }
         if ($this->useBasicAuth === true) {

@@ -18,7 +18,7 @@ class RemoteSpec extends Jsoner
 
     private static $namespaces = 'miot-spec-v2';
 
-    private static $timeout = 5;
+    private static $timeout = 10;
 
     const SPEC = 'spec';
 
