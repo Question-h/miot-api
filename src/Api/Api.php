@@ -193,36 +193,6 @@ class Api
     }
 
     /**
-     * PUT
-     *
-     * @param $uri
-     * @param $data
-     * @return array|bool|mixed
-     */
-    public function put($uri, $data)
-    {
-        $http_client = $this->httpClient();
-        $http_client->setAdditionalCurlOpt(CURLOPT_POSTFIELDS, $data);
-
-        $result = $http_client
-            ->setRequestURI($uri)
-            ->setType('PUT')
-            ->execute()
-            ->getResponseText();
-
-        if ($result) {
-            $returnData = json_decode($result, true);
-            $lastError = JsonLastError::check();
-            return $returnData === null || !is_null($lastError) ? false : $returnData;
-        } else {
-            return [
-                'status' => '-705002036',
-                'message' => $http_client->getError()
-            ];
-        }
-    }
-
-    /**
      * 调用方法
      * 一次请求只能调用一个设备的一个方法
      * PUT /api/v1/action
@@ -273,6 +243,129 @@ class Api
     }
 
     /**
+     * 读取家庭列表
+     *
+     * @return array|mixed
+     */
+    public function homes()
+    {
+        return $this->get('/api/v1/homes');
+    }
+
+    /**
+     * 订阅属性变化
+     * 开始订阅:
+     * POST /api/v1/subscriptions
+     * Content-Type: application/json
+     * Content-Length: 134
+     * ​ * {
+     * "topic": "properties-changed",
+     * "properties": [
+     * "AAAB.1.1",
+     * "AAAC.1.1",
+     * "AAAD.1.1",
+     * "AAAD.1.2"
+     * ],
+     * "receiver-url": "xxx"
+     * }
+     *
+     * 订阅成功，应答如下：
+     * HTTP/1.1 207 Multi-Status
+     * Content-Type: application/json
+     * Content-Length: 156
+     * {
+     * "expired": 36000,    // 超时时间，单位为秒。
+     * "properties": [
+     * {
+     * "pid": "AAAB.1.1",
+     * "status": 0
+     * },
+     * {
+     * "pid": "AAAC.1.1",
+     * "status": -704002023
+     * },
+     * {
+     * "pid": "AAAD.1.1",
+     * "status": 0
+     * }
+     * {
+     * "pid": "AAAD.1.2",
+     * "status": 705202023
+     * }
+     * ]
+     * }
+     * @param $properties
+     * @param $receiverUrl
+     * @return array|bool|mixed
+     */
+    public function subscript($properties, $receiverUrl)
+    {
+        $data = [
+            "topic" => "properties-changed",
+            "properties" => $properties,
+            "receiver-url" => $receiverUrl
+        ];
+        $data = json_encode($data);
+
+        return $this->post('/api/v1/subscriptions', $data);
+    }
+
+    /**
+     * 退订属性变化
+     * POST /api/v1/subscriptions
+     * Content-Type: application/json
+     * Content-Length: 134
+     * ​ * {
+     * "topic": "properties-changed",
+     * "properties": [
+     * "AAAB.1.1",
+     * "AAAC.1.1",
+     * "AAAD.1.1",
+     * "AAAD.1.2"
+     * ],
+     * "receiver-url": "xxx"
+     * }
+     *
+     * 退订成功，应答如下：
+     * HTTP/1.1 207 Multi-Status
+     * Content-Type: application/json
+     * Content-Length: 156
+     * {
+     * "expired": 36000,    // 超时时间，单位为秒。
+     * "properties": [
+     * {
+     * "pid": "AAAB.1.1",
+     * "status": 0
+     * },
+     * {
+     * "pid": "AAAC.1.1",
+     * "status": -704002023
+     * },
+     * {
+     * "pid": "AAAD.1.1",
+     * "status": 0
+     * }
+     * {
+     * "pid": "AAAD.1.2",
+     * "status": 705202023
+     * }
+     * ]
+     * }
+     * @param $properties
+     * @return array|bool|mixed
+     */
+    public function unSubscript($properties)
+    {
+        $data = [
+            "topic" => "properties-changed",
+            "properties" => $properties
+        ];
+        $data = json_encode($data);
+
+        return $this->delete('/api/v1/subscriptions', $data);
+    }
+
+    /**
      * POST
      *
      * @param $uri
@@ -303,12 +396,62 @@ class Api
     }
 
     /**
-     * 读取家庭列表
+     * PUT
      *
-     * @return array|mixed
+     * @param $uri
+     * @param $data
+     * @return array|bool|mixed
      */
-    public function homes()
+    public function put($uri, $data)
     {
-        return $this->get('/api/v1/homes');
+        $http_client = $this->httpClient();
+        $http_client->setAdditionalCurlOpt(CURLOPT_POSTFIELDS, $data);
+
+        $result = $http_client
+            ->setRequestURI($uri)
+            ->setType('PUT')
+            ->execute()
+            ->getResponseText();
+
+        if ($result) {
+            $returnData = json_decode($result, true);
+            $lastError = JsonLastError::check();
+            return $returnData === null || !is_null($lastError) ? false : $returnData;
+        } else {
+            return [
+                'status' => '-705002036',
+                'message' => $http_client->getError()
+            ];
+        }
+    }
+
+    /**
+     * DELETE
+     *
+     * @param $uri
+     * @param $data
+     * @return array|bool|mixed
+     */
+    public function delete($uri, $data)
+    {
+        $http_client = $this->httpClient();
+        $http_client->setAdditionalCurlOpt(CURLOPT_POSTFIELDS, $data);
+
+        $result = $http_client
+            ->setRequestURI($uri)
+            ->setType('DELETE')
+            ->execute()
+            ->getResponseText();
+
+        if ($result) {
+            $returnData = json_decode($result, true);
+            $lastError = JsonLastError::check();
+            return $returnData === null || !is_null($lastError) ? false : $returnData;
+        } else {
+            return [
+                'status' => '-705002036',
+                'message' => $http_client->getError()
+            ];
+        }
     }
 }

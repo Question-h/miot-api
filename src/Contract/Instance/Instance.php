@@ -72,6 +72,30 @@ class Instance extends Specification
     }
 
     /**
+     * 根据给定的属性名称得到 该属性所在的 sid和pid
+     * @param $name
+     * @return mixed
+     */
+    public function getSidPidByName($name)
+    {
+        if (!empty($this->servicesNode)) {
+            foreach ($this->servicesNode as $sindex => $service) {
+                $properties = $this->getPropertiesNode($service->getIid());
+                if (!empty($properties)) {
+                    foreach ($properties as $pindex => $property) {
+                        if ($property->getUrn()->getName() == $name) {
+                            return [
+                                $service->getIid(),
+                                $property->getIid()
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * 获取设备的服务实例列表
      *
      * @return mixed

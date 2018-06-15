@@ -85,6 +85,29 @@ class ApiTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('homes', $this->api->homes());
     }
 
+    public function testSubscript()
+    {
+        $properties = [
+            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA15ZWVsaW5rLW1vbm8xFRQYCDEzMTgwNzc2FWYA.2.2',
+            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk4OTg3NRVoAA.2.1',
+        ];
+        $receiverUrl = 'https://cloud-cn.yeelight.com/';
+        $requestInfo = $this->api->subscript($properties, $receiverUrl);
+        $this->assertArrayHasKey('properties', $requestInfo);
+    }
+
+    public function testUnSubscript()
+    {
+        $properties = [
+            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA15ZWVsaW5rLW1vbm8xFRQYCDEzMTgwNzc2FWYA.2.2',
+            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk4OTg3NRVoAA.2.1',
+        ];
+
+        $requestInfo = $this->api->unSubscript($properties);
+
+        $this->assertArrayHasKey('properties', $requestInfo);
+    }
+
     public function testGet()
     {
         var_dump($this->api->get('/api/v1/device-information', [

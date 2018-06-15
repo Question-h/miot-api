@@ -68,6 +68,14 @@ class InstanceTest extends PHPUnit_Framework_TestCase
         ], $this->instance->property(2, 2)->getValueRange());
     }
 
+    public function testGetSidPidByName()
+    {
+        $name = 'color';
+        list($sid, $pid) = $this->instance->getSidPidByName($name);
+        $this->assertEquals(2, $sid);
+        $this->assertEquals(3, $pid);
+    }
+
     public function testGetSpecification()
     {
         $this->assertInstanceOf(\MiotApi\Contract\Specification\DeviceSpecification::class, $this->instance->getSpecification());
