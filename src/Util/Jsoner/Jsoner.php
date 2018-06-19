@@ -80,6 +80,6 @@ class Jsoner extends Collection
      */
     public static function getCacheDir()
     {
-        return dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . self::CACHE_DIR . DIRECTORY_SEPARATOR;
+        return dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . self::CACHE_DIR . DIRECTORY_SEPARATOR;
     }
 }

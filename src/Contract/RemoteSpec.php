@@ -262,7 +262,7 @@ class RemoteSpec extends Jsoner
                 return false;
             }
 
-            Jsoner::fill($instance, $file);
+            $instance = Jsoner::fill($instance, $file);
         }
         return $instance;
     }
