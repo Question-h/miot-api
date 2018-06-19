@@ -88,6 +88,11 @@ class Instance extends Specification
                                 $service->getIid(),
                                 $property->getIid()
                             ];
+                        } else {
+                            return [
+                                false,
+                                false
+                            ];
                         }
                     }
                 }

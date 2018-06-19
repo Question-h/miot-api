@@ -18,7 +18,88 @@ composer require yeelight/miot-api
 ## 使用
 
 ``` php
+$appId = 'Your App-Id';
+// 用户oauth取得的accessToken
+$accessToken = 'user access token';
+$api = new Api($appId, $accessToken);
 
+// 默认为大陆host，如果要获取其他地区设备的时候，可以setHost设置host
+$api->setHost('api.home.mi.com');
+
+// 一次性获取到包含了 serialNumber （原did）的设备列表
+$devices = $api->devicesList();
+
+// 根据 piid 获取 属性值 
+$properties = $api->properties([
+    'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk4OTg3NRVoAA.2.1',
+    'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk4OTg3NRVoAA.2.2',
+]);
+        
+$properties = [
+    'properties' => [
+        [
+            "pid" => "M1GAxtaW9A0LXNwZWMtdjIVgoAFGA15ZWVsaW5rLW1vbm8xFRQYCDEzMTgwNzc2FWYA.2.2",
+            "value" => 75
+        ]
+    ]
+];
+
+// 设置属性
+$api->setProperties($properties);
+
+
+// 读取用户在米家设置好的场景列表
+$secenes = $api->scenes();
+
+// 主动触发场景
+$scene_id = '1031976223';
+
+$api->triggerScene($scene_id);
+
+// 读取家庭列表
+$homes = $api->homes();
+
+// 订阅属性变化
+$properties = [
+    'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA15ZWVsaW5rLW1vbm8xFRQYCDEzMTgwNzc2FWYA.2.2',
+    'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk4OTg3NRVoAA.2.1',
+];
+$receiverUrl = 'https://www.xxx.com/receiver';
+$api->subscript($properties, $receiverUrl);
+
+// 退订属性变化
+$api->unSubscript($properties);
+
+```
+## 根据did和属性名称设置设备属性的实现
+``` php
+$appId = 'Your App-Id';
+// 用户oauth取得的accessToken
+$accessToken = 'user access token';
+$api = new Api($appId, $accessToken);
+
+$devices = $api->devicesList();
+
+// 设备信息入库
+$db->save($devices);
+
+$did = 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk4OTg3NRVoAA';
+$device = $db->find($did);
+$instance = new Instance($device['type']);
+
+// 要设置的属性名称
+$name = 'color';
+$value = 3682024;
+list($sid, $pid) = $instance->getSidPidByName($name);
+$properties = [
+    'properties' => [
+        [
+            "pid" => $did. "." . $sid . "." . $pid,
+            "value" => $value
+        ]
+    ]
+];
+$api->setProperties($properties);
 ```
 
 ## 参考资源
