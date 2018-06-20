@@ -52,6 +52,13 @@ class InstanceTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    public function testGetPropertiesNodes()
+    {
+        foreach ($this->instance->getPropertiesNodes() as $index => $property) {
+            $this->assertInstanceOf(\MiotApi\Contract\Instance\Property::class, $property);
+        }
+    }
+
     public function testService()
     {
         $this->assertInstanceOf(\MiotApi\Contract\Instance\Service::class, $this->instance->service(2));

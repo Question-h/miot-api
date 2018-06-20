@@ -88,16 +88,16 @@ class Instance extends Specification
                                 $service->getIid(),
                                 $property->getIid()
                             ];
-                        } else {
-                            return [
-                                false,
-                                false
-                            ];
                         }
                     }
                 }
             }
         }
+
+        return [
+            false,
+            false
+        ];
     }
 
     /**
@@ -108,6 +108,30 @@ class Instance extends Specification
     public function getServicesNode()
     {
         return $this->servicesNode;
+    }
+
+    /**
+     * 获取所有属性列表
+     *
+     * @param $siid
+     * @return mixed
+     */
+    public function getPropertiesNodes()
+    {
+        $propertiesNodes = [];
+        $services = $this->getServicesNode();
+
+        if (!empty($services)) {
+            foreach ($services as $index => $service) {
+                if (!empty($this->getPropertiesNode($index))) {
+                    foreach ($this->getPropertiesNode($index) as $i => $item) {
+                        $propertiesNodes[($index . '.' . $i)] = $item;
+                    }
+                }
+            }
+        }
+
+        return $propertiesNodes;
     }
 
     /**
