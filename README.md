@@ -70,7 +70,7 @@ $api->subscript($properties, $receiverUrl);
 // 退订属性变化
 $api->unSubscript($properties);
 
-// 优雅的设置属性
+// 优雅的设置单个设备属性
 $did = 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA';
 $type = "urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1";
 $data = [
@@ -80,6 +80,58 @@ $data = [
     'color' => 5777215
 ];
 $requestInfo = $api->setPropertyGraceful($did, $type, $data);
+
+// 优雅的设置多个设备属性
+$data = [
+    'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA' => [
+        'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1',
+        'data' => [
+            'on' => true,
+            'brightness' => 99,
+            'color-temperature' => 2100,
+            'color' => 2777215
+        ]
+    ],
+    'M1GAxtaW9A0LXNwZWMtdjIVgoAFGAt5ZWVsaW5rLWN0MhUUGAg4NzEzMDQyMhWcCAA' => [
+        'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-ct2:1',
+        'data' => [
+            'on' => true,
+            'brightness' => 50,
+            'color-temperature' => 3500
+        ]
+    ]
+];
+$requestInfo = $api->setPropertiesGraceful($data);
+
+// 优雅的获取单个设备属性
+$did = 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA';
+$type = "urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1";
+// data为空数组时，获取所有可读属性
+$data = [
+    'on',
+    'brightness',
+    'color-temperature',
+    'color'
+];
+$attibutes = $api->getPropertyGraceful($did, $type, $data);
+
+// 优雅的获取多个设备属性
+$data = [
+    'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA' => [
+        'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1',
+        'data' => [
+            'on',
+            'brightness',
+            'color-temperature',
+            'color'
+        ]
+    ],
+    'M1GAxtaW9A0LXNwZWMtdjIVgoAFGAt5ZWVsaW5rLWN0MhUUGAg4NzEzMDQyMhWcCAA' => [
+        'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-ct2:1',
+        'data' => [] // 为空时，获取所有可读属性
+    ]
+];
+$attibutes = $api->getPropertiesGraceful($data);
 
 // 订阅设备的所有可订阅属性
 $devices = $api->devicesList();

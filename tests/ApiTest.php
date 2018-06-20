@@ -37,7 +37,7 @@ class ApiTest extends PHPUnit_Framework_TestCase
             'on' => true,
             'brightness' => 99,
             'color-temperature' => 2100,
-            'color' => 5777215
+            'color' => 2777215
         ];
         $requestInfo = $this->api->setPropertyGraceful($did, $type, $data);
 
@@ -45,6 +45,73 @@ class ApiTest extends PHPUnit_Framework_TestCase
 
         $getInfo = $this->api->properties('M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA.2.2');
         $this->assertEquals(99, $getInfo['properties'][0]['value']);
+    }
+
+    public function testSetPropertiesGraceful()
+    {
+        $data = [
+            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA' => [
+                'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1',
+                'data' => [
+                    'on' => true,
+                    'brightness' => 99,
+                    'color-temperature' => 2100,
+                    'color' => 2777215
+                ]
+            ],
+            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGAt5ZWVsaW5rLWN0MhUUGAg4NzEzMDQyMhWcCAA' => [
+                'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-ct2:1',
+                'data' => [
+                    'on' => true,
+                    'brightness' => 50,
+                    'color-temperature' => 3500
+                ]
+            ]
+        ];
+        $requestInfo = $this->api->setPropertiesGraceful($data);
+
+        $this->assertEquals(0, $requestInfo['properties'][0]['status']);
+
+        $getInfo = $this->api->properties('M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA.2.2');
+        $this->assertEquals(99, $getInfo['properties'][0]['value']);
+    }
+
+    public function testGetPropertyGraceful()
+    {
+        $did = 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA';
+        $type = "urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1";
+        // $data = []; // 为空时，获取所有可读属性
+        $data = [
+            'on',
+            'brightness',
+            'color-temperature',
+            'color'
+        ];
+        $requestInfo = $this->api->getPropertyGraceful($did, $type, $data);
+
+        $this->assertArrayHasKey('M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA', $requestInfo);
+    }
+
+    public function testGetPropertiesGraceful()
+    {
+        $data = [
+            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA' => [
+                'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1',
+                'data' => [
+                    'on',
+                    'brightness',
+                    'color-temperature',
+                    'color'
+                ]
+            ],
+            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGAt5ZWVsaW5rLWN0MhUUGAg4NzEzMDQyMhWcCAA' => [
+                'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-ct2:1',
+                'data' => [] // 为空时，获取所有可读属性
+            ]
+        ];
+        $requestInfo = $this->api->getPropertiesGraceful($data);
+        $this->assertArrayHasKey('M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA', $requestInfo);
+        $this->assertArrayHasKey('M1GAxtaW9A0LXNwZWMtdjIVgoAFGAt5ZWVsaW5rLWN0MhUUGAg4NzEzMDQyMhWcCAA', $requestInfo);
     }
 
     public function testSubscriptByDevices()

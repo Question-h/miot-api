@@ -58,6 +58,117 @@ class Api extends BaseApi
     }
 
     /**
+     * 按照名称获取属性
+     *
+     * @param $did
+     * @param $type
+     * @param $data | $data = ['brightness' => 75, 'on' => true]
+     * @return array|bool|mixed
+     * @throws ApiErrorException
+     * @throws \MiotApi\Exception\JsonException
+     * @throws \MiotApi\Exception\SpecificationErrorException
+     */
+    public function getPropertyGraceful($did, $type, $data)
+    {
+        $propertyData = [
+            $did => [
+                'type' => $type,
+                'data' => $data
+            ]
+        ];
+
+        return $this->getPropertiesGraceful($propertyData);
+    }
+
+    /**
+     * 按照名称获取多个设备属性
+     *
+     * @param $data
+     * $data = ['AABBCD-did' => ['type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1', data => ['brightness', 'on']]]
+     * @return array|bool|mixed
+     * @throws ApiErrorException
+     * @throws \MiotApi\Exception\JsonException
+     * @throws \MiotApi\Exception\SpecificationErrorException
+     */
+    public function getPropertiesGraceful($data)
+    {
+        if (!empty($data)) {
+            $properties = [];
+            $attributes = [];
+            $instances = [];
+            foreach ($data as $did => $datum) {
+                if (isset($datum['type'])) {
+                    $instance = new Instance($datum['type']);
+                    $propertiesNodes = $instance->getPropertiesNodes();
+                    $instances[$did] = $propertiesNodes;
+
+                    if (!empty($datum['data'])) {
+                        foreach ($datum['data'] as $name) {
+                            list($sid, $pid) = $instance->getSidPidByName($name);
+
+                            if (!$sid || !$pid) {
+                                throw new ApiErrorException('Invalid property! did:' . $did . ',name: ' . $name);
+                            }
+
+                            $property = $propertiesNodes[($sid . '.' . $pid)];
+
+                            if (!$property->canRead()) {
+                                throw new ApiErrorException('The property does\'t has the read access! did:' . $did . ',name: ' . $name);
+                            }
+
+                            $properties[] = $did . '.' . $sid . '.' . $pid;
+                        }
+                    } else {
+                        foreach ($propertiesNodes as $property) {
+                            $name = $property->getUrn()->getName();
+                            list($sid, $pid) = $instance->getSidPidByName($name);
+
+                            if (!$sid || !$pid) {
+                                throw new ApiErrorException('Invalid property! did:' . $did . ',name: ' . $name);
+                            }
+
+                            $property = $propertiesNodes[($sid . '.' . $pid)];
+
+                            if (!$property->canRead()) {
+                                throw new ApiErrorException('The property does\'t has the read access! did:' . $did . ',name: ' . $name);
+                            }
+
+                            $properties[] = $did . '.' . $sid . '.' . $pid;
+                        }
+                    }
+                } else {
+                    throw new ApiErrorException('Properties data and device type required');
+                }
+            }
+
+            $response = $this->properties($properties);
+            if (isset($response['properties']) && !empty($response['properties'])) {
+                foreach ($response['properties'] as $index => $res) {
+                    $pidArr = explode('.', $res['pid']);
+                    if (
+                        isset($res['value']) // 是否获取到了值
+                        && isset($res['status']) // 是否有返回状态
+                        && $res['status'] == 0 // 是否正常返回
+                        && isset($pidArr[0]) // did
+                        && isset($pidArr[1]) // sid
+                        && isset($pidArr[2]) // pid
+                        && isset($instances[$pidArr[0]][($pidArr[1] . '.' . $pidArr[2])]) // 是否有对应属性
+                    ) {
+                        $attributeName = $instances[$pidArr[0]][($pidArr[1] . '.' . $pidArr[2])]->getUrn()->getName();
+
+                        $attributes[$pidArr[0]][$attributeName] = $res['value'];
+                    }
+
+                }
+            }
+
+            return $attributes;
+        } else {
+            throw new ApiErrorException('devices data required');
+        }
+    }
+
+    /**
      * 按照名称设置属性
      *
      * @param $did
@@ -71,44 +182,72 @@ class Api extends BaseApi
     public function setPropertyGraceful($did, $type, $data)
     {
         if (!empty($data)) {
+
+            $propertyData = [
+                $did => [
+                    'type' => $type,
+                    'data' => $data
+                ]
+            ];
+
+            return $this->setPropertiesGraceful($propertyData);
+        } else {
+            throw new ApiErrorException('Properties data required');
+        }
+    }
+
+    /**
+     * 按照名称设置多个设备属性
+     *
+     * @param $data
+     * $data = ['AABBCD-did' => ['type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1', data => ['brightness' => 75, 'on' => true]]]
+     * @return array|bool|mixed
+     * @throws ApiErrorException
+     * @throws \MiotApi\Exception\JsonException
+     * @throws \MiotApi\Exception\SpecificationErrorException
+     */
+    public function setPropertiesGraceful($data)
+    {
+        if (!empty($data)) {
             $properties = [];
-            $instance = new Instance($type);
-            $propertiesNodes = $instance->getPropertiesNodes();
+            foreach ($data as $did => $datum) {
+                if (!empty($datum['data']) && isset($datum['type'])) {
+                    $instance = new Instance($datum['type']);
+                    $propertiesNodes = $instance->getPropertiesNodes();
 
-            foreach ($data as $name => $value) {
-                list($sid, $pid) = $instance->getSidPidByName($name);
+                    foreach ($datum['data'] as $name => $value) {
+                        list($sid, $pid) = $instance->getSidPidByName($name);
 
-                if (!$sid || !$pid) {
-                    throw new ApiErrorException('Invalid property name : ' . $name);
+                        if (!$sid || !$pid) {
+                            throw new ApiErrorException('Invalid property! did:' . $did . ',name: ' . $name);
+                        }
+
+                        $property = $propertiesNodes[($sid . '.' . $pid)];
+
+                        if (!$property->verify($value)) {
+                            throw new ApiErrorException('Invalid property value! did:' . $did . ',name: ' . $name);
+                        }
+
+                        if (!$property->canWrite()) {
+                            throw new ApiErrorException('The property does\'t has the write access! did:' . $did . ',name: ' . $name);
+                        }
+
+                        $properties[] = [
+                            'pid' => $did . '.' . $sid . '.' . $pid,
+                            'value' => $value
+                        ];
+                    }
+                } else {
+                    throw new ApiErrorException('Properties data and device type required');
                 }
-
-                $property = $propertiesNodes[($sid . '.' . $pid)];
-
-                if (!$property->verify($value)) {
-                    throw new ApiErrorException('Invalid property value, the property name: ' . $name);
-                }
-
-                if (!$property->canWrite()) {
-                    throw new ApiErrorException('The property : ' . $name . ' does\'t has the write access!');
-                }
-
-                $properties[] = [
-                    'pid' => $did . '.' . $sid . '.' . $pid,
-                    'value' => $value
-                ];
             }
 
             return $this->setProperties([
                 'properties' => $properties
             ]);
         } else {
-            throw new ApiErrorException('Properties data required');
+            throw new ApiErrorException('devices data required');
         }
-    }
-
-    public function setPropertiesGraceful($data)
-    {
-
     }
 
     /**
