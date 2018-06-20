@@ -70,36 +70,25 @@ $api->subscript($properties, $receiverUrl);
 // 退订属性变化
 $api->unSubscript($properties);
 
-```
-## 根据did和属性名称设置设备属性的实现
-``` php
-$appId = 'Your App-Id';
-// 用户oauth取得的accessToken
-$accessToken = 'user access token';
-$api = new Api($appId, $accessToken);
-
-$devices = $api->devicesList();
-
-// 设备信息入库
-$db->save($devices);
-
-$did = 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk4OTg3NRVoAA';
-$device = $db->find($did);
-$instance = new Instance($device['type']);
-
-// 要设置的属性名称
-$name = 'color';
-$value = 3682024;
-list($sid, $pid) = $instance->getSidPidByName($name);
-$properties = [
-    'properties' => [
-        [
-            "pid" => $did. "." . $sid . "." . $pid,
-            "value" => $value
-        ]
-    ]
+// 优雅的设置属性
+$did = 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA';
+$type = "urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1";
+$data = [
+    'on' => true,
+    'brightness' => 99,
+    'color-temperature' => 2100,
+    'color' => 5777215
 ];
-$api->setProperties($properties);
+$requestInfo = $api->setPropertyGraceful($did, $type, $data);
+
+// 订阅设备的所有可订阅属性
+$devices = $api->devicesList();
+$receiverUrl = 'https://www.xxx.com/receiver';
+$requestInfo = $api->subscriptByDevices($devices, $receiverUrl);
+
+// 退订设备的所有订阅属性
+$devices = $this->api->devicesList();
+$requestInfo = $this->api->unSubscriptByDevices($devices);
 ```
 
 ## 参考资源
