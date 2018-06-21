@@ -1,14 +1,10 @@
 <p align="center"><img src="https://www.yeelight.com/yeelight201703/i/image/newindex/logo.png"></p>
 
 <p align="center">
-<a href="https://travis-ci.org/yeelight/miot-api"><img src="https://travis-ci.org/Yeelight/miot-api.svg?branch=master" alt="Build Status"></a>
 <a href="https://github.styleci.io/repos/136297421"><img src="https://github.styleci.io/repos/136297421/shield?branch=master" alt="StyleCI"></a>
 <a href="https://scrutinizer-ci.com/g/Yeelight/miot-api/"><img src="https://scrutinizer-ci.com/g/Yeelight/miot-api/badges/quality-score.png?b=master" alt="Build Status"></a>
 <a href="https://scrutinizer-ci.com/g/Yeelight/miot-api/"><img src="https://scrutinizer-ci.com/g/Yeelight/miot-api/badges/build.png?b=master" alt="Build Status"></a>
 <a href="https://scrutinizer-ci.com/g/Yeelight/miot-api/"><img src="https://scrutinizer-ci.com/g/Yeelight/miot-api/badges/code-intelligence.svg?b=master" alt="Build Status"></a>
-<a href="https://github.com/Yeelight/miot-api">
-        <img src="https://camo.githubusercontent.com/7f67d6c3ab2cbd5ec0f076984330cc662ab76458/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f417765736f6d652d4c61726176656c2d627269676874677265656e2e7376673f7374796c653d666c61742d737175617265" alt="Awesome Laravel" data-canonical-src="https://img.shields.io/badge/Awesome-Laravel-brightgreen.svg?style=flat-square" style="max-width:100%;">
-    </a>
 <a href="https://packagist.org/packages/yeelight/miot-api"><img src="https://poser.pugx.org/yeelight/miot-api/d/total.svg" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/yeelight/miot-api"><img src="https://poser.pugx.org/yeelight/miot-api/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/yeelight/miot-api"><img src="https://poser.pugx.org/yeelight/miot-api/license.svg" alt="License"></a>

@@ -16,8 +16,10 @@ class Request
     protected $HTTPVersion;
     protected $host;
     protected $port;
+    protected $url;
     protected $uri;
     protected $headers;
+    protected $data;
     protected $type;
     protected $query;
     protected $timeout;
@@ -35,19 +37,19 @@ class Request
     /**
      * Request constructor.
      *
-     * @param null   $host
+     * @param string $host
      * @param string $uri
      * @param int    $port
-     * @param null   $useCurl
+     * @param boolean $useCurl
      * @param int    $timeout
      */
-    public function __construct($host = null, $uri = '/', $port = 80, $useCurl = null, $timeout = 10)
+    public function __construct($host = '', $uri = '/', $port = 80, $useCurl = true, $timeout = 10)
     {
         if (!$host) {
             return false;
         }
         $this->hasCurl = function_exists('curl_init');
-        $this->useCurl = $this->hasCurl ? ($useCurl !== null ? $useCurl : true) : false;
+        $this->useCurl = $this->hasCurl ? ($useCurl ? $useCurl : false) : false;
         $this->type = 'GET';
         $this->HTTPVersion = '1.1';
         $this->host = $host ? $host : $_SERVER['HTTP_HOST'];
@@ -239,8 +241,8 @@ class Request
      * 设置认证信息.
      *
      * @param $set
-     * @param null $username
-     * @param null $password
+     * @param string | null $username
+     * @param string | null $password
      */
     public function setUseBasicAuth($set, $username = null, $password = null)
     {
@@ -283,8 +285,8 @@ class Request
         $host = $this->host;
         $type = $this->type;
         $port = $this->port;
-        $data = property_exists($this, 'data') ? self::param($this->data) : false;
-        $timeout = $this->timeout;
+        $data = property_exists($this, 'data') ? $this->param($this->data) : false;
+        //$timeout = $this->timeout;
         // Initiate cURL.
         $ch = curl_init();
         // Set request type.
@@ -302,7 +304,7 @@ class Request
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
         }
         // Grab query string.
-        $query = property_exists($this, 'query') && $this->query ? '?'.self::param($this->query) : '';
+        $query = property_exists($this, 'query') && $this->query ? '?' . $this->param($this->query) : '';
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         // Set additional headers.
         $headers = [];
