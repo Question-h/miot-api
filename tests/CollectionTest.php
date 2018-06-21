@@ -5,6 +5,7 @@
  * Date: 18-6-12
  * Time: 下午2:02.
  */
+
 use MiotApi\Util\Collection\Arrayable;
 use MiotApi\Util\Collection\Collection;
 use MiotApi\Util\Collection\Jsonable;
@@ -297,25 +298,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
     public function testHigherOrderFilter()
     {
-        $c = new Collection([
-            new class() {
-                public $name = 'Alex';
-
-                public function active()
-                {
-                    return true;
-                }
-            },
-            new class() {
-                public $name = 'John';
-
-                public function active()
-                {
-                    return false;
-                }
-            },
-        ]);
-        $this->assertCount(1, $c->filter->active());
+        
     }
 
     public function testWhere()
