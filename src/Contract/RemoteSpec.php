@@ -3,8 +3,9 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-8
- * Time: 下午5:17
+ * Time: 下午5:17.
  */
+
 namespace MiotApi\Contract;
 
 use MiotApi\Util\Jsoner\Jsoner;
@@ -47,7 +48,7 @@ class RemoteSpec extends Jsoner
     const DEVICE = 'device';
 
     /**
-     * 读取所有设备实例列表
+     * 读取所有设备实例列表.
      *
      * @return bool|Jsoner|null
      */
@@ -59,173 +60,178 @@ class RemoteSpec extends Jsoner
     }
 
     /**
-     * 读取所有的PropertyType
+     * 读取所有的PropertyType.
      *
      * @return bool|Jsoner|null
      */
     public static function properties()
     {
-        $file = self::SPEC . DIRECTORY_SEPARATOR . self::PROPERTIES;
+        $file = self::SPEC.DIRECTORY_SEPARATOR.self::PROPERTIES;
 
         return self::__instances($file);
     }
 
     /**
-     * 读取所有的ActionType
+     * 读取所有的ActionType.
      *
      * @return bool|Jsoner|null
      */
     public static function actions()
     {
-        $file = self::SPEC . DIRECTORY_SEPARATOR . self::ACTIONS;
+        $file = self::SPEC.DIRECTORY_SEPARATOR.self::ACTIONS;
 
         return self::__instances($file);
     }
 
     /**
-     * 读取所有的EventType
+     * 读取所有的EventType.
      *
      * @return bool|Jsoner|null
      */
     public static function events()
     {
-        $file = self::SPEC . DIRECTORY_SEPARATOR . self::EVENTS;
+        $file = self::SPEC.DIRECTORY_SEPARATOR.self::EVENTS;
 
         return self::__instances($file);
     }
 
     /**
-     * 读取所有的ServiceType
+     * 读取所有的ServiceType.
      *
      * @return bool|Jsoner|null
      */
     public static function services()
     {
-        $file = self::SPEC . DIRECTORY_SEPARATOR . self::SERVICES;
+        $file = self::SPEC.DIRECTORY_SEPARATOR.self::SERVICES;
 
         return self::__instances($file);
     }
 
     /**
-     * 读取所有的DeviceType
+     * 读取所有的DeviceType.
      *
      * @return bool|Jsoner|null
      */
     public static function devices()
     {
-        $file = self::SPEC . DIRECTORY_SEPARATOR . self::DEVICES;
+        $file = self::SPEC.DIRECTORY_SEPARATOR.self::DEVICES;
 
         return self::__instances($file);
     }
 
     /**
-     * 读取某个实例的详细定义
+     * 读取某个实例的详细定义.
      *
      * @return bool|Jsoner|null
      */
     public static function instance($type)
     {
-        $file = self::INSTANCE . DIRECTORY_SEPARATOR . $type;
+        $file = self::INSTANCE.DIRECTORY_SEPARATOR.$type;
         $uri = self::INSTANCE;
         $params = [
-            'type' => $type
+            'type' => $type,
         ];
 
         return self::__instance($file, $uri, $params);
     }
 
     /**
-     * 读取一个PropertyType的具体定义
+     * 读取一个PropertyType的具体定义.
+     *
+     * @throws \MiotApi\Exception\SpecificationErrorException
      *
      * @return bool|Jsoner|null
-     * @throws \MiotApi\Exception\SpecificationErrorException
      */
     public static function property($type)
     {
         $type = self::getBaseType($type);
-        $file = self::PROPERTY . DIRECTORY_SEPARATOR . $type;
-        $uri = self::SPEC . DIRECTORY_SEPARATOR . self::PROPERTY;
+        $file = self::PROPERTY.DIRECTORY_SEPARATOR.$type;
+        $uri = self::SPEC.DIRECTORY_SEPARATOR.self::PROPERTY;
         $params = [
-            'type' => $type
+            'type' => $type,
         ];
 
         return self::__instance($file, $uri, $params);
     }
 
     /**
-     * 读取一个ActionType的具体定义
+     * 读取一个ActionType的具体定义.
+     *
+     * @throws \MiotApi\Exception\SpecificationErrorException
      *
      * @return bool|Jsoner|null
-     * @throws \MiotApi\Exception\SpecificationErrorException
      */
     public static function action($type)
     {
         $type = self::getBaseType($type);
-        $file = self::ACTION . DIRECTORY_SEPARATOR . $type;
-        $uri = self::SPEC . DIRECTORY_SEPARATOR . self::ACTION;
+        $file = self::ACTION.DIRECTORY_SEPARATOR.$type;
+        $uri = self::SPEC.DIRECTORY_SEPARATOR.self::ACTION;
         $params = [
-            'type' => $type
+            'type' => $type,
         ];
 
         return self::__instance($file, $uri, $params);
     }
 
     /**
-     * 读取一个EventType的具体定义
+     * 读取一个EventType的具体定义.
+     *
+     * @throws \MiotApi\Exception\SpecificationErrorException
      *
      * @return bool|Jsoner|null
-     * @throws \MiotApi\Exception\SpecificationErrorException
      */
     public static function event($type)
     {
         $type = self::getBaseType($type);
-        $file = self::EVENT . DIRECTORY_SEPARATOR . $type;
-        $uri = self::SPEC . DIRECTORY_SEPARATOR . self::EVENT;
+        $file = self::EVENT.DIRECTORY_SEPARATOR.$type;
+        $uri = self::SPEC.DIRECTORY_SEPARATOR.self::EVENT;
         $params = [
-            'type' => $type
+            'type' => $type,
         ];
 
         return self::__instance($file, $uri, $params);
     }
 
     /**
-     * 读取一个ServiceType的具体定义
+     * 读取一个ServiceType的具体定义.
+     *
+     * @throws \MiotApi\Exception\SpecificationErrorException
      *
      * @return bool|Jsoner|null
-     * @throws \MiotApi\Exception\SpecificationErrorException
      */
     public static function service($type)
     {
         $type = self::getBaseType($type);
-        $file = self::SERVICE . DIRECTORY_SEPARATOR . $type;
-        $uri = self::SPEC . DIRECTORY_SEPARATOR . self::SERVICE;
+        $file = self::SERVICE.DIRECTORY_SEPARATOR.$type;
+        $uri = self::SPEC.DIRECTORY_SEPARATOR.self::SERVICE;
         $params = [
-            'type' => $type
+            'type' => $type,
         ];
 
         return self::__instance($file, $uri, $params);
     }
 
     /**
-     * 读取一个DeviceType的具体定义
+     * 读取一个DeviceType的具体定义.
+     *
+     * @throws \MiotApi\Exception\SpecificationErrorException
      *
      * @return bool|Jsoner|null
-     * @throws \MiotApi\Exception\SpecificationErrorException
      */
     public static function device($type)
     {
         $type = self::getBaseType($type);
-        $file = self::DEVICE . DIRECTORY_SEPARATOR . $type;
-        $uri = self::SPEC . DIRECTORY_SEPARATOR . self::DEVICE;
+        $file = self::DEVICE.DIRECTORY_SEPARATOR.$type;
+        $uri = self::SPEC.DIRECTORY_SEPARATOR.self::DEVICE;
         $params = [
-            'type' => $type
+            'type' => $type,
         ];
 
         return self::__instance($file, $uri, $params);
     }
 
     /**
-     * 读取所有实例列表
+     * 读取所有实例列表.
      *
      * @return bool|Jsoner|null
      */
@@ -241,15 +247,17 @@ class RemoteSpec extends Jsoner
 
             Jsoner::fill($instances, $file);
         }
+
         return $instances;
     }
 
     /**
-     * 读取某个实例的详细定义
+     * 读取某个实例的详细定义.
      *
      * @param $file
      * @param $uri
      * @param $params
+     *
      * @return bool|Jsoner|null
      */
     private static function __instance($file, $uri, $params)
@@ -264,31 +272,35 @@ class RemoteSpec extends Jsoner
 
             $instance = Jsoner::fill($instance, $file);
         }
+
         return $instance;
     }
 
     /**
      * @param $type
-     * @return mixed
+     *
      * @throws \MiotApi\Exception\SpecificationErrorException
+     *
+     * @return mixed
      */
     private static function getBaseType($type)
     {
         $urn = new Urn($type);
-        return $urn->getBaseUrn();
 
+        return $urn->getBaseUrn();
     }
 
     /**
      * @param $uri
      * @param array $params
+     *
      * @return bool
      */
     public static function fetch($uri, $params = [])
     {
         $http = new Request(
             self::$host,
-            '/' . self::$namespaces . '/' . $uri,
+            '/'.self::$namespaces.'/'.$uri,
             self::$prot,
             true,
             self::$timeout);

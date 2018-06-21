@@ -3,15 +3,13 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-13
- * Time: 下午3:16
+ * Time: 下午3:16.
  */
 
 namespace MiotApi\Contract\Specification;
 
-
 class ActionSpecificationTest extends \PHPUnit_Framework_TestCase
 {
-
     private $action;
 
     /**

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-12
- * Time: 下午4:08
+ * Time: 下午4:08.
  */
 
 namespace MiotApi\Util\Jsoner;
@@ -18,23 +18,26 @@ class JsonLoader
      * @param string $data → JSON data
      * @param string $file → path to the file
      *
-     * @return array
      * @throws JsonException
+     *
+     * @return array
      */
     public static function dataToFile($data, $file)
     {
         $array = json_decode($data, true);
+
         return self::arrayToFile($array, $file);
     }
 
     /**
      * Creating JSON file from array.
      *
-     * @param array $array → array to be converted to JSON
-     * @param string $file → path to the file
+     * @param array  $array → array to be converted to JSON
+     * @param string $file  → path to the file
+     *
+     * @throws JsonException
      *
      * @return array
-     * @throws JsonException
      */
     public static function arrayToFile($array, $file)
     {
@@ -45,7 +48,7 @@ class JsonLoader
         if (is_null($lastError)) {
             return $array;
         } else {
-            throw new JsonException($lastError['message'] . ' ' . $file);
+            throw new JsonException($lastError['message'].' '.$file);
         }
     }
 
@@ -64,7 +67,8 @@ class JsonLoader
         if (!empty($path) && !is_dir($path)) {
             if (!mkdir($path, 0755, true)) {
                 $message = 'Could not create directory in';
-                throw new JsonException($message . ' ' . $path);
+
+                throw new JsonException($message.' '.$path);
             }
         }
     }
@@ -82,7 +86,8 @@ class JsonLoader
     {
         if (@file_put_contents($file, $json) === false) {
             $message = 'Could not create file in';
-            throw new JsonException($message . ' ' . $file);
+
+            throw new JsonException($message.' '.$file);
         }
     }
 
@@ -91,8 +96,9 @@ class JsonLoader
      *
      * @param string $file → path or external url to JSON file
      *
-     * @return array|false
      * @throws JsonException
+     *
+     * @return array|false
      */
     public static function fileToArray($file)
     {
@@ -102,7 +108,7 @@ class JsonLoader
         $json = @file_get_contents($file);
         $array = json_decode($json, true);
         $lastError = JsonLastError::check();
+
         return $array === null || !is_null($lastError) ? false : $array;
     }
-
 }

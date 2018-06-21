@@ -3,8 +3,9 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-8
- * Time: 下午3:43
+ * Time: 下午3:43.
  */
+
 namespace MiotApi\Contract\Specification;
 
 /**
@@ -15,47 +16,46 @@ namespace MiotApi\Contract\Specification;
  * 有哪些属性？
  *
  * Class ServiceSpecification
- * @package MiotApi\Contract\Specification
  */
 class ServiceSpecification extends Specification
 {
     /**
-     * 必选方法列表
+     * 必选方法列表.
      *
      * @var
      */
     protected $requiredActions;
 
     /**
-     * 可选方法列表
+     * 可选方法列表.
      *
      * @var
      */
     protected $optionalActions;
 
     /**
-     * 必选事件列表
+     * 必选事件列表.
      *
      * @var
      */
     protected $requiredEvents;
 
     /**
-     * 可选事件列表
+     * 可选事件列表.
      *
      * @var
      */
     protected $optionalEvents;
 
     /**
-     * 必选属性列表
+     * 必选属性列表.
      *
      * @var
      */
     protected $requiredProperties;
 
     /**
-     * 可选属性列表
+     * 可选属性列表.
      *
      * @var
      */

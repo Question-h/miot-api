@@ -3,9 +3,8 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-13
- * Time: 下午3:36
+ * Time: 下午3:36.
  */
-
 class EventSpecificationTest extends PHPUnit_Framework_TestCase
 {
     private $evnet;
@@ -29,6 +28,5 @@ class EventSpecificationTest extends PHPUnit_Framework_TestCase
 
     public function testGetArguments()
     {
-
     }
 }

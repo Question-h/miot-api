@@ -3,14 +3,12 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-12
- * Time: 下午5:52
+ * Time: 下午5:52.
  */
-
 use MiotApi\Contract\RemoteSpec;
 
 class RemoteSpecTest extends PHPUnit_Framework_TestCase
 {
-
     public function testInstances()
     {
         $this->assertNotFalse(RemoteSpec::instances());
@@ -73,7 +71,6 @@ class RemoteSpecTest extends PHPUnit_Framework_TestCase
 
     public function testEvent()
     {
-
     }
 
     /**

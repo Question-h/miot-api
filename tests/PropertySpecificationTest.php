@@ -3,9 +3,8 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-13
- * Time: 下午4:17
+ * Time: 下午4:17.
  */
-
 use MiotApi\Contract\Specification\PropertySpecification;
 
 class PropertySpecificationTest extends PHPUnit_Framework_TestCase
@@ -36,7 +35,7 @@ class PropertySpecificationTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([
             0,
             100,
-            1
+            1,
         ], $this->property->getValueRange());
     }
 
@@ -62,8 +61,8 @@ class PropertySpecificationTest extends PHPUnit_Framework_TestCase
         $this->property = new PropertySpecification($urn);
 
         $this->assertEquals([
-            "read",
-            "notify"
+            'read',
+            'notify',
         ], $this->property->getAccess());
     }
 
@@ -78,13 +77,13 @@ class PropertySpecificationTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals([
             [
-                "value" => 1,
-                "description" => "Excellent"
+                'value'       => 1,
+                'description' => 'Excellent',
             ],
             [
-                "value" => 2,
-                "description" => "Fine"
-            ]
+                'value'       => 2,
+                'description' => 'Fine',
+            ],
         ], $this->property->getValueList());
     }
 

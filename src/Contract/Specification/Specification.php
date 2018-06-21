@@ -3,8 +3,9 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-7
- * Time: 下午5:49
+ * Time: 下午5:49.
  */
+
 namespace MiotApi\Contract\Specification;
 
 use MiotApi\Contract\Interfaces\Specification as SpecificationInterface;
@@ -19,14 +20,17 @@ abstract class Specification implements SpecificationInterface
     protected $urn;
 
     /**
-     * 描述: 纯文本字段
+     * 描述: 纯文本字段.
+     *
      * @var
      */
     protected $description;
 
     /**
      * Specification constructor.
+     *
      * @param $urn
+     *
      * @throws \MiotApi\Exception\SpecificationErrorException
      */
     public function __construct($urn)
@@ -85,8 +89,9 @@ abstract class Specification implements SpecificationInterface
     /**
      * Proxy a method call onto the collection items.
      *
-     * @param  string  $method
-     * @param  array  $parameters
+     * @param string $method
+     * @param array  $parameters
+     *
      * @return mixed
      */
     public function __call($method, $parameters)
