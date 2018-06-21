@@ -5,7 +5,6 @@
  * Date: 18-6-12
  * Time: 下午5:21.
  */
-
 use MiotApi\Util\Jsoner\Jsoner;
 
 class JsonerTest extends PHPUnit_Framework_TestCase
