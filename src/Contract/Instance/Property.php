@@ -11,6 +11,7 @@ namespace MiotApi\Contract\Instance;
 use MiotApi\Contract\Specification\PropertySpecification;
 use MiotApi\Contract\Urn;
 use MiotApi\Exception\SpecificationErrorException;
+use MiotApi\Util\Collection\Arr;
 use MiotApi\Util\Collection\Collection;
 
 class Property extends PropertySpecification
@@ -104,6 +105,15 @@ class Property extends PropertySpecification
         if ($this->has('value-range')) {
             $valueRange = $this->get('value-range');
             if ($value > $valueRange[1] || $value < $valueRange[0]) {
+                return false;
+            }
+        }
+
+        if ($this->has('value-list')) {
+            $valueList = $this->get('value-list');
+            $valueList = Arr::pluck($valueList, 'value');
+
+            if (!in_array($value, $valueList)) {
                 return false;
             }
         }

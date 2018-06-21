@@ -79,8 +79,8 @@ class InstanceTest extends PHPUnit_Framework_TestCase
     {
         $name = 'color';
         list($sid, $pid) = $this->instance->getSidPidByName($name);
-        $this->assertEquals(2, $sid);
-        $this->assertEquals(3, $pid);
+        $this->assertEquals([2], $sid);
+        $this->assertEquals([3], $pid);
     }
 
     public function testGetSpecification()

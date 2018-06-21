@@ -74,20 +74,20 @@ class Instance extends Specification
     /**
      * 根据给定的属性名称得到 该属性所在的 sid和pid
      * @param $name
-     * @return mixed
+     * @return array
      */
     public function getSidPidByName($name)
     {
+        $sids = false;
+        $pids = false;
         if (!empty($this->servicesNode)) {
             foreach ($this->servicesNode as $sindex => $service) {
                 $properties = $this->getPropertiesNode($service->getIid());
                 if (!empty($properties)) {
                     foreach ($properties as $pindex => $property) {
                         if ($property->getUrn()->getName() == $name) {
-                            return [
-                                $service->getIid(),
-                                $property->getIid()
-                            ];
+                            $sids[] = $service->getIid();
+                            $pids[] = $property->getIid();
                         }
                     }
                 }
@@ -95,8 +95,8 @@ class Instance extends Specification
         }
 
         return [
-            false,
-            false
+            $sids,
+            $pids
         ];
     }
 

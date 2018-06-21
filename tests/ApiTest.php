@@ -31,19 +31,20 @@ class ApiTest extends PHPUnit_Framework_TestCase
 
     public function testSetPropertyGraceful()
     {
-        $did = 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA';
-        $type = "urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1";
+        $did = 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGBB5ZWVsaW5rLWNlaWxpbmc0FRQYCDYyMzExNjc1FYQIAA';
+        $type = "urn:miot-spec-v2:device:light:0000A001:yeelink-ceiling4:1";
         $data = [
             'on' => true,
-            'brightness' => 99,
-            'color-temperature' => 2100,
+            'brightness' => [99, 50],
+            'color-temperature' => [3100, 5000],
             'color' => 2777215
         ];
         $requestInfo = $this->api->setPropertyGraceful($did, $type, $data);
 
         $this->assertEquals(0, $requestInfo['properties'][0]['status']);
 
-        $getInfo = $this->api->properties('M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA.2.2');
+        $getInfo = $this->api->properties('M1GAxtaW9A0LXNwZWMtdjIVgoAFGBB5ZWVsaW5rLWNlaWxpbmc0FRQYCDYyMzExNjc1FYQIAA.2.2');
+
         $this->assertEquals(99, $getInfo['properties'][0]['value']);
     }
 
