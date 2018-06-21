@@ -5,6 +5,7 @@
  * Date: 18-6-19
  * Time: 上午10:29.
  */
+
 use MiotApi\Api\Api;
 
 class ApiTest extends PHPUnit_Framework_TestCase
@@ -13,7 +14,7 @@ class ApiTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->api = new Api('appId', 'accessToken');
+        $this->api = new Api(getenv('appId'), getenv('accessToken'));
     }
 
     public function tearDown()
