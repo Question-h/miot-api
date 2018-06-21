@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-11
- * Time: 下午2:28
+ * Time: 下午2:28.
  */
 
 namespace MiotApi\Util;
@@ -34,11 +34,12 @@ class Request
 
     /**
      * Request constructor.
-     * @param null $host
+     *
+     * @param null   $host
      * @param string $uri
-     * @param int $port
-     * @param null $useCurl
-     * @param int $timeout
+     * @param int    $port
+     * @param null   $useCurl
+     * @param int    $timeout
      */
     public function __construct($host = null, $uri = '/', $port = 80, $useCurl = null, $timeout = 10)
     {
@@ -59,86 +60,107 @@ class Request
         $this->setHeader('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.7');
         $this->setHeader('User-Agent', 'Mozilla/5.0 Firefox/3.6.12');
         $this->setHeader('Connection', 'close');
+
         return $this;
     }
 
     /**
-     * 设置header头
+     * 设置header头.
+     *
      * @param $header
      * @param $content
+     *
      * @return $this
      */
     public function setHeader($header, $content)
     {
         $this->headers[$header] = $content;
+
         return $this;
     }
 
     public static function curlHeaders()
     {
-        return array(
+        return [
             'User-Agent' => CURLOPT_USERAGENT,
-        );
+        ];
     }
 
     /**
-     * 设置请求的host
+     * 设置请求的host.
+     *
      * @param $host
+     *
      * @return $this
      */
     public function setHost($host)
     {
         $this->host = $host;
+
         return $this;
     }
 
     /**
-     * 设置请求的URI
+     * 设置请求的URI.
+     *
      * @param $uri
+     *
      * @return $this
      */
     public function setRequestURI($uri)
     {
         $this->uri = $uri;
+
         return $this;
     }
 
     /**
-     * 设置请求的端口
+     * 设置请求的端口.
+     *
      * @param $port
+     *
      * @return $this
      */
     public function setPort($port)
     {
         $this->port = $port;
+
         return $this;
     }
 
     /**
-     * 设置请求的超时时间
+     * 设置请求的超时时间.
+     *
      * @param $timeout
+     *
      * @return $this
      */
     public function setTimeout($timeout)
     {
         $this->timeout = $timeout;
+
         return $this;
     }
 
     /**
-     * 设置请求的参数
+     * 设置请求的参数.
+     *
      * @param $get
+     *
      * @return $this
      */
     public function setQueryParams($get)
     {
         $this->query = $get;
+
         return $this;
     }
 
     /**
-     * 设置是否使用curl
+     * 设置是否使用curl.
+     *
      * @param $use
+     *
      * @return $this
      */
     public function setUseCurl($use)
@@ -148,46 +170,57 @@ class Request
         } else {
             $this->useCurl = false;
         }
+
         return $this;
     }
 
     /**
-     * 设置请求类型
+     * 设置请求类型.
+     *
      * @param $type
+     *
      * @return $this
      */
     public function setType($type)
     {
-        if (in_array($type, array('POST', 'GET', 'PUT', 'DELETE'))) {
+        if (in_array($type, ['POST', 'GET', 'PUT', 'DELETE'])) {
             $this->type = $type;
         }
+
         return $this;
     }
 
     /**
-     * 设置数据
+     * 设置数据.
+     *
      * @param $data
+     *
      * @return $this
      */
     public function setData($data)
     {
         $this->data = $data;
+
         return $this;
     }
 
     /**
-     * 设置请求的url
+     * 设置请求的url.
+     *
      * @param $url
+     *
      * @return $this
      */
     public function setUrl($url)
     {
         $this->url = $url;
+
         return $this;
     }
 
     /**
-     * 设置curl的参数
+     * 设置curl的参数.
+     *
      * @param $option
      * @param $value
      */
@@ -203,7 +236,8 @@ class Request
     }
 
     /**
-     * 设置认证信息
+     * 设置认证信息.
+     *
      * @param $set
      * @param null $username
      * @param null $password
@@ -229,7 +263,6 @@ class Request
         $this->authPassword = $password;
     }
 
-
     public function execute()
     {
         if ($this->useCurl) {
@@ -237,12 +270,12 @@ class Request
         } else {
             $this->fsockget_execute();
         }
+
         return $this;
     }
 
-
     /**
-     * curl请求方式
+     * curl请求方式.
      */
     protected function curl_execute()
     {
@@ -250,31 +283,31 @@ class Request
         $host = $this->host;
         $type = $this->type;
         $port = $this->port;
-        $data = property_exists($this, 'data') ? Request::param($this->data) : false;
+        $data = property_exists($this, 'data') ? self::param($this->data) : false;
         $timeout = $this->timeout;
         // Initiate cURL.
         $ch = curl_init();
         // Set request type.
         if ($type === 'GET') {
             curl_setopt($ch, CURLOPT_HTTPGET, true);
-        } else if ($type === 'POST') {
+        } elseif ($type === 'POST') {
             curl_setopt($ch, CURLOPT_POST, true);
             if ($data) {
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             }
-        } else if ($type === 'PUT') {
+        } elseif ($type === 'PUT') {
             //curl_setopt($ch, CURLOPT_PUT, true);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
         } else {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
         }
         // Grab query string.
-        $query = property_exists($this, 'query') && $this->query ? '?' . Request::param($this->query) : '';
+        $query = property_exists($this, 'query') && $this->query ? '?'.self::param($this->query) : '';
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         // Set additional headers.
-        $headers = array();
+        $headers = [];
         foreach ($this->headers as $name => $val) {
-            $headers[] = $name . ': ' . $val;
+            $headers[] = $name.': '.$val;
         }
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         // Do stuff it it's HTTPS/SSL.
@@ -291,13 +324,13 @@ class Request
             }
         }
         // Build and set URL.
-        $url = $protocol . '://' . $host . $uri . $query;
+        $url = $protocol.'://'.$host.$uri.$query;
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_PORT, $port);
         // Add any authentication to the request.
         // Currently supports only HTTP Basic Auth.
         if ($this->useBasicAuth === true) {
-            curl_setopt($ch, CURLOPT_USERPWD, $this->authUsername . ':' . $this->authPassword);
+            curl_setopt($ch, CURLOPT_USERPWD, $this->authUsername.':'.$this->authPassword);
             curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         }
         // Execute!
@@ -308,7 +341,7 @@ class Request
 
         // Handle an error.
         if (!$error = curl_error($ch)) {
-            $this->response = array('responseText' => $rsp) + curl_getinfo($ch);
+            $this->response = ['responseText' => $rsp] + curl_getinfo($ch);
             $this->responseHeaders = curl_getinfo($ch);
             $this->responseText = $rsp;
         } else {
@@ -317,24 +350,25 @@ class Request
     }
 
     /**
-     *
      * @param $data
+     *
      * @return string
      */
     public function param($data)
     {
-        $data_array = array();
+        $data_array = [];
         foreach ($data as $key => $val) {
             if (!is_string($val)) {
                 $val = json_encode($val);
             }
-            $data_array[] = urlencode($key) . '=' . urlencode($val);
+            $data_array[] = urlencode($key).'='.urlencode($val);
         }
+
         return implode('&', $data_array);
     }
 
     /**
-     * fsock请求方式
+     * fsock请求方式.
      */
     protected function fsockget_execute()
     {
@@ -351,7 +385,7 @@ class Request
         // Deal with the data first.
         if ($data && $type === 'POST') {
             $data = $this->param($data);
-        } else if ($data && $type === 'GET') {
+        } elseif ($data && $type === 'GET') {
             $get_data = $data;
             $data = $crlf;
         } else {
@@ -361,7 +395,7 @@ class Request
         if ($type === 'POST') {
             $this->setHeader('Content-Type', 'application/x-www-form-urlencoded');
             $this->setHeader('Content-Length', strlen($data));
-            $get_data = property_exists($this, 'query') && $this->query ? Request::param($this->query) : false;
+            $get_data = property_exists($this, 'query') && $this->query ? self::param($this->query) : false;
         } else {
             $this->setHeader('Content-Type', 'text/plain');
             $this->setHeader('Content-Length', strlen($crlf));
@@ -369,19 +403,19 @@ class Request
         if ($type === 'GET') {
             if (isset($get_data)) {
                 $get_data = $data;
-            } else if ($this->query) {
-                $get_data = Request::param($this->query);
+            } elseif ($this->query) {
+                $get_data = self::param($this->query);
             }
         }
         if ($this->useBasicAuth === true) {
-            $this->setHeader('Authorization', 'Basic ' . base64_encode($this->authUsername . ':' . $this->authPassword));
+            $this->setHeader('Authorization', 'Basic '.base64_encode($this->authUsername.':'.$this->authPassword));
         }
         $headers = $this->headers;
         $req = '';
-        $req .= $type . ' ' . $uri . (isset($get_data) ? '?' . $get_data : '') . ' HTTP/' . $HTTPVersion . $crlf;
-        $req .= "Host: " . $host . $crlf;
+        $req .= $type.' '.$uri.(isset($get_data) ? '?'.$get_data : '').' HTTP/'.$HTTPVersion.$crlf;
+        $req .= 'Host: '.$host.$crlf;
         foreach ($headers as $header => $content) {
-            $req .= $header . ': ' . $content . $crlf;
+            $req .= $header.': '.$content.$crlf;
         }
         $req .= $crlf;
         if ($type === 'POST') {
@@ -391,28 +425,28 @@ class Request
         }
 
         // Construct hostname.
-        $fsock_host = ($port == 443 ? 'ssl://' : '') . $host;
+        $fsock_host = ($port == 443 ? 'ssl://' : '').$host;
 
         // Open socket.
         $httpreq = @fsockopen($fsock_host, $port, $errno, $errstr, 30);
 
         // Handle an error.
         if (!$httpreq) {
-            $this->error = $errno . ': ' . $errstr;
+            $this->error = $errno.': '.$errstr;
+
             return false;
         }
 
         // Send the request.
-        fputs($httpreq, $req);
+        fwrite($httpreq, $req);
 
         // Receive the response.
         while ($line = fgets($httpreq)) {
             $rsp .= $line;
         }
 
-
         // Extract the headers and the responseText.
-        list($headers, $responseText) = explode($crlf . $crlf, $rsp);
+        list($headers, $responseText) = explode($crlf.$crlf, $rsp);
 
         // Store the finalized response.
         $this->response = $rsp;
@@ -421,7 +455,7 @@ class Request
 
         // Store the response headers.
         $headers = explode($crlf, $headers);
-        $this->responseHeaders = array();
+        $this->responseHeaders = [];
         foreach ($headers as $header) {
             list($key, $val) = explode(': ', $header);
             $this->responseHeaders[$key] = $val;
@@ -466,6 +500,7 @@ class Request
         if (!$this->executed) {
             return false;
         }
+
         return $this->response;
     }
 
@@ -474,6 +509,7 @@ class Request
         if (!$this->executed) {
             return false;
         }
+
         return $this->responseText;
     }
 
@@ -482,6 +518,7 @@ class Request
         if (!$this->executed) {
             return false;
         }
+
         return $this->responseHeaders;
     }
 

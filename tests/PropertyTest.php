@@ -3,9 +3,8 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-14
- * Time: 下午3:47
+ * Time: 下午3:47.
  */
-
 use MiotApi\Contract\Instance\Property;
 
 class PropertyTest extends PHPUnit_Framework_TestCase

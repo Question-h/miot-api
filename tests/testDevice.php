@@ -3,10 +3,8 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-8
- * Time: 下午3:39
+ * Time: 下午3:39.
  */
-
-
 require_once '../vendor/autoload.php';
 
 use MiotApi\Contract\Specification\DeviceSpecification;

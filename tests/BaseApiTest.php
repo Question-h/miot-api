@@ -3,14 +3,12 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-14
- * Time: 下午7:32
+ * Time: 下午7:32.
  */
-
 use MiotApi\Api\BaseApi;
 
 class BaseApiTest extends PHPUnit_Framework_TestCase
 {
-
     private $api;
 
     public function setUp()
@@ -49,9 +47,9 @@ class BaseApiTest extends PHPUnit_Framework_TestCase
         $properties = [
             'properties' => [
                 [
-                    "pid" => "M1GAxtaW9A0LXNwZWMtdjIVgoAFGA15ZWVsaW5rLW1vbm8xFRQYCDEzMTgwNzc2FWYA.2.2",
-                    "value" => 75
-                ]
+                    'pid'   => 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA15ZWVsaW5rLW1vbm8xFRQYCDEzMTgwNzc2FWYA.2.2',
+                    'value' => 75,
+                ],
             ],
             /*"voice" => [
                 "recognition" => "设置灯的亮度为70",
@@ -77,7 +75,6 @@ class BaseApiTest extends PHPUnit_Framework_TestCase
         $scene_id = '1031976223';
 
         $this->assertArrayHasKey('oid', $this->api->triggerScene($scene_id));
-
     }
 
     public function testHomes()
@@ -111,7 +108,7 @@ class BaseApiTest extends PHPUnit_Framework_TestCase
     public function testGet()
     {
         var_dump($this->api->get('/api/v1/device-information', [
-            'dids' => 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA15ZWVsaW5rLW1vbm8xFRQYCDEzMTgwNzc2FWYA'
+            'dids' => 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA15ZWVsaW5rLW1vbm8xFRQYCDEzMTgwNzc2FWYA',
         ]));
     }
 }

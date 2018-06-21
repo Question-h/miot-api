@@ -3,9 +3,8 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-11
- * Time: 下午6:10
+ * Time: 下午6:10.
  */
-
 use MiotApi\Contract\Urn;
 use MiotApi\Exception\SpecificationErrorException;
 use PHPUnit\Framework\TestCase;
@@ -37,7 +36,6 @@ class UrnTest extends TestCase
      */
     public function test__construct()
     {
-
     }
 
     public function testSetUrn()
@@ -52,6 +50,7 @@ class UrnTest extends TestCase
     public function testGetUrn()
     {
         $this->assertEquals($this->urnObj->getUrn(), 'urn');
+
         return $this->urnObj->getUrn();
     }
 
@@ -76,6 +75,7 @@ class UrnTest extends TestCase
     public function testGetNamespace()
     {
         $this->assertEquals($this->urnObj->getNamespace(), 'miot-spec-v2');
+
         return $this->urnObj->getNamespace();
     }
 
@@ -91,6 +91,7 @@ class UrnTest extends TestCase
     public function testGetType()
     {
         $this->assertEquals($this->urnObj->getType(), 'device');
+
         return $this->urnObj->getType();
     }
 
@@ -106,6 +107,7 @@ class UrnTest extends TestCase
     public function testGetName()
     {
         $this->assertEquals($this->urnObj->getName(), 'light');
+
         return $this->urnObj->getName();
     }
 
@@ -121,6 +123,7 @@ class UrnTest extends TestCase
     public function testGetValue()
     {
         $this->assertEquals($this->urnObj->getValue(), '0000A001');
+
         return $this->urnObj->getValue();
     }
 
@@ -136,12 +139,14 @@ class UrnTest extends TestCase
     public function testGetVendorProduct()
     {
         $this->assertEquals($this->urnObj->getVendorProduct(), 'yeelink-bslamp1');
+
         return $this->urnObj->getVendorProduct();
     }
 
     public function testSetVersion()
     {
         $this->assertEquals($this->urnObj->getVersion(), '1');
+
         return $this->urnObj->getVersion();
     }
 
@@ -151,6 +156,7 @@ class UrnTest extends TestCase
     public function testGetVersion()
     {
         $this->assertEquals($this->urnObj->getVersion(), '1');
+
         return $this->urnObj->getVersion();
     }
 }

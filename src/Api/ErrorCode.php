@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-14
- * Time: 下午4:46
+ * Time: 下午4:46.
  */
 
 namespace MiotApi\Api;
@@ -12,6 +12,7 @@ class ErrorCode
 {
     /**
      * HTTP 标准状态码
+     *
      * @var array
      */
     public static $http_codes = [
@@ -92,7 +93,8 @@ class ErrorCode
     ];
 
     /**
-     * 出现错误的位置
+     * 出现错误的位置.
+     *
      * @var array
      */
     public static $positions = [
@@ -132,17 +134,18 @@ class ErrorCode
 
     public static function getPosition($position_code)
     {
-        return ' Position : ' . (isset(self::$positions[$position_code]) ? self::$positions[$position_code] : 'Unknow Position');
+        return ' Position : '.(isset(self::$positions[$position_code]) ? self::$positions[$position_code] : 'Unknow Position');
     }
 
     /**
      * @param array $miot_error_code
+     *
      * @return string
      */
     public static function getMiotErrorMessage($miot_error_code)
     {
         if (preg_match('/\-70([0-9]{3})([0-9])([0-9]{3})/', $miot_error_code, $matches)) {
-            return self::getHttpMessage($matches[1]) . self::getErrorMessage($matches[2]) . self::getErrorMessage($matches[3]);
+            return self::getHttpMessage($matches[1]).self::getErrorMessage($matches[2]).self::getErrorMessage($matches[3]);
         }
 
         return 'Unknow Error';
@@ -150,11 +153,11 @@ class ErrorCode
 
     public static function getHttpMessage($http_code)
     {
-        return ' HttpCodeMessage (' . $http_code . '): ' . (isset(self::$http_codes[$http_code]) ? self::$http_codes[$http_code] : 'Unknow Http Code');
+        return ' HttpCodeMessage ('.$http_code.'): '.(isset(self::$http_codes[$http_code]) ? self::$http_codes[$http_code] : 'Unknow Http Code');
     }
 
     public static function getErrorMessage($error_code)
     {
-        return ' ErrorMessage : ' . (isset(self::$error_code[$error_code]) ? self::$error_code[$error_code] : 'Unknow Error');
+        return ' ErrorMessage : '.(isset(self::$error_code[$error_code]) ? self::$error_code[$error_code] : 'Unknow Error');
     }
 }

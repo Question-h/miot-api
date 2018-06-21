@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-6
- * Time: 下午6:25
+ * Time: 下午6:25.
  */
 
 namespace MiotApi\Contract\Instance;
@@ -20,13 +20,15 @@ class Service extends Specification
     protected $propertiesNode;
 
     /**
-     * 实例ID(Instance ID，简称iid)
+     * 实例ID(Instance ID，简称iid).
+     *
      * @var
      */
     protected $iid;
 
     /**
      * type对象
+     *
      * @var
      */
     protected $specification;

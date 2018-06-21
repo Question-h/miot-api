@@ -3,8 +3,9 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-6
- * Time: 下午6:25
+ * Time: 下午6:25.
  */
+
 namespace MiotApi\Contract\Instance;
 
 use MiotApi\Contract\RemoteSpec;
@@ -18,6 +19,7 @@ class Instance extends Specification
 
     /**
      * type对象
+     *
      * @var
      */
     protected $specification;
@@ -49,9 +51,10 @@ class Instance extends Specification
     }
 
     /**
-     * 根据服务的实例id获取服务实例
+     * 根据服务的实例id获取服务实例.
      *
      * @param $siid
+     *
      * @return mixed
      */
     public function service($siid)
@@ -60,10 +63,11 @@ class Instance extends Specification
     }
 
     /**
-     * 根据服务的实例id和属性的实例id获取属性实例
+     * 根据服务的实例id和属性的实例id获取属性实例.
      *
      * @param $siid
      * @param $piid
+     *
      * @return mixed
      */
     public function property($siid, $piid)
@@ -72,8 +76,10 @@ class Instance extends Specification
     }
 
     /**
-     * 根据给定的属性名称得到 该属性所在的 sid和pid
+     * 根据给定的属性名称得到 该属性所在的 sid和pid.
+     *
      * @param $name
+     *
      * @return array
      */
     public function getSidPidByName($name)
@@ -96,12 +102,12 @@ class Instance extends Specification
 
         return [
             $sids,
-            $pids
+            $pids,
         ];
     }
 
     /**
-     * 获取设备的服务实例列表
+     * 获取设备的服务实例列表.
      *
      * @return mixed
      */
@@ -111,9 +117,10 @@ class Instance extends Specification
     }
 
     /**
-     * 获取所有属性列表
+     * 获取所有属性列表.
      *
      * @param $siid
+     *
      * @return mixed
      */
     public function getPropertiesNodes()
@@ -125,7 +132,7 @@ class Instance extends Specification
             foreach ($services as $index => $service) {
                 if (!empty($this->getPropertiesNode($index))) {
                     foreach ($this->getPropertiesNode($index) as $i => $item) {
-                        $propertiesNodes[($index . '.' . $i)] = $item;
+                        $propertiesNodes[($index.'.'.$i)] = $item;
                     }
                 }
             }
@@ -135,8 +142,10 @@ class Instance extends Specification
     }
 
     /**
-     * 根据服务实例id 获取属性列表
+     * 根据服务实例id 获取属性列表.
+     *
      * @param $siid
+     *
      * @return mixed
      */
     public function getPropertiesNode($siid)

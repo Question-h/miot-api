@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-14
- * Time: 下午4:39
+ * Time: 下午4:39.
  */
 
 namespace MiotApi\Api;
@@ -16,7 +16,7 @@ class BaseApi
 {
     /**
      * App-Id
-     * 在开放平台申请: https://open.home.mi.com
+     * 在开放平台申请: https://open.home.mi.com.
      *
      * @var
      */
@@ -26,7 +26,7 @@ class BaseApi
      * Access-Token
      * 小米账号登录后的Oauth Token
      * 需要使用者自己实现小米oauth并获取到用户的access token
-     * oauth使用的应用id一定要与 App-Id一致
+     * oauth使用的应用id一定要与 App-Id一致.
      *
      * @var
      */
@@ -34,7 +34,7 @@ class BaseApi
 
     /**
      * 名字空间
-     * 必须是 miot-spec-v2
+     * 必须是 miot-spec-v2.
      *
      * @var string
      */
@@ -50,8 +50,9 @@ class BaseApi
 
     /**
      * Api constructor.
-     * @param null $appId
-     * @param null $accessToken
+     *
+     * @param null   $appId
+     * @param null   $accessToken
      * @param string $specNS
      */
     public function __construct($appId = null, $accessToken = null, $specNS = 'miot-spec-v2')
@@ -63,7 +64,7 @@ class BaseApi
 
     /**
      * 设置 请求的 host
-     * 默认为大陆host，如果要获取其他地区设备的时候，可以使用此方法设置host
+     * 默认为大陆host，如果要获取其他地区设备的时候，可以使用此方法设置host.
      *
      * @param $host
      */
@@ -73,9 +74,10 @@ class BaseApi
     }
 
     /**
-     * 读取抽象设备列表
+     * 读取抽象设备列表.
      *
      * @param bool $compact 如果希望读取设备列表时，只想读取最简单的信息，compact设置为true
+     *
      * @return array|mixed
      */
     public function devices($compact = false)
@@ -83,7 +85,7 @@ class BaseApi
         $params = [];
         if ($compact) {
             $params = [
-                'compact' => $compact
+                'compact' => $compact,
             ];
         }
 
@@ -91,10 +93,11 @@ class BaseApi
     }
 
     /**
-     * GET
+     * GET.
      *
      * @param $uri
      * @param array $params
+     *
      * @return array|bool|mixed
      */
     public function get($uri, $params = [])
@@ -111,17 +114,18 @@ class BaseApi
         if ($result) {
             $returnData = json_decode($result, true);
             $lastError = JsonLastError::check();
+
             return $returnData === null || !is_null($lastError) ? false : $returnData;
         } else {
             return [
-                'status' => '-705002036',
-                'message' => $http_client->getError()
+                'status'  => '-705002036',
+                'message' => $http_client->getError(),
             ];
         }
     }
 
     /**
-     * 获取http Client
+     * 获取http Client.
      *
      * @return Request
      */
@@ -131,15 +135,17 @@ class BaseApi
         $this->http_client->setHeader('App-Id', $this->appId);
         $this->http_client->setHeader('Access-Token', $this->accessToken);
         $this->http_client->setHeader('Spec-NS', $this->specNS);
+
         return $this->http_client;
     }
 
     /**
      * 读取设备信息
      * 读取一个设备 : GET /api/v1/device-information?dids=xxxx
-     * 读取多个设备： GET /api/v1/device-information?dids=xxxx,yyy,zzzzz
+     * 读取多个设备： GET /api/v1/device-information?dids=xxxx,yyy,zzzzz.
      *
      * @param $dids
+     *
      * @return array|mixed
      */
     public function deviceInformation($dids)
@@ -159,9 +165,10 @@ class BaseApi
      * 读取属性
      * 读取一个属性 : GET /api/v1/properties?pid=AAAD.1.1
      * 读取多个属性：GET /api/v1/properties?pid=AAAD.1.1,AAAD.2.3
-     * 语音控制需要增加voice字段：GET /api/v1/properties?pid=AAAD.1.1,AAAD.2.3&voice={"recognition":"灯开了吗","semantics":"xxx"}
+     * 语音控制需要增加voice字段：GET /api/v1/properties?pid=AAAD.1.1,AAAD.2.3&voice={"recognition":"灯开了吗","semantics":"xxx"}.
      *
      * @param $pid
+     *
      * @return array|mixed
      */
     public function properties($pid, $voice = '')
@@ -182,11 +189,13 @@ class BaseApi
     }
 
     /**
-     * 设置属性
+     * 设置属性.
      *
      * @param $data
-     * @return array|bool|mixed
+     *
      * @throws JsonException
+     *
+     * @return array|bool|mixed
      */
     public function setProperties($data)
     {
@@ -204,10 +213,11 @@ class BaseApi
     }
 
     /**
-     * PUT
+     * PUT.
      *
      * @param $uri
      * @param $data
+     *
      * @return array|bool|mixed
      */
     public function put($uri, $data)
@@ -224,11 +234,12 @@ class BaseApi
         if ($result) {
             $returnData = json_decode($result, true);
             $lastError = JsonLastError::check();
+
             return $returnData === null || !is_null($lastError) ? false : $returnData;
         } else {
             return [
-                'status' => '-705002036',
-                'message' => $http_client->getError()
+                'status'  => '-705002036',
+                'message' => $http_client->getError(),
             ];
         }
     }
@@ -236,11 +247,13 @@ class BaseApi
     /**
      * 调用方法
      * 一次请求只能调用一个设备的一个方法
-     * PUT /api/v1/action
+     * PUT /api/v1/action.
      *
      * @param $data
-     * @return array|bool|mixed
+     *
      * @throws JsonException
+     *
+     * @return array|bool|mixed
      */
     public function invokeActions($data)
     {
@@ -258,7 +271,7 @@ class BaseApi
     }
 
     /**
-     * 读取用户在米家设置好的场景列表
+     * 读取用户在米家设置好的场景列表.
      *
      * @return array|mixed
      */
@@ -268,15 +281,16 @@ class BaseApi
     }
 
     /**
-     * 主动触发某个场景
+     * 主动触发某个场景.
      *
      * @param $scene_id
+     *
      * @return array|bool|mixed
      */
     public function triggerScene($scene_id)
     {
         $data = [
-            'id' => $scene_id
+            'id' => $scene_id,
         ];
         $data = json_encode($data);
 
@@ -284,10 +298,11 @@ class BaseApi
     }
 
     /**
-     * POST
+     * POST.
      *
      * @param $uri
      * @param $data
+     *
      * @return array|bool|mixed
      */
     public function post($uri, $data)
@@ -304,17 +319,18 @@ class BaseApi
         if ($result) {
             $returnData = json_decode($result, true);
             $lastError = JsonLastError::check();
+
             return $returnData === null || !is_null($lastError) ? false : $returnData;
         } else {
             return [
-                'status' => '-705002036',
-                'message' => $http_client->getError()
+                'status'  => '-705002036',
+                'message' => $http_client->getError(),
             ];
         }
     }
 
     /**
-     * 读取家庭列表
+     * 读取家庭列表.
      *
      * @return array|mixed
      */
@@ -338,7 +354,7 @@ class BaseApi
      * "AAAD.1.2"
      * ],
      * "receiver-url": "xxx"
-     * }
+     * }.
      *
      * 订阅成功，应答如下：
      * HTTP/1.1 207 Multi-Status
@@ -365,16 +381,18 @@ class BaseApi
      * }
      * ]
      * }
+     *
      * @param $properties
      * @param $receiverUrl
+     *
      * @return array|bool|mixed
      */
     public function subscript($properties, $receiverUrl)
     {
         $data = [
-            "topic" => "properties-changed",
-            "properties" => $properties,
-            "receiver-url" => $receiverUrl
+            'topic'        => 'properties-changed',
+            'properties'   => $properties,
+            'receiver-url' => $receiverUrl,
         ];
         $data = json_encode($data);
 
@@ -395,7 +413,7 @@ class BaseApi
      * "AAAD.1.2"
      * ],
      * "receiver-url": "xxx"
-     * }
+     * }.
      *
      * 退订成功，应答如下：
      * HTTP/1.1 207 Multi-Status
@@ -422,14 +440,16 @@ class BaseApi
      * }
      * ]
      * }
+     *
      * @param $properties
+     *
      * @return array|bool|mixed
      */
     public function unSubscript($properties)
     {
         $data = [
-            "topic" => "properties-changed",
-            "properties" => $properties
+            'topic'      => 'properties-changed',
+            'properties' => $properties,
         ];
         $data = json_encode($data);
 
@@ -437,10 +457,11 @@ class BaseApi
     }
 
     /**
-     * DELETE
+     * DELETE.
      *
      * @param $uri
      * @param $data
+     *
      * @return array|bool|mixed
      */
     public function delete($uri, $data)
@@ -457,11 +478,12 @@ class BaseApi
         if ($result) {
             $returnData = json_decode($result, true);
             $lastError = JsonLastError::check();
+
             return $returnData === null || !is_null($lastError) ? false : $returnData;
         } else {
             return [
-                'status' => '-705002036',
-                'message' => $http_client->getError()
+                'status'  => '-705002036',
+                'message' => $http_client->getError(),
             ];
         }
     }

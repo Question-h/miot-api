@@ -3,9 +3,8 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-12
- * Time: 上午10:00
+ * Time: 上午10:00.
  */
-
 use MiotApi\Util\Request;
 
 class RequestTest extends PHPUnit_Framework_TestCase
@@ -26,6 +25,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     {
         self::$http->setType('GET');
         $this->assertAttributeEquals('GET', 'type', self::$http);
+
         return self::$http;
     }
 
@@ -36,6 +36,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     {
         self::$http->setHost('api.github.com');
         $this->assertAttributeEquals('api.github.com', 'host', self::$http);
+
         return self::$http;
     }
 
@@ -46,6 +47,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     {
         self::$http->setPort(443);
         $this->assertAttributeEquals(443, 'port', self::$http);
+
         return self::$http;
     }
 
@@ -56,6 +58,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     {
         self::$http->setRequestURI('/search/repositories');
         $this->assertAttributeEquals('/search/repositories', 'uri', self::$http);
+
         return self::$http;
     }
 
@@ -63,6 +66,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     {
         self::$http->setTimeout(10);
         $this->assertAttributeEquals(10, 'timeout', self::$http);
+
         return self::$http;
     }
 
@@ -71,12 +75,13 @@ class RequestTest extends PHPUnit_Framework_TestCase
      */
     public function testSetQueryParams()
     {
-        $params = array(
-            'q' => 'language:php',
-            'sort' => 'stars'
-        );
+        $params = [
+            'q'    => 'language:php',
+            'sort' => 'stars',
+        ];
         self::$http->setQueryParams($params);
         $this->assertAttributeEquals($params, 'query', self::$http);
+
         return self::$http;
     }
 
@@ -87,47 +92,40 @@ class RequestTest extends PHPUnit_Framework_TestCase
     {
         self::$http->setUseCurl(true, true);
         $this->assertAttributeEquals(true, 'useCurl', self::$http);
+
         return self::$http;
     }
 
     public function testSetData()
     {
-
     }
 
     public function testParam()
     {
-
     }
 
     public function testSetUrl()
     {
-
     }
 
     public function testSetHeader()
     {
-
     }
 
     public function testSetAdditionalCurlOpt()
     {
-
     }
 
     public function testSetUseBasicAuth()
     {
-
     }
 
     public function testSetAuthUsername()
     {
-
     }
 
     public function testSetAuthPassword()
     {
-
     }
 
     /**
@@ -137,6 +135,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     {
         self::$http->execute();
         $this->assertAttributeEquals(true, 'executed', self::$http);
+
         return self::$http;
     }
 
@@ -145,7 +144,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetError()
     {
-
     }
 
     /**
@@ -154,6 +152,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testGetResponseText()
     {
         $this->assertContains('incomplete_results', self::$http->GetResponseText());
+
         return self::$http->GetResponseText();
     }
 
@@ -167,7 +166,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
 
     public function testCurlHeaders()
     {
-
     }
 
     /**
@@ -176,9 +174,9 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testGetResponse()
     {
         $this->assertArrayHasKey('responseText', self::$http->getResponse());
+
         return self::$http->getResponse();
     }
-
 
     /**
      * @depends testExecute
@@ -186,6 +184,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testGetAllResponseHeaders()
     {
         $this->assertArrayHasKey('http_code', self::$http->getAllResponseHeaders());
+
         return self::$http->getAllResponseHeaders();
     }
 

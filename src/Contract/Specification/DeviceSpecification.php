@@ -3,8 +3,9 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-8
- * Time: 下午3:43
+ * Time: 下午3:43.
  */
+
 namespace MiotApi\Contract\Specification;
 
 /**
@@ -12,7 +13,6 @@ namespace MiotApi\Contract\Specification;
  * 描述一个设备，需要说清楚：是什么设备？有哪些服务可用？
  *
  * Class DeviceSpecification
- * @package MiotApi\Contract\Specification
  */
 class DeviceSpecification extends Specification
 {
@@ -58,6 +58,7 @@ class DeviceSpecification extends Specification
 
     /**
      * 获取 必选服务
+     *
      * @return mixed
      */
     public function getRequiredServices()
@@ -67,6 +68,7 @@ class DeviceSpecification extends Specification
 
     /**
      * 获取 可选服务
+     *
      * @return mixed
      */
     public function getOptionalServices()

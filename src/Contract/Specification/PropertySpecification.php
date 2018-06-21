@@ -3,8 +3,9 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-8
- * Time: 下午3:43
+ * Time: 下午3:43.
  */
+
 namespace MiotApi\Contract\Specification;
 
 use MiotApi\Exception\SpecificationErrorException;
@@ -18,12 +19,11 @@ use MiotApi\Exception\SpecificationErrorException;
  * 单位是否定义？如果有定义，单位是什么？
  *
  * Class PropertySpecification
- * @package MiotApi\Contract\Specification
  */
 class PropertySpecification extends Specification
 {
     /**
-     * 数据格式
+     * 数据格式.
      *
      * 数据格式    描述
      * bool        布尔值: true/false 或 1/0
@@ -51,7 +51,7 @@ class PropertySpecification extends Specification
         'int32',
         'int64',
         'float',
-        'string'
+        'string',
     ];
 
     /**
@@ -59,7 +59,7 @@ class PropertySpecification extends Specification
      * 值        描述
      * read        读
      * write    写
-     * notify    通知
+     * notify    通知.
      *
      * @var
      */
@@ -68,14 +68,14 @@ class PropertySpecification extends Specification
     protected $accessMap = [
         'read',
         'write',
-        'notify'
+        'notify',
     ];
 
     /**
      * 对取值范围进行约束，可选字段
      * 当format为整型或浮点数，可定义value-range，比如：
      * 最小值        最大值    步长
-     * 16        32        0.5
+     * 16        32        0.5.
      *
      * @var
      */
@@ -83,7 +83,7 @@ class PropertySpecification extends Specification
 
     /**
      * 对取值范围进行约束，可选字段
-     * 当format为整型，可定义"value-list"，每个元素都包含：value description
+     * 当format为整型，可定义"value-list"，每个元素都包含：value description.
      *
      * @var
      */
@@ -180,7 +180,6 @@ class PropertySpecification extends Specification
     {
         return $this->format;
     }
-
 
     /**
      * @return mixed
