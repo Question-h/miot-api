@@ -5,7 +5,6 @@
  * Date: 18-6-14
  * Time: 下午7:32.
  */
-
 use MiotApi\Api\BaseApi;
 
 class BaseApiTest extends PHPUnit_Framework_TestCase
