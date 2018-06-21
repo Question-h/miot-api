@@ -30,7 +30,7 @@ class ApiTest extends PHPUnit_Framework_TestCase
 
     public function testSetPropertyGraceful()
     {
-        $did = 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGBB5ZWVsaW5rLWNlaWxpbmc0FRQYCDYyMzExNjc1FYQIAA';
+        $did = 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGBB5ZWVsaW5rLWNlaWxpbmc0FRQYCDYyMzExNjkyFYQIAA';
         $type = 'urn:miot-spec-v2:device:light:0000A001:yeelink-ceiling4:1';
         $data = [
             'on'                => true,
@@ -42,7 +42,7 @@ class ApiTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(0, $requestInfo['properties'][0]['status']);
 
-        $getInfo = $this->api->properties('M1GAxtaW9A0LXNwZWMtdjIVgoAFGBB5ZWVsaW5rLWNlaWxpbmc0FRQYCDYyMzExNjc1FYQIAA.2.2');
+        $getInfo = $this->api->properties('M1GAxtaW9A0LXNwZWMtdjIVgoAFGBB5ZWVsaW5rLWNlaWxpbmc0FRQYCDYyMzExNjkyFYQIAA.2.2');
 
         $this->assertEquals(99, $getInfo['properties'][0]['value']);
     }
@@ -50,7 +50,7 @@ class ApiTest extends PHPUnit_Framework_TestCase
     public function testSetPropertiesGraceful()
     {
         $data = [
-            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA' => [
+            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg1NzgwNDE4NhVoAA' => [
                 'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1',
                 'data' => [
                     'on'                => true,
@@ -59,7 +59,7 @@ class ApiTest extends PHPUnit_Framework_TestCase
                     'color'             => 2777215,
                 ],
             ],
-            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGAt5ZWVsaW5rLWN0MhUUGAg4NzEzMDQyMhWcCAA' => [
+            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGAt5ZWVsaW5rLWN0MhUUGAg3NzQ5NDE3MxWcCAA' => [
                 'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-ct2:1',
                 'data' => [
                     'on'                => true,
@@ -72,13 +72,13 @@ class ApiTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(0, $requestInfo['properties'][0]['status']);
 
-        $getInfo = $this->api->properties('M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA.2.2');
+        $getInfo = $this->api->properties('M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg1NzgwNDE4NhVoAA.2.2');
         $this->assertEquals(99, $getInfo['properties'][0]['value']);
     }
 
     public function testGetPropertyGraceful()
     {
-        $did = 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA';
+        $did = 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg1NzgwNDE4NhVoAA';
         $type = 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1';
         // $data = []; // 为空时，获取所有可读属性
         $data = [
@@ -89,13 +89,13 @@ class ApiTest extends PHPUnit_Framework_TestCase
         ];
         $requestInfo = $this->api->getPropertyGraceful($did, $type, $data);
 
-        $this->assertArrayHasKey('M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA', $requestInfo);
+        $this->assertArrayHasKey('M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg1NzgwNDE4NhVoAA', $requestInfo);
     }
 
     public function testGetPropertiesGraceful()
     {
         $data = [
-            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA' => [
+            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg1NzgwNDE4NhVoAA' => [
                 'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1',
                 'data' => [
                     'on',
@@ -104,14 +104,14 @@ class ApiTest extends PHPUnit_Framework_TestCase
                     'color',
                 ],
             ],
-            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGAt5ZWVsaW5rLWN0MhUUGAg4NzEzMDQyMhWcCAA' => [
+            'M1GAxtaW9A0LXNwZWMtdjIVgoAFGAt5ZWVsaW5rLWN0MhUUGAg3NzQ5NDE3MxWcCAA' => [
                 'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-ct2:1',
                 'data' => [], // 为空时，获取所有可读属性
             ],
         ];
         $requestInfo = $this->api->getPropertiesGraceful($data);
-        $this->assertArrayHasKey('M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA', $requestInfo);
-        $this->assertArrayHasKey('M1GAxtaW9A0LXNwZWMtdjIVgoAFGAt5ZWVsaW5rLWN0MhUUGAg4NzEzMDQyMhWcCAA', $requestInfo);
+        $this->assertArrayHasKey('M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg1NzgwNDE4NhVoAA', $requestInfo);
+        $this->assertArrayHasKey('M1GAxtaW9A0LXNwZWMtdjIVgoAFGAt5ZWVsaW5rLWN0MhUUGAg3NzQ5NDE3MxWcCAA', $requestInfo);
     }
 
     public function testSubscriptByDevices()
