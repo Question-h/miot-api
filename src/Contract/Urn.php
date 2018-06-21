@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-6
- * Time: 下午5:58
+ * Time: 下午5:58.
  */
 
 namespace MiotApi\Contract;
@@ -14,35 +14,35 @@ use MiotApi\Exception\SpecificationErrorException;
 class Urn implements UrnInterface
 {
     /**
-     * 符合 RFC 2141 的 URN正则规则
+     * 符合 RFC 2141 的 URN正则规则.
      */
     const URN_REGEXP = '/^urn:[a-z0-9][a-z0-9-]{1,31}:([a-z0-9()+,-.:=@;$_!*\']|%(0[1-9a-f]|[1-9a-f][0-9a-f]))+$/i';
 
     /**
-     * 分隔符
+     * 分隔符.
      *
      * @var string
      */
     private $delimiter = ':';
 
     /**
-     * 原始urn
+     * 原始urn.
      *
-     * @var $original
+     * @var
      */
     private $original;
 
     /**
-     * 符合 RFC 2141 和 小米规范的 URN
-     * @var $expression
+     * 符合 RFC 2141 和 小米规范的 URN.
+     *
+     * @var
      */
     private $expression;
 
-
     /**
      * 小米 URN 规范所包含的字段
-     * <URN> ::= "urn:"<namespace>":"<type>":"<name>":"<value>[":"<vendor-product>":"<version>]
-     * 
+     * <URN> ::= "urn:"<namespace>":"<type>":"<name>":"<value>[":"<vendor-product>":"<version>].
+     *
      * @var array
      */
     private $columns = [
@@ -56,14 +56,15 @@ class Urn implements UrnInterface
     ];
 
     /**
-     * 各类型的预订义的基础urn
-     * @var $base_urn
+     * 各类型的预订义的基础urn.
+     *
+     * @var
      */
     private $base_urn;
 
     /**
      * 预订义的小米 URN 规范所包含的字段
-     * <URN> ::= "urn:"<namespace>":"<type>":"<name>":"<value>
+     * <URN> ::= "urn:"<namespace>":"<type>":"<name>":"<value>.
      *
      * @var array
      */
@@ -72,26 +73,26 @@ class Urn implements UrnInterface
         'namespace',
         'type',
         'name',
-        'value'
+        'value',
     ];
 
     /**
-     * 第一个字段必须为urn，否则视为非法urn
+     * 第一个字段必须为urn，否则视为非法urn.
      *
-     * @var $urn
+     * @var
      */
     private $urn = 'urn';
 
     /**
      * 如果是小米定义的规范为miot-spec
-     * 蓝牙联盟定义的规范为bluetooth-spec
+     * 蓝牙联盟定义的规范为bluetooth-spec.
      *
-     * @var $namespace
+     * @var
      */
     private $namespace = 'miot-spec-v2';
 
     /**
-     * 合法的namespace
+     * 合法的namespace.
      *
      * @var array
      */
@@ -103,7 +104,7 @@ class Urn implements UrnInterface
 
     /**
      * SpecificationType (类型，简写为: type)
-     * 只能是如下几个:
+     * 只能是如下几个:.
      *
      * property
      * action
@@ -111,12 +112,12 @@ class Urn implements UrnInterface
      * service
      * device
      *
-     * @var $type
+     * @var
      */
     private $type = 'property';
 
     /**
-     * 合法的type
+     * 合法的type.
      *
      * @var array
      */
@@ -130,38 +131,39 @@ class Urn implements UrnInterface
 
     /**
      * 有意义的单词或单词组合(小写字母)
-     * 多个单词用"-"间隔，比如：
+     * 多个单词用"-"间隔，比如：.
      *
      * temperature
      * current-temperature
      * device-name
      * battery-level
      *
-     * @var $name
+     * @var
      */
     private $name;
 
     /**
      * name的正则
      * 单词或单词组合(小写字母)
-     * 多个单词用"-"间隔
+     * 多个单词用"-"间隔.
+     *
      * @var string
      */
     private $name_reg = '/^[a-z][a-z\-]*[a-z]$/';
 
     /**
-     * 16进制字符串，使用UUID前8个字符，如：
+     * 16进制字符串，使用UUID前8个字符，如：.
      *
      * 00002A06
      * 00002A00
      *
-     * @var $value
-      */
+     * @var
+     */
     private $value;
 
     /**
      * value正则
-     * 16进制字符串，使用UUID前8个字符
+     * 16进制字符串，使用UUID前8个字符.
      *
      * @var string
      */
@@ -169,45 +171,47 @@ class Urn implements UrnInterface
 
     /**
      * 厂家+产品代号 (这个字段只有在设备实例定义里出现)
-     * 有意义的单词或单词组合(小写字母)，用"-"间隔，比如：
+     * 有意义的单词或单词组合(小写字母)，用"-"间隔，比如：.
      *
      * philips-moonlight
      * yeelink-c300
      * zhimi-vv
      * benz-c63
      *
-     * @var  $vendor_product
+     * @var 
      */
     private $vendor_product;
 
     /**
      * 厂家+产品代号正则
      * 单词或单词组合(小写字母)
-     * 多个单词用"-"间隔
+     * 多个单词用"-"间隔.
+     *
      * @var string
      */
     private $vendor_product_reg = '/^([a-z0-9\-]+)$/';
 
     /**
      * 版本号，只能是数字 (这个字段只有在设备实例定义里出现)
-     * 如: 1, 2, 3
+     * 如: 1, 2, 3.
      *
-     * @var $version
+     * @var
      */
     private $version;
 
     /**
      * 版本号正则
-     * 只能是数字
+     * 只能是数字.
      *
      * @var string
      */
     private $version_reg = '/^([0-9]+)$/';
 
-
     /**
      * Urn constructor.
+     *
      * @param $urn
+     *
      * @throws SpecificationErrorException
      */
     public function __construct($urn)
@@ -226,7 +230,9 @@ class Urn implements UrnInterface
      * Validate a URN according to RFC 2141.
      *
      * @param $urn
-     * @return TRUE when the URN is valid, FALSE when invalid
+     *
+     * @return true when the URN is valid, FALSE when invalid
+     *
      * @internal param the $urn URN to validate
      */
     private function validate($urn)
@@ -244,6 +250,7 @@ class Urn implements UrnInterface
 
     /**
      * @param mixed $urn
+     *
      * @throws SpecificationErrorException
      */
     public function setUrn($urn)
@@ -265,6 +272,7 @@ class Urn implements UrnInterface
 
     /**
      * @param mixed $namespace
+     *
      * @throws SpecificationErrorException
      */
     public function setNamespace($namespace)
@@ -286,6 +294,7 @@ class Urn implements UrnInterface
 
     /**
      * @param mixed $type
+     *
      * @throws SpecificationErrorException
      */
     public function setType($type)
@@ -307,6 +316,7 @@ class Urn implements UrnInterface
 
     /**
      * @param mixed $name
+     *
      * @throws SpecificationErrorException
      */
     public function setName($name)
@@ -328,6 +338,7 @@ class Urn implements UrnInterface
 
     /**
      * @param mixed $value
+     *
      * @throws SpecificationErrorException
      */
     public function setValue($value)
@@ -349,6 +360,7 @@ class Urn implements UrnInterface
 
     /**
      * @param mixed $vendor_product
+     *
      * @throws SpecificationErrorException
      */
     public function setVendorProduct($vendor_product)
@@ -370,6 +382,7 @@ class Urn implements UrnInterface
 
     /**
      * @param mixed $version
+     *
      * @throws SpecificationErrorException
      */
     public function setVersion($version)
@@ -390,7 +403,6 @@ class Urn implements UrnInterface
     }
 
     /**
-     *
      * @return string
      */
     private function setBaseUrn()
@@ -398,14 +410,14 @@ class Urn implements UrnInterface
         $base_urn = '';
 
         foreach ($this->base_columns as $index => $column) {
-            $fncName = 'get' . ucfirst(
+            $fncName = 'get'.ucfirst(
                     preg_replace_callback('/_([a-zA-Z])/', function ($match) {
                         return strtoupper($match[1]);
                     }, $column)
                 );
 
             if (method_exists($this, $fncName) && $this->{$fncName}()) {
-                $base_urn .= $this->delimiter . $this->{$fncName}();
+                $base_urn .= $this->delimiter.$this->{$fncName}();
             }
         }
 
@@ -413,7 +425,6 @@ class Urn implements UrnInterface
 
         return $this->base_urn;
     }
-
 
     /**
      * @return mixed
@@ -424,7 +435,7 @@ class Urn implements UrnInterface
     }
 
     /**
-     * 根据各字段生成解析格式化后的urn
+     * 根据各字段生成解析格式化后的urn.
      *
      * @return string
      */
@@ -433,14 +444,14 @@ class Urn implements UrnInterface
         $expression = '';
 
         foreach ($this->columns as $index => $column) {
-            $fncName = 'get' . ucfirst(
-                    preg_replace_callback('/_([a-zA-Z])/', function($match){
+            $fncName = 'get'.ucfirst(
+                    preg_replace_callback('/_([a-zA-Z])/', function ($match) {
                         return strtoupper($match[1]);
                     }, $column)
                 );
 
             if (method_exists($this, $fncName) && $this->{$fncName}()) {
-                $expression .= $this->delimiter . $this->{$fncName}();
+                $expression .= $this->delimiter.$this->{$fncName}();
             }
         }
 
@@ -450,7 +461,7 @@ class Urn implements UrnInterface
     }
 
     /**
-     * urn 解析器
+     * urn 解析器.
      *
      * @return mixed
      */
@@ -459,8 +470,8 @@ class Urn implements UrnInterface
         $parses = explode($this->delimiter, $this->original);
 
         foreach ($this->columns as $index => $column) {
-            $fncName = 'set' . ucfirst(
-                    preg_replace_callback('/_([a-zA-Z])/', function($match){
+            $fncName = 'set'.ucfirst(
+                    preg_replace_callback('/_([a-zA-Z])/', function ($match) {
                         return strtoupper($match[1]);
                     }, $column)
                 );

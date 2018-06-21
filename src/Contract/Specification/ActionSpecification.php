@@ -3,8 +3,9 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-8
- * Time: 下午3:43
+ * Time: 下午3:43.
  */
+
 namespace MiotApi\Contract\Specification;
 
 /**
@@ -14,13 +15,12 @@ namespace MiotApi\Contract\Specification;
  * 方法执行完有没有输出值，如果有，输出值什么？
  *
  * Class ActionSpecification
- * @package MiotApi\Contract\Specification
  */
 class ActionSpecification extends Specification
 {
     /**
      * 输入参数列表
-     * 可以是0到N个，每个参数都由属性组成
+     * 可以是0到N个，每个参数都由属性组成.
      *
      * @var
      */
@@ -28,7 +28,7 @@ class ActionSpecification extends Specification
 
     /**
      * 输出参数列表
-     * 可以是0到N个，每个参数都由属性组成
+     * 可以是0到N个，每个参数都由属性组成.
      *
      * @var
      */

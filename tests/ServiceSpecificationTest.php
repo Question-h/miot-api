@@ -3,9 +3,8 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-13
- * Time: 下午1:53
+ * Time: 下午1:53.
  */
-
 use MiotApi\Contract\Specification\ServiceSpecification;
 
 class ServiceSpecificationTest extends PHPUnit_Framework_TestCase

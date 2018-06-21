@@ -3,9 +3,8 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-13
- * Time: 上午11:05
+ * Time: 上午11:05.
  */
-
 use MiotApi\Contract\Specification\DeviceSpecification;
 
 class DeviceSpecificationTest extends PHPUnit_Framework_TestCase

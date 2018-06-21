@@ -3,9 +3,8 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-14
- * Time: 上午10:52
+ * Time: 上午10:52.
  */
-
 use MiotApi\Contract\Instance\Instance;
 
 class InstanceTest extends PHPUnit_Framework_TestCase
@@ -26,7 +25,6 @@ class InstanceTest extends PHPUnit_Framework_TestCase
     {
         $this->instance = null;
     }
-
 
     public function testInit()
     {
@@ -71,7 +69,7 @@ class InstanceTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([
             0,
             100,
-            1
+            1,
         ], $this->instance->property(2, 2)->getValueRange());
     }
 

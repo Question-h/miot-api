@@ -3,14 +3,12 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-14
- * Time: 下午3:34
+ * Time: 下午3:34.
  */
-
 use MiotApi\Contract\Instance\Service;
 
 class ServiceTest extends PHPUnit_Framework_TestCase
 {
-
     private $service;
 
     /**

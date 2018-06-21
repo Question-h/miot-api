@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-6
- * Time: 下午6:25
+ * Time: 下午6:25.
  */
 
 namespace MiotApi\Contract\Instance;
@@ -19,13 +19,15 @@ class Property extends PropertySpecification
     protected $data;
 
     /**
-     * 实例ID(Instance ID，简称iid)
+     * 实例ID(Instance ID，简称iid).
+     *
      * @var
      */
     protected $iid;
 
     /**
      * type对象
+     *
      * @var
      */
     protected $specification;
@@ -96,8 +98,10 @@ class Property extends PropertySpecification
     }
 
     /**
-     * 验证给定的值是否 符合 format
+     * 验证给定的值是否 符合 format.
+     *
      * @param $value
+     *
      * @return bool
      */
     public function verify($value)
@@ -124,7 +128,7 @@ class Property extends PropertySpecification
                     true,
                     false,
                     1,
-                    0
+                    0,
                 ]);
                 break;
             case 'uint8':
@@ -134,7 +138,7 @@ class Property extends PropertySpecification
             case 'int16':
             case 'int32':
             case 'int64':
-                return is_integer($value);
+                return is_int($value);
                 break;
             case 'float':
                 return is_float($value);

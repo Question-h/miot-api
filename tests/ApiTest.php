@@ -3,14 +3,12 @@
  * Created by PhpStorm.
  * User: sheldon
  * Date: 18-6-19
- * Time: 上午10:29
+ * Time: 上午10:29.
  */
-
 use MiotApi\Api\Api;
 
 class ApiTest extends PHPUnit_Framework_TestCase
 {
-
     private $api;
 
     public function setUp()
@@ -32,12 +30,12 @@ class ApiTest extends PHPUnit_Framework_TestCase
     public function testSetPropertyGraceful()
     {
         $did = 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGBB5ZWVsaW5rLWNlaWxpbmc0FRQYCDYyMzExNjc1FYQIAA';
-        $type = "urn:miot-spec-v2:device:light:0000A001:yeelink-ceiling4:1";
+        $type = 'urn:miot-spec-v2:device:light:0000A001:yeelink-ceiling4:1';
         $data = [
-            'on' => true,
-            'brightness' => [99, 50],
+            'on'                => true,
+            'brightness'        => [99, 50],
             'color-temperature' => [3100, 5000],
-            'color' => 2777215
+            'color'             => 2777215,
         ];
         $requestInfo = $this->api->setPropertyGraceful($did, $type, $data);
 
@@ -54,20 +52,20 @@ class ApiTest extends PHPUnit_Framework_TestCase
             'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA' => [
                 'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1',
                 'data' => [
-                    'on' => true,
-                    'brightness' => 99,
+                    'on'                => true,
+                    'brightness'        => 99,
                     'color-temperature' => 2100,
-                    'color' => 2777215
-                ]
+                    'color'             => 2777215,
+                ],
             ],
             'M1GAxtaW9A0LXNwZWMtdjIVgoAFGAt5ZWVsaW5rLWN0MhUUGAg4NzEzMDQyMhWcCAA' => [
                 'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-ct2:1',
                 'data' => [
-                    'on' => true,
-                    'brightness' => 50,
-                    'color-temperature' => 3500
-                ]
-            ]
+                    'on'                => true,
+                    'brightness'        => 50,
+                    'color-temperature' => 3500,
+                ],
+            ],
         ];
         $requestInfo = $this->api->setPropertiesGraceful($data);
 
@@ -80,13 +78,13 @@ class ApiTest extends PHPUnit_Framework_TestCase
     public function testGetPropertyGraceful()
     {
         $did = 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA';
-        $type = "urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1";
+        $type = 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1';
         // $data = []; // 为空时，获取所有可读属性
         $data = [
             'on',
             'brightness',
             'color-temperature',
-            'color'
+            'color',
         ];
         $requestInfo = $this->api->getPropertyGraceful($did, $type, $data);
 
@@ -102,13 +100,13 @@ class ApiTest extends PHPUnit_Framework_TestCase
                     'on',
                     'brightness',
                     'color-temperature',
-                    'color'
-                ]
+                    'color',
+                ],
             ],
             'M1GAxtaW9A0LXNwZWMtdjIVgoAFGAt5ZWVsaW5rLWN0MhUUGAg4NzEzMDQyMhWcCAA' => [
                 'type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-ct2:1',
-                'data' => [] // 为空时，获取所有可读属性
-            ]
+                'data' => [], // 为空时，获取所有可读属性
+            ],
         ];
         $requestInfo = $this->api->getPropertiesGraceful($data);
         $this->assertArrayHasKey('M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk2NTYwNRVoAA', $requestInfo);
