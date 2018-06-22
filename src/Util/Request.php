@@ -40,7 +40,7 @@ class Request
      * @param string $host
      * @param string $uri
      * @param int    $port
-     * @param boolean $useCurl
+     * @param bool   $useCurl
      * @param int    $timeout
      */
     public function __construct($host = '', $uri = '/', $port = 80, $useCurl = true, $timeout = 10)
@@ -304,7 +304,7 @@ class Request
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
         }
         // Grab query string.
-        $query = property_exists($this, 'query') && $this->query ? '?' . $this->param($this->query) : '';
+        $query = property_exists($this, 'query') && $this->query ? '?'.$this->param($this->query) : '';
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         // Set additional headers.
         $headers = [];
