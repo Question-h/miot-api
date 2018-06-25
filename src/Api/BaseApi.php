@@ -20,7 +20,7 @@ class BaseApi
      *
      * @var
      */
-    private $appId;
+    protected $appId;
 
     /**
      * Access-Token
@@ -30,7 +30,7 @@ class BaseApi
      *
      * @var
      */
-    private $accessToken;
+    protected $accessToken;
 
     /**
      * 名字空间
@@ -38,15 +38,15 @@ class BaseApi
      *
      * @var string
      */
-    private $specNS = 'miot-spec-v2';
+    protected $specNS = 'miot-spec-v2';
 
-    private $httpClient;
+    protected $httpClient;
 
-    private $host = 'api.home.mi.com';
+    protected $host = 'api.home.mi.com';
 
-    private $port = 443;
+    protected $port = 443;
 
-    private $timeout = 10;
+    protected $timeout = 10;
 
     /**
      * Api constructor.
