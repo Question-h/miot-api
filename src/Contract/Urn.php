@@ -410,14 +410,14 @@ class Urn implements UrnInterface
         $baseUrn = '';
 
         foreach ($this->baseColumns as $column) {
-            $fncName = 'get' . ucfirst(
+            $fncName = 'get'.ucfirst(
                     preg_replace_callback('/_([a-zA-Z])/', function ($match) {
                         return strtoupper($match[1]);
                     }, $column)
                 );
 
             if (method_exists($this, $fncName) && $this->{$fncName}()) {
-                $baseUrn .= $this->delimiter . $this->{$fncName}();
+                $baseUrn .= $this->delimiter.$this->{$fncName}();
             }
         }
 
@@ -444,14 +444,14 @@ class Urn implements UrnInterface
         $expression = '';
 
         foreach ($this->columns as $column) {
-            $fncName = 'get' . ucfirst(
+            $fncName = 'get'.ucfirst(
                     preg_replace_callback('/_([a-zA-Z])/', function ($match) {
                         return strtoupper($match[1]);
                     }, $column)
                 );
 
             if (method_exists($this, $fncName) && $this->{$fncName}()) {
-                $expression .= $this->delimiter . $this->{$fncName}();
+                $expression .= $this->delimiter.$this->{$fncName}();
             }
         }
 
@@ -470,7 +470,7 @@ class Urn implements UrnInterface
         $parses = explode($this->delimiter, $this->original);
 
         foreach ($this->columns as $index => $column) {
-            $fncName = 'set' . ucfirst(
+            $fncName = 'set'.ucfirst(
                     preg_replace_callback('/_([a-zA-Z])/', function ($match) {
                         return strtoupper($match[1]);
                     }, $column)

@@ -132,7 +132,7 @@ class Instance extends Specification
             foreach ($services as $index => $service) {
                 if (!empty($this->getPropertiesNode($index))) {
                     foreach ($this->getPropertiesNode($index) as $i => $item) {
-                        $propertiesNodes[($index . '.' . $i)] = $item;
+                        $propertiesNodes[($index.'.'.$i)] = $item;
                     }
                 }
             }

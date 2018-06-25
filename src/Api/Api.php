@@ -111,19 +111,19 @@ class Api extends BaseApi
                             list($sids, $pids) = $instance->getSidPidByName($name);
 
                             if (!$sids || !$pids) {
-                                throw new ApiErrorException('Invalid property! did:' . $did . ',name: ' . $name);
+                                throw new ApiErrorException('Invalid property! did:'.$did.',name: '.$name);
                             }
 
                             foreach ($sids as $sindex => $sid) {
-                                $property = $propertiesNodes[($sid . '.' . $pids[$sindex])];
+                                $property = $propertiesNodes[($sid.'.'.$pids[$sindex])];
 
                                 if (!$property->canRead()) {
                                     throw new ApiErrorException(
-                                        'The property does\'t has the read access! did:' . $did . ',name: ' . $name
+                                        'The property does\'t has the read access! did:'.$did.',name: '.$name
                                     );
                                 }
 
-                                $properties[] = $did . '.' . $sid . '.' . $pids[$sindex];
+                                $properties[] = $did.'.'.$sid.'.'.$pids[$sindex];
                             }
                         }
                     } else {
@@ -132,19 +132,19 @@ class Api extends BaseApi
                             list($sids, $pids) = $instance->getSidPidByName($name);
 
                             if (!$sids || !$pids) {
-                                throw new ApiErrorException('Invalid property! did:' . $did . ',name: ' . $name);
+                                throw new ApiErrorException('Invalid property! did:'.$did.',name: '.$name);
                             }
 
                             foreach ($sids as $sindex => $sid) {
-                                $property = $propertiesNodes[($sid . '.' . $pids[$sindex])];
+                                $property = $propertiesNodes[($sid.'.'.$pids[$sindex])];
 
                                 if (!$property->canRead()) {
                                     throw new ApiErrorException(
-                                        'The property does\'t has the read access! did:' . $did . ',name: ' . $name
+                                        'The property does\'t has the read access! did:'.$did.',name: '.$name
                                     );
                                 }
 
-                                $properties[] = $did . '.' . $sid . '.' . $pids[$sindex];
+                                $properties[] = $did.'.'.$sid.'.'.$pids[$sindex];
                             }
                         }
                     }
@@ -163,8 +163,8 @@ class Api extends BaseApi
                         && isset($pidArr[0]) // did
                         && isset($pidArr[1]) // sid
                         && isset($pidArr[2]) // pid
-                        && isset($instances[$pidArr[0]][($pidArr[1] . '.' . $pidArr[2])])) {
-                        $attributeName = $instances[$pidArr[0]][($pidArr[1] . '.' . $pidArr[2])]->getUrn()->getName();
+                        && isset($instances[$pidArr[0]][($pidArr[1].'.'.$pidArr[2])])) {
+                        $attributeName = $instances[$pidArr[0]][($pidArr[1].'.'.$pidArr[2])]->getUrn()->getName();
 
                         if (isset($attributes[$pidArr[0]][$attributeName])) {
                             if (is_array($attributes[$pidArr[0]][$attributeName])) {
@@ -244,35 +244,35 @@ class Api extends BaseApi
                         list($sids, $pids) = $instance->getSidPidByName($name);
 
                         if (!$sids || !$pids) {
-                            throw new ApiErrorException('Invalid property! did:' . $did . ',name: ' . $name);
+                            throw new ApiErrorException('Invalid property! did:'.$did.',name: '.$name);
                         }
 
                         foreach ($sids as $sindex => $sid) {
-                            $property = $propertiesNodes[($sid . '.' . $pids[$sindex])];
+                            $property = $propertiesNodes[($sid.'.'.$pids[$sindex])];
 
                             if (!is_array($value)) {
                                 $tmpValue = $value;
                             } else {
                                 if (!isset($value[$sindex])) {
                                     throw new ApiErrorException(
-                                        'Invalid property value! did:' . $did . ',name: ' . $name
+                                        'Invalid property value! did:'.$did.',name: '.$name
                                     );
                                 }
                                 $tmpValue = $value[$sindex];
                             }
 
                             if (!$property->verify($tmpValue)) {
-                                throw new ApiErrorException('Invalid property value! did:' . $did . ',name: ' . $name);
+                                throw new ApiErrorException('Invalid property value! did:'.$did.',name: '.$name);
                             }
 
                             if (!$property->canWrite()) {
                                 throw new ApiErrorException(
-                                    'The property does\'t has the write access! did:' . $did . ',name: ' . $name
+                                    'The property does\'t has the write access! did:'.$did.',name: '.$name
                                 );
                             }
 
                             $properties[] = [
-                                'pid' => $did . '.' . $sid . '.' . $pids[$sindex],
+                                'pid'   => $did.'.'.$sid.'.'.$pids[$sindex],
                                 'value' => $tmpValue,
                             ];
                         }
@@ -345,17 +345,17 @@ class Api extends BaseApi
                         foreach ($propertiesNodes as $index => $property) {
                             if (in_array('read', $access)) {
                                 if ($property->canRead()) {
-                                    $properties[] = $device['did'] . '.' . $index;
+                                    $properties[] = $device['did'].'.'.$index;
                                 }
                             }
                             if (in_array('write', $access)) {
                                 if ($property->canWrite()) {
-                                    $properties[] = $device['did'] . '.' . $index;
+                                    $properties[] = $device['did'].'.'.$index;
                                 }
                             }
                             if (in_array('notify', $access)) {
                                 if ($property->canNotify()) {
-                                    $properties[] = $device['did'] . '.' . $index;
+                                    $properties[] = $device['did'].'.'.$index;
                                 }
                             }
                         }

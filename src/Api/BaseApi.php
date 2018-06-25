@@ -168,8 +168,8 @@ class BaseApi
      * 语音控制需要增加voice字段：GET /api/v1/properties?pid=AAAD.1.1,AAAD.2.3&voice={"recognition":"灯开了吗","semantics":"xxx"}.
      *
      * @param $pid
-     *
      * @param string $voice
+     *
      * @return array|mixed
      */
     public function properties($pid, $voice = '')

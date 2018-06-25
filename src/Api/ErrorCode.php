@@ -134,7 +134,7 @@ class ErrorCode
 
     public static function getPosition($positionCode)
     {
-        return ' Position : ' .
+        return ' Position : '.
             (isset(self::$positions[$positionCode]) ? self::$positions[$positionCode] : 'Unknow Position');
     }
 
@@ -146,8 +146,8 @@ class ErrorCode
     public static function getMiotErrorMessage($miotErrorCode)
     {
         if (preg_match('/\-70([0-9]{3})([0-9])([0-9]{3})/', $miotErrorCode, $matches)) {
-            return self::getHttpMessage($matches[1]) .
-                self::getErrorMessage($matches[2]) .
+            return self::getHttpMessage($matches[1]).
+                self::getErrorMessage($matches[2]).
                 self::getErrorMessage($matches[3]);
         }
 
@@ -156,13 +156,13 @@ class ErrorCode
 
     public static function getHttpMessage($httpCode)
     {
-        return ' HttpCodeMessage (' . $httpCode . '): ' .
+        return ' HttpCodeMessage ('.$httpCode.'): '.
             (isset(self::$httpCodes[$httpCode]) ? self::$httpCodes[$httpCode] : 'Unknow Http Code');
     }
 
     public static function getErrorMessage($errorCode)
     {
-        return ' ErrorMessage : ' .
+        return ' ErrorMessage : '.
             (isset(self::$errorCodes[$errorCode]) ? self::$errorCodes[$errorCode] : 'Unknow Error');
     }
 }

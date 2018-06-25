@@ -13,7 +13,7 @@ use stdClass;
 use Traversable;
 
 /**
- * Class Collection
+ * Class Collection.
  */
 class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate, Jsonable, JsonSerializable
 {
@@ -484,7 +484,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
             $operator = '=';
         }
 
-        /**
+        /*
          * @param $item
          * @return bool
          */

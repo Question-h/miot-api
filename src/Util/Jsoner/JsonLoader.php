@@ -48,7 +48,7 @@ class JsonLoader
         if (is_null($lastError)) {
             return $array;
         } else {
-            throw new JsonException($lastError['message'] . ' ' . $file);
+            throw new JsonException($lastError['message'].' '.$file);
         }
     }
 
@@ -68,7 +68,7 @@ class JsonLoader
             if (!mkdir($path, 0755, true)) {
                 $message = 'Could not create directory in';
 
-                throw new JsonException($message . ' ' . $path);
+                throw new JsonException($message.' '.$path);
             }
         }
     }
@@ -87,7 +87,7 @@ class JsonLoader
         if (file_put_contents($file, $json) === false) {
             $message = 'Could not create file in';
 
-            throw new JsonException($message . ' ' . $file);
+            throw new JsonException($message.' '.$file);
         }
     }
 
