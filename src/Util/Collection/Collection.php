@@ -12,6 +12,9 @@ use JsonSerializable;
 use stdClass;
 use Traversable;
 
+/**
+ * Class Collection
+ */
 class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate, Jsonable, JsonSerializable
 {
     use Macroable;
@@ -29,8 +32,22 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      * @var array
      */
     protected static $proxies = [
-        'average', 'avg', 'contains', 'each', 'every', 'filter', 'first', 'flatMap',
-        'keyBy', 'map', 'partition', 'reject', 'sortBy', 'sortByDesc', 'sum', 'unique',
+        'average',
+        'avg',
+        'contains',
+        'each',
+        'every',
+        'filter',
+        'first',
+        'flatMap',
+        'keyBy',
+        'map',
+        'partition',
+        'reject',
+        'sortBy',
+        'sortByDesc',
+        'sum',
+        'unique',
     ];
 
     /**
@@ -237,7 +254,8 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public function crossJoin(...$lists)
     {
         return new static(Arr::crossJoin(
-            $this->items, ...array_map([$this, 'getArrayableItems'], $lists)
+            $this->items,
+            ...array_map([$this, 'getArrayableItems'], $lists)
         ));
     }
 
@@ -466,6 +484,10 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
             $operator = '=';
         }
 
+        /**
+         * @param $item
+         * @return bool
+         */
         return function ($item) use ($key, $operator, $value) {
             $retrieved = Arr::data_get($item, $key);
 
@@ -480,15 +502,23 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
             switch ($operator) {
                 default:
                 case '=':
-                case '==':  return $retrieved == $value;
+                case '==':
+                    return $retrieved == $value;
                 case '!=':
-                case '<>':  return $retrieved != $value;
-                case '<':   return $retrieved < $value;
-                case '>':   return $retrieved > $value;
-                case '<=':  return $retrieved <= $value;
-                case '>=':  return $retrieved >= $value;
-                case '===': return $retrieved === $value;
-                case '!==': return $retrieved !== $value;
+                case '<>':
+                    return $retrieved != $value;
+                case '<':
+                    return $retrieved < $value;
+                case '>':
+                    return $retrieved > $value;
+                case '<=':
+                    return $retrieved <= $value;
+                case '>=':
+                    return $retrieved >= $value;
+                case '===':
+                    return $retrieved === $value;
+                case '!==':
+                    return $retrieved !== $value;
             }
         };
     }
@@ -784,7 +814,8 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public function intersectByKeys($items)
     {
         return new static(array_intersect_key(
-            $this->items, $this->getArrayableItems($items)
+            $this->items,
+            $this->getArrayableItems($items)
         ));
     }
 

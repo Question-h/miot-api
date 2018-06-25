@@ -5,6 +5,7 @@
  * Date: 18-6-14
  * Time: 下午7:32.
  */
+
 use MiotApi\Api\BaseApi;
 
 class BaseApiTest extends PHPUnit_Framework_TestCase
@@ -107,7 +108,7 @@ class BaseApiTest extends PHPUnit_Framework_TestCase
 
     public function testGet()
     {
-        var_dump($this->api->get('/api/v1/device-information', [
+        $this->assertArrayHasKey('device-information', $this->api->get('/api/v1/device-information', [
             'dids' => 'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA15ZWVsaW5rLW1vbm8xFRQYCDEzMTgwNzc2FWYA',
         ]));
     }

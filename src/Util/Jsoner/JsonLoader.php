@@ -48,7 +48,7 @@ class JsonLoader
         if (is_null($lastError)) {
             return $array;
         } else {
-            throw new JsonException($lastError['message'].' '.$file);
+            throw new JsonException($lastError['message'] . ' ' . $file);
         }
     }
 
@@ -68,7 +68,7 @@ class JsonLoader
             if (!mkdir($path, 0755, true)) {
                 $message = 'Could not create directory in';
 
-                throw new JsonException($message.' '.$path);
+                throw new JsonException($message . ' ' . $path);
             }
         }
     }
@@ -84,10 +84,10 @@ class JsonLoader
      */
     private static function saveFile($file, $json)
     {
-        if (@file_put_contents($file, $json) === false) {
+        if (file_put_contents($file, $json) === false) {
             $message = 'Could not create file in';
 
-            throw new JsonException($message.' '.$file);
+            throw new JsonException($message . ' ' . $file);
         }
     }
 
@@ -105,7 +105,7 @@ class JsonLoader
         if (!is_file($file) && !filter_var($file, FILTER_VALIDATE_URL)) {
             self::arrayToFile([], $file);
         }
-        $json = @file_get_contents($file);
+        $json = file_get_contents($file);
         $array = json_decode($json, true);
         $lastError = JsonLastError::check();
 

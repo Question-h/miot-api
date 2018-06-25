@@ -35,7 +35,7 @@ class EventSpecification extends Specification
         if ($this->has('arguments')) {
             $arguments = $this->__get('arguments');
             if (!empty($arguments)) {
-                foreach ($arguments as $index => $argument) {
+                foreach ($arguments as $argument) {
                     $this->arguments[] = new PropertySpecification($argument);
                 }
             }

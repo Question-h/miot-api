@@ -40,11 +40,11 @@ class BaseApi
      */
     private $specNS = 'miot-spec-v2';
 
-    private $http_client;
+    private $httpClient;
 
     private $host = 'api.home.mi.com';
 
-    private $prot = 443;
+    private $port = 443;
 
     private $timeout = 10;
 
@@ -102,9 +102,9 @@ class BaseApi
      */
     public function get($uri, $params = [])
     {
-        $http_client = $this->httpClient();
+        $httpClient = $this->httpClient();
 
-        $result = $http_client
+        $result = $httpClient
             ->setRequestURI($uri)
             ->setType('GET')
             ->setQueryParams($params)
@@ -119,7 +119,7 @@ class BaseApi
         } else {
             return [
                 'status'  => '-705002036',
-                'message' => $http_client->getError(),
+                'message' => $httpClient->getError(),
             ];
         }
     }
@@ -131,12 +131,12 @@ class BaseApi
      */
     private function httpClient()
     {
-        $this->http_client = new Request($this->host, '', $this->prot, true, $this->timeout);
-        $this->http_client->setHeader('App-Id', $this->appId);
-        $this->http_client->setHeader('Access-Token', $this->accessToken);
-        $this->http_client->setHeader('Spec-NS', $this->specNS);
+        $this->httpClient = new Request($this->host, '', $this->port, true, $this->timeout);
+        $this->httpClient->setHeader('App-Id', $this->appId);
+        $this->httpClient->setHeader('Access-Token', $this->accessToken);
+        $this->httpClient->setHeader('Spec-NS', $this->specNS);
 
-        return $this->http_client;
+        return $this->httpClient;
     }
 
     /**
@@ -169,6 +169,7 @@ class BaseApi
      *
      * @param $pid
      *
+     * @param string $voice
      * @return array|mixed
      */
     public function properties($pid, $voice = '')
@@ -222,10 +223,10 @@ class BaseApi
      */
     public function put($uri, $data)
     {
-        $http_client = $this->httpClient();
-        $http_client->setAdditionalCurlOpt(CURLOPT_POSTFIELDS, $data);
+        $httpClient = $this->httpClient();
+        $httpClient->setAdditionalCurlOpt(CURLOPT_POSTFIELDS, $data);
 
-        $result = $http_client
+        $result = $httpClient
             ->setRequestURI($uri)
             ->setType('PUT')
             ->execute()
@@ -239,7 +240,7 @@ class BaseApi
         } else {
             return [
                 'status'  => '-705002036',
-                'message' => $http_client->getError(),
+                'message' => $httpClient->getError(),
             ];
         }
     }
@@ -283,14 +284,14 @@ class BaseApi
     /**
      * 主动触发某个场景.
      *
-     * @param $scene_id
+     * @param $sceneId
      *
      * @return array|bool|mixed
      */
-    public function triggerScene($scene_id)
+    public function triggerScene($sceneId)
     {
         $data = [
-            'id' => $scene_id,
+            'id' => $sceneId,
         ];
         $data = json_encode($data);
 
@@ -307,10 +308,10 @@ class BaseApi
      */
     public function post($uri, $data)
     {
-        $http_client = $this->httpClient();
-        $http_client->setAdditionalCurlOpt(CURLOPT_POSTFIELDS, $data);
+        $httpClient = $this->httpClient();
+        $httpClient->setAdditionalCurlOpt(CURLOPT_POSTFIELDS, $data);
 
-        $result = $http_client
+        $result = $httpClient
             ->setRequestURI($uri)
             ->setType('POST')
             ->execute()
@@ -324,7 +325,7 @@ class BaseApi
         } else {
             return [
                 'status'  => '-705002036',
-                'message' => $http_client->getError(),
+                'message' => $httpClient->getError(),
             ];
         }
     }
@@ -466,10 +467,10 @@ class BaseApi
      */
     public function delete($uri, $data)
     {
-        $http_client = $this->httpClient();
-        $http_client->setAdditionalCurlOpt(CURLOPT_POSTFIELDS, $data);
+        $httpClient = $this->httpClient();
+        $httpClient->setAdditionalCurlOpt(CURLOPT_POSTFIELDS, $data);
 
-        $result = $http_client
+        $result = $httpClient
             ->setRequestURI($uri)
             ->setType('DELETE')
             ->execute()
@@ -483,7 +484,7 @@ class BaseApi
         } else {
             return [
                 'status'  => '-705002036',
-                'message' => $http_client->getError(),
+                'message' => $httpClient->getError(),
             ];
         }
     }

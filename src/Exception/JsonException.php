@@ -12,6 +12,8 @@ use Exception;
 
 class JsonException extends Exception
 {
+    private $statusCode;
+
     /**
      * Exception handler.
      *

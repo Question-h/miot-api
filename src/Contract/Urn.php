@@ -60,7 +60,7 @@ class Urn implements UrnInterface
      *
      * @var
      */
-    private $base_urn;
+    private $baseUrn;
 
     /**
      * 预订义的小米 URN 规范所包含的字段
@@ -68,7 +68,7 @@ class Urn implements UrnInterface
      *
      * @var array
      */
-    private $base_columns = [
+    private $baseColumns = [
         'urn',
         'namespace',
         'type',
@@ -96,7 +96,7 @@ class Urn implements UrnInterface
      *
      * @var array
      */
-    private $valid_namespaces = [
+    private $validNamespaces = [
         'miot-spec',        // 小米定义的规范
         'miot-spec-v2',     // 小米定义的规范版本2
         'bluetooth-spec',   // 蓝牙联盟定义的规范
@@ -121,7 +121,7 @@ class Urn implements UrnInterface
      *
      * @var array
      */
-    private $valid_types = [
+    private $validTypes = [
         'property',     // 属性
         'action',       // 方法
         'event',        // 事件
@@ -149,7 +149,7 @@ class Urn implements UrnInterface
      *
      * @var string
      */
-    private $name_reg = '/^[a-z][a-z\-]*[a-z]$/';
+    private $nameReg = '/^[a-z][a-z\-]*[a-z]$/';
 
     /**
      * 16进制字符串，使用UUID前8个字符，如：.
@@ -167,7 +167,7 @@ class Urn implements UrnInterface
      *
      * @var string
      */
-    private $value_reg = '/^([0-9A-F]{8})$/';
+    private $valueReg = '/^([0-9A-F]{8})$/';
 
     /**
      * 厂家+产品代号 (这个字段只有在设备实例定义里出现)
@@ -178,9 +178,9 @@ class Urn implements UrnInterface
      * zhimi-vv
      * benz-c63
      *
-     * @var 
+     * @var string
      */
-    private $vendor_product;
+    private $vendorProduct;
 
     /**
      * 厂家+产品代号正则
@@ -189,7 +189,7 @@ class Urn implements UrnInterface
      *
      * @var string
      */
-    private $vendor_product_reg = '/^([a-z0-9\-]+)$/';
+    private $vendorProductReg = '/^([a-z0-9\-]+)$/';
 
     /**
      * 版本号，只能是数字 (这个字段只有在设备实例定义里出现)
@@ -277,7 +277,7 @@ class Urn implements UrnInterface
      */
     public function setNamespace($namespace)
     {
-        if (!in_array($namespace, $this->valid_namespaces)) {
+        if (!in_array($namespace, $this->validNamespaces)) {
             throw new SpecificationErrorException('非法 namespace');
         }
 
@@ -299,7 +299,7 @@ class Urn implements UrnInterface
      */
     public function setType($type)
     {
-        if (!in_array($type, $this->valid_types)) {
+        if (!in_array($type, $this->validTypes)) {
             throw new SpecificationErrorException('非法 type');
         }
 
@@ -321,7 +321,7 @@ class Urn implements UrnInterface
      */
     public function setName($name)
     {
-        if (!preg_match($this->name_reg, $name)) {
+        if (!preg_match($this->nameReg, $name)) {
             throw new SpecificationErrorException('非法 name');
         }
 
@@ -343,7 +343,7 @@ class Urn implements UrnInterface
      */
     public function setValue($value)
     {
-        if (!preg_match($this->value_reg, $value)) {
+        if (!preg_match($this->valueReg, $value)) {
             throw new SpecificationErrorException('非法 value');
         }
 
@@ -355,21 +355,21 @@ class Urn implements UrnInterface
      */
     public function getVendorProduct()
     {
-        return $this->vendor_product;
+        return $this->vendorProduct;
     }
 
     /**
-     * @param mixed $vendor_product
+     * @param mixed $vendorProduct
      *
      * @throws SpecificationErrorException
      */
-    public function setVendorProduct($vendor_product)
+    public function setVendorProduct($vendorProduct)
     {
-        if (!preg_match($this->vendor_product_reg, $vendor_product)) {
+        if (!preg_match($this->vendorProductReg, $vendorProduct)) {
             throw new SpecificationErrorException('非法 厂家+产品代号');
         }
 
-        $this->vendor_product = $vendor_product;
+        $this->vendorProduct = $vendorProduct;
     }
 
     /**
@@ -399,7 +399,7 @@ class Urn implements UrnInterface
      */
     public function getBaseUrn()
     {
-        return $this->base_urn;
+        return $this->baseUrn;
     }
 
     /**
@@ -407,23 +407,23 @@ class Urn implements UrnInterface
      */
     private function setBaseUrn()
     {
-        $base_urn = '';
+        $baseUrn = '';
 
-        foreach ($this->base_columns as $index => $column) {
-            $fncName = 'get'.ucfirst(
+        foreach ($this->baseColumns as $column) {
+            $fncName = 'get' . ucfirst(
                     preg_replace_callback('/_([a-zA-Z])/', function ($match) {
                         return strtoupper($match[1]);
                     }, $column)
                 );
 
             if (method_exists($this, $fncName) && $this->{$fncName}()) {
-                $base_urn .= $this->delimiter.$this->{$fncName}();
+                $baseUrn .= $this->delimiter . $this->{$fncName}();
             }
         }
 
-        $this->base_urn = trim($base_urn, $this->delimiter);
+        $this->baseUrn = trim($baseUrn, $this->delimiter);
 
-        return $this->base_urn;
+        return $this->baseUrn;
     }
 
     /**
@@ -443,15 +443,15 @@ class Urn implements UrnInterface
     {
         $expression = '';
 
-        foreach ($this->columns as $index => $column) {
-            $fncName = 'get'.ucfirst(
+        foreach ($this->columns as $column) {
+            $fncName = 'get' . ucfirst(
                     preg_replace_callback('/_([a-zA-Z])/', function ($match) {
                         return strtoupper($match[1]);
                     }, $column)
                 );
 
             if (method_exists($this, $fncName) && $this->{$fncName}()) {
-                $expression .= $this->delimiter.$this->{$fncName}();
+                $expression .= $this->delimiter . $this->{$fncName}();
             }
         }
 
@@ -470,7 +470,7 @@ class Urn implements UrnInterface
         $parses = explode($this->delimiter, $this->original);
 
         foreach ($this->columns as $index => $column) {
-            $fncName = 'set'.ucfirst(
+            $fncName = 'set' . ucfirst(
                     preg_replace_callback('/_([a-zA-Z])/', function ($match) {
                         return strtoupper($match[1]);
                     }, $column)

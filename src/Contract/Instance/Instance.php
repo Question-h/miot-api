@@ -43,7 +43,7 @@ class Instance extends Specification
         if ($this->has('services')) {
             $services = $this->get('services');
             if (!empty($services)) {
-                foreach ($services as $index => $service) {
+                foreach ($services as $service) {
                     $this->servicesNode[$service['iid']] = new Service($service);
                 }
             }
@@ -87,10 +87,10 @@ class Instance extends Specification
         $sids = false;
         $pids = false;
         if (!empty($this->servicesNode)) {
-            foreach ($this->servicesNode as $sindex => $service) {
+            foreach ($this->servicesNode as $service) {
                 $properties = $this->getPropertiesNode($service->getIid());
                 if (!empty($properties)) {
-                    foreach ($properties as $pindex => $property) {
+                    foreach ($properties as $property) {
                         if ($property->getUrn()->getName() == $name) {
                             $sids[] = $service->getIid();
                             $pids[] = $property->getIid();
@@ -132,7 +132,7 @@ class Instance extends Specification
             foreach ($services as $index => $service) {
                 if (!empty($this->getPropertiesNode($index))) {
                     foreach ($this->getPropertiesNode($index) as $i => $item) {
-                        $propertiesNodes[($index.'.'.$i)] = $item;
+                        $propertiesNodes[($index . '.' . $i)] = $item;
                     }
                 }
             }

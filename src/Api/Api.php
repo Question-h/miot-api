@@ -65,7 +65,6 @@ class Api extends BaseApi
      * @param $data | $data = ['brightness', 'on']
      *
      * @throws ApiErrorException
-     * @throws \MiotApi\Exception\JsonException
      * @throws \MiotApi\Exception\SpecificationErrorException
      *
      * @return array|bool|mixed
@@ -86,10 +85,11 @@ class Api extends BaseApi
      * 按照名称获取多个设备属性.
      *
      * @param $data
-     * $data = ['AABBCD-did' => ['type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1', data => ['brightness', 'on']]]
+     * $data = ['AABBCD-did' =>
+     * ['type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1', data => ['brightness', 'on']]
+     * ]
      *
      * @throws ApiErrorException
-     * @throws \MiotApi\Exception\JsonException
      * @throws \MiotApi\Exception\SpecificationErrorException
      *
      * @return array|bool|mixed
@@ -111,17 +111,19 @@ class Api extends BaseApi
                             list($sids, $pids) = $instance->getSidPidByName($name);
 
                             if (!$sids || !$pids) {
-                                throw new ApiErrorException('Invalid property! did:'.$did.',name: '.$name);
+                                throw new ApiErrorException('Invalid property! did:' . $did . ',name: ' . $name);
                             }
 
                             foreach ($sids as $sindex => $sid) {
-                                $property = $propertiesNodes[($sid.'.'.$pids[$sindex])];
+                                $property = $propertiesNodes[($sid . '.' . $pids[$sindex])];
 
                                 if (!$property->canRead()) {
-                                    throw new ApiErrorException('The property does\'t has the read access! did:'.$did.',name: '.$name);
+                                    throw new ApiErrorException(
+                                        'The property does\'t has the read access! did:' . $did . ',name: ' . $name
+                                    );
                                 }
 
-                                $properties[] = $did.'.'.$sid.'.'.$pids[$sindex];
+                                $properties[] = $did . '.' . $sid . '.' . $pids[$sindex];
                             }
                         }
                     } else {
@@ -130,17 +132,19 @@ class Api extends BaseApi
                             list($sids, $pids) = $instance->getSidPidByName($name);
 
                             if (!$sids || !$pids) {
-                                throw new ApiErrorException('Invalid property! did:'.$did.',name: '.$name);
+                                throw new ApiErrorException('Invalid property! did:' . $did . ',name: ' . $name);
                             }
 
                             foreach ($sids as $sindex => $sid) {
-                                $property = $propertiesNodes[($sid.'.'.$pids[$sindex])];
+                                $property = $propertiesNodes[($sid . '.' . $pids[$sindex])];
 
                                 if (!$property->canRead()) {
-                                    throw new ApiErrorException('The property does\'t has the read access! did:'.$did.',name: '.$name);
+                                    throw new ApiErrorException(
+                                        'The property does\'t has the read access! did:' . $did . ',name: ' . $name
+                                    );
                                 }
 
-                                $properties[] = $did.'.'.$sid.'.'.$pids[$sindex];
+                                $properties[] = $did . '.' . $sid . '.' . $pids[$sindex];
                             }
                         }
                     }
@@ -151,18 +155,16 @@ class Api extends BaseApi
 
             $response = $this->properties(array_unique($properties));
             if (isset($response['properties']) && !empty($response['properties'])) {
-                foreach ($response['properties'] as $index => $res) {
+                foreach ($response['properties'] as $res) {
                     $pidArr = explode('.', $res['pid']);
-                    if (
-                        isset($res['value']) // 是否获取到了值
+                    if (isset($res['value']) // 是否获取到了值
                         && isset($res['status']) // 是否有返回状态
                         && $res['status'] == 0 // 是否正常返回
                         && isset($pidArr[0]) // did
                         && isset($pidArr[1]) // sid
                         && isset($pidArr[2]) // pid
-                        && isset($instances[$pidArr[0]][($pidArr[1].'.'.$pidArr[2])]) // 是否有对应属性
-                    ) {
-                        $attributeName = $instances[$pidArr[0]][($pidArr[1].'.'.$pidArr[2])]->getUrn()->getName();
+                        && isset($instances[$pidArr[0]][($pidArr[1] . '.' . $pidArr[2])])) {
+                        $attributeName = $instances[$pidArr[0]][($pidArr[1] . '.' . $pidArr[2])]->getUrn()->getName();
 
                         if (isset($attributes[$pidArr[0]][$attributeName])) {
                             if (is_array($attributes[$pidArr[0]][$attributeName])) {
@@ -219,7 +221,9 @@ class Api extends BaseApi
      * 按照名称设置多个设备属性.
      *
      * @param $data
-     * $data = ['AABBCD-did' => ['type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1', data => ['brightness' => 75, 'on' => true]]]
+     * $data = ['AABBCD-did' =>
+     * ['type' => 'urn:miot-spec-v2:device:light:0000A001:yeelink-color1:1', data => ['brightness' => 75, 'on' => true]]
+     * ]
      *
      * @throws ApiErrorException
      * @throws \MiotApi\Exception\JsonException
@@ -240,31 +244,35 @@ class Api extends BaseApi
                         list($sids, $pids) = $instance->getSidPidByName($name);
 
                         if (!$sids || !$pids) {
-                            throw new ApiErrorException('Invalid property! did:'.$did.',name: '.$name);
+                            throw new ApiErrorException('Invalid property! did:' . $did . ',name: ' . $name);
                         }
 
                         foreach ($sids as $sindex => $sid) {
-                            $property = $propertiesNodes[($sid.'.'.$pids[$sindex])];
+                            $property = $propertiesNodes[($sid . '.' . $pids[$sindex])];
 
                             if (!is_array($value)) {
                                 $tmpValue = $value;
                             } else {
                                 if (!isset($value[$sindex])) {
-                                    throw new ApiErrorException('Invalid property value! did:'.$did.',name: '.$name);
+                                    throw new ApiErrorException(
+                                        'Invalid property value! did:' . $did . ',name: ' . $name
+                                    );
                                 }
                                 $tmpValue = $value[$sindex];
                             }
 
                             if (!$property->verify($tmpValue)) {
-                                throw new ApiErrorException('Invalid property value! did:'.$did.',name: '.$name);
+                                throw new ApiErrorException('Invalid property value! did:' . $did . ',name: ' . $name);
                             }
 
                             if (!$property->canWrite()) {
-                                throw new ApiErrorException('The property does\'t has the write access! did:'.$did.',name: '.$name);
+                                throw new ApiErrorException(
+                                    'The property does\'t has the write access! did:' . $did . ',name: ' . $name
+                                );
                             }
 
                             $properties[] = [
-                                'pid'   => $did.'.'.$sid.'.'.$pids[$sindex],
+                                'pid' => $did . '.' . $sid . '.' . $pids[$sindex],
                                 'value' => $tmpValue,
                             ];
                         }
@@ -330,24 +338,24 @@ class Api extends BaseApi
         try {
             $properties = [];
             if (!empty($devices) && !isset($devices['status'])) {
-                foreach ($devices as $dindex => $device) {
+                foreach ($devices as $device) {
                     $instance = new Instance($device['type']);
                     $propertiesNodes = $instance->getPropertiesNodes();
                     if (!empty($propertiesNodes)) {
                         foreach ($propertiesNodes as $index => $property) {
                             if (in_array('read', $access)) {
                                 if ($property->canRead()) {
-                                    $properties[] = $device['did'].'.'.$index;
+                                    $properties[] = $device['did'] . '.' . $index;
                                 }
                             }
                             if (in_array('write', $access)) {
                                 if ($property->canWrite()) {
-                                    $properties[] = $device['did'].'.'.$index;
+                                    $properties[] = $device['did'] . '.' . $index;
                                 }
                             }
                             if (in_array('notify', $access)) {
                                 if ($property->canNotify()) {
-                                    $properties[] = $device['did'].'.'.$index;
+                                    $properties[] = $device['did'] . '.' . $index;
                                 }
                             }
                         }

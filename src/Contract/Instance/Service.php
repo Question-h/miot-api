@@ -60,7 +60,7 @@ class Service extends Specification
         if ($this->has('properties')) {
             $properties = $this->get('properties');
             if (!empty($properties)) {
-                foreach ($properties as $index => $property) {
+                foreach ($properties as $property) {
                     $this->propertiesNode[$property['iid']] = new Property($property);
                 }
             }

@@ -268,9 +268,9 @@ class Request
     public function execute()
     {
         if ($this->useCurl) {
-            $this->curl_execute();
+            $this->curlExecute();
         } else {
-            $this->fsockget_execute();
+            $this->fsockgetExecute();
         }
 
         return $this;
@@ -279,7 +279,7 @@ class Request
     /**
      * curl请求方式.
      */
-    protected function curl_execute()
+    protected function curlExecute()
     {
         $uri = $this->uri;
         $host = $this->host;
@@ -309,7 +309,7 @@ class Request
         // Set additional headers.
         $headers = [];
         foreach ($this->headers as $name => $val) {
-            $headers[] = $name.': '.$val;
+            $headers[] = $name . ': ' . $val;
         }
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         // Do stuff it it's HTTPS/SSL.
@@ -326,13 +326,13 @@ class Request
             }
         }
         // Build and set URL.
-        $url = $protocol.'://'.$host.$uri.$query;
+        $url = $protocol . '://' . $host . $uri . $query;
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_PORT, $port);
         // Add any authentication to the request.
         // Currently supports only HTTP Basic Auth.
         if ($this->useBasicAuth === true) {
-            curl_setopt($ch, CURLOPT_USERPWD, $this->authUsername.':'.$this->authPassword);
+            curl_setopt($ch, CURLOPT_USERPWD, $this->authUsername . ':' . $this->authPassword);
             curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         }
         // Execute!
@@ -358,21 +358,24 @@ class Request
      */
     public function param($data)
     {
-        $data_array = [];
-        foreach ($data as $key => $val) {
-            if (!is_string($val)) {
-                $val = json_encode($val);
+        $dataArray = [];
+
+        if (!empty($data)) {
+            foreach ($data as $key => $val) {
+                if (!is_string($val)) {
+                    $val = json_encode($val);
+                }
+                $dataArray[] = urlencode($key) . '=' . urlencode($val);
             }
-            $data_array[] = urlencode($key).'='.urlencode($val);
         }
 
-        return implode('&', $data_array);
+        return implode('&', $dataArray);
     }
 
     /**
      * fsock请求方式.
      */
-    protected function fsockget_execute()
+    protected function fsockgetExecute()
     {
         $uri = $this->uri;
         $host = $this->host;
@@ -410,14 +413,17 @@ class Request
             }
         }
         if ($this->useBasicAuth === true) {
-            $this->setHeader('Authorization', 'Basic '.base64_encode($this->authUsername.':'.$this->authPassword));
+            $this->setHeader(
+                'Authorization',
+                'Basic ' . base64_encode($this->authUsername . ':' . $this->authPassword)
+            );
         }
         $headers = $this->headers;
         $req = '';
-        $req .= $type.' '.$uri.(isset($get_data) ? '?'.$get_data : '').' HTTP/'.$HTTPVersion.$crlf;
-        $req .= 'Host: '.$host.$crlf;
+        $req .= $type . ' ' . $uri . (isset($get_data) ? '?' . $get_data : '') . ' HTTP/' . $HTTPVersion . $crlf;
+        $req .= 'Host: ' . $host . $crlf;
         foreach ($headers as $header => $content) {
-            $req .= $header.': '.$content.$crlf;
+            $req .= $header . ': ' . $content . $crlf;
         }
         $req .= $crlf;
         if ($type === 'POST') {
@@ -427,14 +433,14 @@ class Request
         }
 
         // Construct hostname.
-        $fsock_host = ($port == 443 ? 'ssl://' : '').$host;
+        $fsock_host = ($port == 443 ? 'ssl://' : '') . $host;
 
         // Open socket.
         $httpreq = @fsockopen($fsock_host, $port, $errno, $errstr, 30);
 
         // Handle an error.
         if (!$httpreq) {
-            $this->error = $errno.': '.$errstr;
+            $this->error = $errno . ': ' . $errstr;
 
             return false;
         }
@@ -448,7 +454,7 @@ class Request
         }
 
         // Extract the headers and the responseText.
-        list($headers, $responseText) = explode($crlf.$crlf, $rsp);
+        list($headers, $responseText) = explode($crlf . $crlf, $rsp);
 
         // Store the finalized response.
         $this->response = $rsp;
@@ -476,18 +482,18 @@ class Request
             return false;
         }
         if ($this->useCurl) {
-            $this->curl_close();
+            $this->curlClose();
         } else {
-            $this->fsockget_close();
+            $this->fsockgetClose();
         }
     }
 
-    protected function curl_close()
+    protected function curlClose()
     {
         curl_close($this->curl);
     }
 
-    protected function fsockget_close()
+    protected function fsockgetClose()
     {
         fclose($this->fsock);
     }

@@ -27,7 +27,8 @@ class Jsoner extends Collection
     public static function load($file)
     {
         try {
-            $items = JsonLoader::fileToArray(self::getCacheDir().$file.self::SUFFIX);
+            $file = str_replace(':', '_', $file);
+            $items = JsonLoader::fileToArray(self::getCacheDir() . $file . self::SUFFIX);
 
             if (!empty($items) && !isset($items['error-code'])) {
                 return self::make($items);
@@ -50,7 +51,8 @@ class Jsoner extends Collection
     public static function fill($data, $file)
     {
         try {
-            $items = JsonLoader::dataToFile($data, self::getCacheDir().$file.self::SUFFIX);
+            $file = str_replace(':', '_', $file);
+            $items = JsonLoader::dataToFile($data, self::getCacheDir() . $file . self::SUFFIX);
             if (!empty($items) && !isset($items['error-code'])) {
                 return self::make($items);
             }
@@ -72,7 +74,8 @@ class Jsoner extends Collection
     public static function fillArray($array, $file)
     {
         try {
-            $items = JsonLoader::arrayToFile($array, self::getCacheDir().$file.self::SUFFIX);
+            $file = str_replace(':', '_', $file);
+            $items = JsonLoader::arrayToFile($array, self::getCacheDir() . $file . self::SUFFIX);
             if (!empty($items) && !isset($items['error-code'])) {
                 return self::make($items);
             }
@@ -90,6 +93,9 @@ class Jsoner extends Collection
      */
     public static function getCacheDir()
     {
-        return dirname(dirname(dirname(__DIR__))).DIRECTORY_SEPARATOR.self::CACHE_DIR.DIRECTORY_SEPARATOR;
+        return dirname(dirname(dirname(__DIR__))) .
+            DIRECTORY_SEPARATOR .
+            self::CACHE_DIR .
+            DIRECTORY_SEPARATOR;
     }
 }

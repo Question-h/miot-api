@@ -15,7 +15,7 @@ class ErrorCode
      *
      * @var array
      */
-    public static $http_codes = [
+    public static $httpCodes = [
         100 => 'Continue',
         101 => 'Switching Protocols',
         102 => 'Processing', // WebDAV; RFC 2518
@@ -105,7 +105,7 @@ class ErrorCode
         4 => 'MIOT-SPEC',
     ];
 
-    public static $error_code = [
+    public static $errorCodes = [
         '001' => 'Device不存在',
         '002' => 'Service不存在',
         '003' => 'Property不存在',
@@ -132,32 +132,37 @@ class ErrorCode
         '905' => '设备未绑定',
     ];
 
-    public static function getPosition($position_code)
+    public static function getPosition($positionCode)
     {
-        return ' Position : '.(isset(self::$positions[$position_code]) ? self::$positions[$position_code] : 'Unknow Position');
+        return ' Position : ' .
+            (isset(self::$positions[$positionCode]) ? self::$positions[$positionCode] : 'Unknow Position');
     }
 
     /**
-     * @param array $miot_error_code
+     * @param array $miotErrorCode
      *
      * @return string
      */
-    public static function getMiotErrorMessage($miot_error_code)
+    public static function getMiotErrorMessage($miotErrorCode)
     {
-        if (preg_match('/\-70([0-9]{3})([0-9])([0-9]{3})/', $miot_error_code, $matches)) {
-            return self::getHttpMessage($matches[1]).self::getErrorMessage($matches[2]).self::getErrorMessage($matches[3]);
+        if (preg_match('/\-70([0-9]{3})([0-9])([0-9]{3})/', $miotErrorCode, $matches)) {
+            return self::getHttpMessage($matches[1]) .
+                self::getErrorMessage($matches[2]) .
+                self::getErrorMessage($matches[3]);
         }
 
         return 'Unknow Error';
     }
 
-    public static function getHttpMessage($http_code)
+    public static function getHttpMessage($httpCode)
     {
-        return ' HttpCodeMessage ('.$http_code.'): '.(isset(self::$http_codes[$http_code]) ? self::$http_codes[$http_code] : 'Unknow Http Code');
+        return ' HttpCodeMessage (' . $httpCode . '): ' .
+            (isset(self::$httpCodes[$httpCode]) ? self::$httpCodes[$httpCode] : 'Unknow Http Code');
     }
 
-    public static function getErrorMessage($error_code)
+    public static function getErrorMessage($errorCode)
     {
-        return ' ErrorMessage : '.(isset(self::$error_code[$error_code]) ? self::$error_code[$error_code] : 'Unknow Error');
+        return ' ErrorMessage : ' .
+            (isset(self::$errorCodes[$errorCode]) ? self::$errorCodes[$errorCode] : 'Unknow Error');
     }
 }
