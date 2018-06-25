@@ -66,7 +66,7 @@ class RemoteSpec extends Jsoner
      */
     public static function properties()
     {
-        $file = self::SPEC . DIRECTORY_SEPARATOR . self::PROPERTIES;
+        $file = self::SPEC.DIRECTORY_SEPARATOR.self::PROPERTIES;
 
         return self::__instances($file);
     }
@@ -78,7 +78,7 @@ class RemoteSpec extends Jsoner
      */
     public static function actions()
     {
-        $file = self::SPEC . DIRECTORY_SEPARATOR . self::ACTIONS;
+        $file = self::SPEC.DIRECTORY_SEPARATOR.self::ACTIONS;
 
         return self::__instances($file);
     }
@@ -90,7 +90,7 @@ class RemoteSpec extends Jsoner
      */
     public static function events()
     {
-        $file = self::SPEC . DIRECTORY_SEPARATOR . self::EVENTS;
+        $file = self::SPEC.DIRECTORY_SEPARATOR.self::EVENTS;
 
         return self::__instances($file);
     }
@@ -102,7 +102,7 @@ class RemoteSpec extends Jsoner
      */
     public static function services()
     {
-        $file = self::SPEC . DIRECTORY_SEPARATOR . self::SERVICES;
+        $file = self::SPEC.DIRECTORY_SEPARATOR.self::SERVICES;
 
         return self::__instances($file);
     }
@@ -114,7 +114,7 @@ class RemoteSpec extends Jsoner
      */
     public static function devices()
     {
-        $file = self::SPEC . DIRECTORY_SEPARATOR . self::DEVICES;
+        $file = self::SPEC.DIRECTORY_SEPARATOR.self::DEVICES;
 
         return self::__instances($file);
     }
@@ -126,7 +126,7 @@ class RemoteSpec extends Jsoner
      */
     public static function instance($type)
     {
-        $file = self::INSTANCE . DIRECTORY_SEPARATOR . $type;
+        $file = self::INSTANCE.DIRECTORY_SEPARATOR.$type;
         $uri = self::INSTANCE;
         $params = [
             'type' => $type,
@@ -145,8 +145,8 @@ class RemoteSpec extends Jsoner
     public static function property($type)
     {
         $type = self::getBaseType($type);
-        $file = self::PROPERTY . DIRECTORY_SEPARATOR . $type;
-        $uri = self::SPEC . DIRECTORY_SEPARATOR . self::PROPERTY;
+        $file = self::PROPERTY.DIRECTORY_SEPARATOR.$type;
+        $uri = self::SPEC.DIRECTORY_SEPARATOR.self::PROPERTY;
         $params = [
             'type' => $type,
         ];
@@ -164,8 +164,8 @@ class RemoteSpec extends Jsoner
     public static function action($type)
     {
         $type = self::getBaseType($type);
-        $file = self::ACTION . DIRECTORY_SEPARATOR . $type;
-        $uri = self::SPEC . DIRECTORY_SEPARATOR . self::ACTION;
+        $file = self::ACTION.DIRECTORY_SEPARATOR.$type;
+        $uri = self::SPEC.DIRECTORY_SEPARATOR.self::ACTION;
         $params = [
             'type' => $type,
         ];
@@ -183,8 +183,8 @@ class RemoteSpec extends Jsoner
     public static function event($type)
     {
         $type = self::getBaseType($type);
-        $file = self::EVENT . DIRECTORY_SEPARATOR . $type;
-        $uri = self::SPEC . DIRECTORY_SEPARATOR . self::EVENT;
+        $file = self::EVENT.DIRECTORY_SEPARATOR.$type;
+        $uri = self::SPEC.DIRECTORY_SEPARATOR.self::EVENT;
         $params = [
             'type' => $type,
         ];
@@ -202,8 +202,8 @@ class RemoteSpec extends Jsoner
     public static function service($type)
     {
         $type = self::getBaseType($type);
-        $file = self::SERVICE . DIRECTORY_SEPARATOR . $type;
-        $uri = self::SPEC . DIRECTORY_SEPARATOR . self::SERVICE;
+        $file = self::SERVICE.DIRECTORY_SEPARATOR.$type;
+        $uri = self::SPEC.DIRECTORY_SEPARATOR.self::SERVICE;
         $params = [
             'type' => $type,
         ];
@@ -221,8 +221,8 @@ class RemoteSpec extends Jsoner
     public static function device($type)
     {
         $type = self::getBaseType($type);
-        $file = self::DEVICE . DIRECTORY_SEPARATOR . $type;
-        $uri = self::SPEC . DIRECTORY_SEPARATOR . self::DEVICE;
+        $file = self::DEVICE.DIRECTORY_SEPARATOR.$type;
+        $uri = self::SPEC.DIRECTORY_SEPARATOR.self::DEVICE;
         $params = [
             'type' => $type,
         ];
@@ -300,7 +300,7 @@ class RemoteSpec extends Jsoner
     {
         $http = new Request(
             self::$host,
-            '/' . self::$namespaces . '/' . $uri,
+            '/'.self::$namespaces.'/'.$uri,
             self::$prot,
             true,
             self::$timeout
