@@ -125,6 +125,7 @@ class JsonLoader
 
                 $file = str_replace(Jsoner::getCacheDir(), 'miot_json_cache:', $file);
                 $file = str_replace(['/', '\\'], ':', $file);
+
                 return $redis->set($file, $json);
             } else {
                 return file_put_contents($file, $json);
@@ -140,6 +141,7 @@ class JsonLoader
 
                 $file = str_replace(Jsoner::getCacheDir(), 'miot_json_cache:', $file);
                 $file = str_replace(['/', '\\'], ':', $file);
+
                 return $redis->get($file);
             } else {
                 return file_get_contents($file);
