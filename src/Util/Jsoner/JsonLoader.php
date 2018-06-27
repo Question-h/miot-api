@@ -13,6 +13,11 @@ use MiotApi\Exception\JsonException;
 class JsonLoader
 {
     /**
+     * Use redis or file ?
+     */
+    const USE_REDIS = true;
+
+    /**
      * Creating JSON file from data.
      *
      * @param string $data → JSON data
@@ -84,7 +89,7 @@ class JsonLoader
      */
     private static function saveFile($file, $json)
     {
-        if (file_put_contents($file, $json) === false) {
+        if (self::putContent($file, $json) === false) {
             $message = 'Could not create file in';
 
             throw new JsonException($message.' '.$file);
@@ -105,10 +110,40 @@ class JsonLoader
         if (!is_file($file) && !filter_var($file, FILTER_VALIDATE_URL)) {
             self::arrayToFile([], $file);
         }
-        $json = file_get_contents($file);
+        $json = self::getContent($file);
         $array = json_decode($json, true);
         $lastError = JsonLastError::check();
 
         return $array === null || !is_null($lastError) ? false : $array;
+    }
+
+    private function putContent($file, $json)
+    {
+        if (self::USE_REDIS) {
+            if (method_exists(Redis::class, 'connection')) {
+                $redis = Redis::connection();
+
+                $file = str_replace(Jsoner::getCacheDir(), 'miot_json_cache:', $file);
+                $file = str_replace(['/', '\\'], ':', $file);
+                return $redis->set($file, $json);
+            } else {
+                return file_put_contents($file, $json);
+            }
+        }
+    }
+
+    private function getContent($file)
+    {
+        if (self::USE_REDIS) {
+            if (method_exists(Redis::class, 'connection')) {
+                $redis = Redis::connection();
+
+                $file = str_replace(Jsoner::getCacheDir(), 'miot_json_cache:', $file);
+                $file = str_replace(['/', '\\'], ':', $file);
+                return $redis->get($file);
+            } else {
+                return file_get_contents($file);
+            }
+        }
     }
 }
