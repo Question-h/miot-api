@@ -123,6 +123,7 @@ class JsonLoader
                 return \Redis::set($file, $json);
             } else {
                 self::createDirectory($file);
+
                 return file_put_contents($file, $json);
             }
         }
