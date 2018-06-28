@@ -46,7 +46,6 @@ class JsonLoader
      */
     public static function arrayToFile($array, $file)
     {
-        self::createDirectory($file);
         $lastError = JsonLastError::check();
         $json = json_encode($lastError ? $lastError : $array, JSON_PRETTY_PRINT);
         self::saveFile($file, $json);
@@ -107,9 +106,6 @@ class JsonLoader
      */
     public static function fileToArray($file)
     {
-        if (!is_file($file) && !filter_var($file, FILTER_VALIDATE_URL)) {
-            self::arrayToFile([], $file);
-        }
         $json = self::getContent($file);
         $array = json_decode($json, true);
         $lastError = JsonLastError::check();
@@ -117,33 +113,34 @@ class JsonLoader
         return $array === null || !is_null($lastError) ? false : $array;
     }
 
-    private function putContent($file, $json)
+    private static function putContent($file, $json)
     {
         if (self::USE_REDIS) {
-            if (method_exists(Redis::class, 'connection')) {
-                $redis = Redis::connection();
-
+            if (\Redis::ping()) {
                 $file = str_replace(Jsoner::getCacheDir(), 'miot_json_cache:', $file);
                 $file = str_replace(['/', '\\'], ':', $file);
 
-                return $redis->set($file, $json);
+                return \Redis::set($file, $json);
             } else {
+                self::createDirectory($file);
                 return file_put_contents($file, $json);
             }
         }
     }
 
-    private function getContent($file)
+    private static function getContent($file)
     {
         if (self::USE_REDIS) {
-            if (method_exists(Redis::class, 'connection')) {
-                $redis = Redis::connection();
-
+            if (\Redis::ping()) {
                 $file = str_replace(Jsoner::getCacheDir(), 'miot_json_cache:', $file);
                 $file = str_replace(['/', '\\'], ':', $file);
 
-                return $redis->get($file);
+                return \Redis::get($file);
             } else {
+                if (!is_file($file) && !filter_var($file, FILTER_VALIDATE_URL)) {
+                    self::arrayToFile([], $file);
+                }
+
                 return file_get_contents($file);
             }
         }
