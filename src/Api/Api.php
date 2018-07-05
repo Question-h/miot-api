@@ -297,8 +297,9 @@ class Api extends BaseApi
      * @param $customData
      * @param $receiverUrl
      *
-     * @return array|bool|mixed
      * @throws \MiotApi\Exception\SpecificationErrorException
+     *
+     * @return array|bool|mixed
      */
     public function subscriptByDevices($devices, $customData, $receiverUrl)
     {

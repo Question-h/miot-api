@@ -394,7 +394,7 @@ class BaseApi
         $data = [
             'topic'        => 'properties-changed',
             'properties'   => $properties,
-            'custom-data' => $customData,
+            'custom-data'  => $customData,
             'receiver-url' => $receiverUrl,
         ];
         $data = json_encode($data);
