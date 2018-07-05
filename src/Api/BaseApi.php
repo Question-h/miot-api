@@ -384,15 +384,17 @@ class BaseApi
      * }
      *
      * @param $properties
+     * @param $customData
      * @param $receiverUrl
      *
      * @return array|bool|mixed
      */
-    public function subscript($properties, $receiverUrl)
+    public function subscript($properties, $customData, $receiverUrl)
     {
         $data = [
             'topic'        => 'properties-changed',
             'properties'   => $properties,
+            'custom-data' => $customData,
             'receiver-url' => $receiverUrl,
         ];
         $data = json_encode($data);

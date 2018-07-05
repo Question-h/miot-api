@@ -294,17 +294,17 @@ class Api extends BaseApi
      * 根据 devicesList 方法获取到的设备列表信息 订阅设备属性变化.
      *
      * @param $devices
+     * @param $customData
      * @param $receiverUrl
      *
-     * @throws \MiotApi\Exception\SpecificationErrorException
-     *
      * @return array|bool|mixed
+     * @throws \MiotApi\Exception\SpecificationErrorException
      */
-    public function subscriptByDevices($devices, $receiverUrl)
+    public function subscriptByDevices($devices, $customData, $receiverUrl)
     {
         $subscriptProperties = $this->getPropertiesByDevices($devices, ['notify']);
 
-        return $this->subscript($subscriptProperties, $receiverUrl);
+        return $this->subscript($subscriptProperties, $customData, $receiverUrl);
     }
 
     /**

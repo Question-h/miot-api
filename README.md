@@ -67,8 +67,11 @@ $properties = [
     'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA15ZWVsaW5rLW1vbm8xFRQYCDEzMTgwNzc2FWYA.2.2',
     'M1GAxtaW9A0LXNwZWMtdjIVgoAFGA55ZWVsaW5rLWNvbG9AyMRUUGAg0NTk4OTg3NRVoAA.2.1',
 ];
+$customData = [
+    'test' => 'test'
+];
 $receiverUrl = 'https://www.xxx.com/receiver';
-$api->subscript($properties, $receiverUrl);
+$api->subscript($properties, $customData, $receiverUrl);
 
 // 退订属性变化
 $api->unSubscript($properties);
@@ -138,8 +141,11 @@ $attibutes = $api->getPropertiesGraceful($data);
 
 // 订阅设备的所有可订阅属性
 $devices = $api->devicesList();
+$customData = [
+    'test' => 'test'
+];
 $receiverUrl = 'https://www.xxx.com/receiver';
-$requestInfo = $api->subscriptByDevices($devices, $receiverUrl);
+$requestInfo = $api->subscriptByDevices($devices, $customData, $receiverUrl);
 
 // 退订设备的所有订阅属性
 $devices = $this->api->devicesList();

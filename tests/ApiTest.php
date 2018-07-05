@@ -5,6 +5,7 @@
  * Date: 18-6-19
  * Time: 上午10:29.
  */
+
 use MiotApi\Api\Api;
 
 class ApiTest extends PHPUnit_Framework_TestCase
@@ -117,7 +118,10 @@ class ApiTest extends PHPUnit_Framework_TestCase
     {
         $devices = $this->api->devicesList();
         $receiverUrl = 'https://cloud-cn.yeelight.com/';
-        $requestInfo = $this->api->subscriptByDevices($devices, $receiverUrl);
+        $customData = [
+            'test' => 'test'
+        ];
+        $requestInfo = $this->api->subscriptByDevices($devices, $customData, $receiverUrl);
         $this->assertArrayHasKey('properties', $requestInfo);
     }
 
