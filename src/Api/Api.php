@@ -254,9 +254,7 @@ class Api extends BaseApi
                                 $tmpValue = $value;
                             } else {
                                 if (!isset($value[$sindex])) {
-                                    throw new ApiErrorException(
-                                        'Invalid property value! did:'.$did.',name: '.$name
-                                    );
+                                    continue;
                                 }
                                 $tmpValue = $value[$sindex];
                             }
