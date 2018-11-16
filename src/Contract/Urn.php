@@ -100,6 +100,7 @@ class Urn implements UrnInterface
         'miot-spec',        // 小米定义的规范
         'miot-spec-v2',     // 小米定义的规范版本2
         'bluetooth-spec',   // 蓝牙联盟定义的规范
+        'yeelink-spec',     // 为yeelink定义的规范
     ];
 
     /**
