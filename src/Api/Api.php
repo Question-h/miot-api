@@ -138,7 +138,7 @@ class Api extends BaseApi
                             foreach ($sids as $sindex => $sid) {
                                 $property = $propertiesNodes[($sid.'.'.$pids[$sindex])];
 
-                                if ( $property->canRead() ) {
+                                if ($property->canRead()) {
                                     $properties[] = $did.'.'.$sid.'.'.$pids[$sindex];
                                 }
                             }
