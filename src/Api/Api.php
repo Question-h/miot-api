@@ -138,13 +138,9 @@ class Api extends BaseApi
                             foreach ($sids as $sindex => $sid) {
                                 $property = $propertiesNodes[($sid.'.'.$pids[$sindex])];
 
-                                if (!$property->canRead()) {
-                                    throw new ApiErrorException(
-                                        'The property does\'t has the read access! did:'.$did.',name: '.$name
-                                    );
+                                if ( $property->canRead() ) {
+                                    $properties[] = $did.'.'.$sid.'.'.$pids[$sindex];
                                 }
-
-                                $properties[] = $did.'.'.$sid.'.'.$pids[$sindex];
                             }
                         }
                     }
