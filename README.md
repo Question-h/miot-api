@@ -8,6 +8,8 @@
 <a href="https://packagist.org/packages/yeelight/miot-api"><img src="https://poser.pugx.org/yeelight/miot-api/d/total.svg" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/yeelight/miot-api"><img src="https://poser.pugx.org/yeelight/miot-api/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/yeelight/miot-api"><img src="https://poser.pugx.org/yeelight/miot-api/license.svg" alt="License"></a>
+<a href="https://996.icu"><img src="https://img.shields.io/badge/link-996.icu-red.svg" alt="996.icu"></a>
+[![LICENSE](https://img.shields.io/badge/license-NPL%20(The%20996%20Prohibited%20License)-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)    
 </p>
 
 # 小米IOT控制端API及小米IOT设备规范 SDK
