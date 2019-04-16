@@ -211,7 +211,7 @@ class Urn implements UrnInterface
 
     /**
      * 模板的uuid
-     * 0000C801
+     * 0000C801.
      *
      * @var
      */
