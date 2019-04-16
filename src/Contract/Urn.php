@@ -41,7 +41,7 @@ class Urn implements UrnInterface
 
     /**
      * 小米 URN 规范所包含的字段
-     * <URN> ::= "urn:"<namespace>":"<type>":"<name>":"<value>[":"<vendor-product>":"<version>].
+     * <URN> ::= "urn:"<namespace>":"<type>":"<name>":"<value>[":"<vendor-product>":"<version>][":"<template-uuid>].
      *
      * @var array
      */
@@ -53,6 +53,7 @@ class Urn implements UrnInterface
         'value',
         'vendor_product',
         'version',
+        'template_uuid',
     ];
 
     /**
@@ -209,6 +210,22 @@ class Urn implements UrnInterface
     private $version_reg = '/^([0-9]+)$/';
 
     /**
+     * 模板的uuid
+     * 0000C801
+     *
+     * @var
+     */
+    private $template_uuid;
+
+    /**
+     * 模板的uuid正则
+     * 只能是数字.
+     *
+     * @var string
+     */
+    private $template_uuid_reg = '/^([0-9A-Za-z]+)$/';
+
+    /**
      * Urn constructor.
      *
      * @param $urn
@@ -278,10 +295,6 @@ class Urn implements UrnInterface
      */
     public function setNamespace($namespace)
     {
-        if (!in_array($namespace, $this->validNamespaces)) {
-            throw new SpecificationErrorException('非法 namespace');
-        }
-
         $this->namespace = $namespace;
     }
 
@@ -393,6 +406,28 @@ class Urn implements UrnInterface
         }
 
         $this->version = $version;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTemplateUuid()
+    {
+        return $this->template_uuid;
+    }
+
+    /**
+     * @param mixed $version
+     *
+     * @throws SpecificationErrorException
+     */
+    public function setTemplateUuid($template_uuid)
+    {
+        if (!preg_match($this->template_uuid_reg, $template_uuid)) {
+            throw new SpecificationErrorException('非法 模板uuid');
+        }
+
+        $this->template_uuid = $template_uuid;
     }
 
     /**
