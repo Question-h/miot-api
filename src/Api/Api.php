@@ -363,6 +363,7 @@ class Api extends BaseApi
             return $properties;
         } catch (ApiErrorException $exception) {
             throw new ApiErrorException('Could not get properties by devices:'.$exception->getMessage());
+
             return false;
         }
     }
