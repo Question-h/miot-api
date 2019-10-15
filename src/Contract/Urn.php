@@ -169,7 +169,7 @@ class Urn implements UrnInterface
      *
      * @var string
      */
-    private $valueReg = '/^([0-9A-F]{8})$/';
+    private $valueReg = '/^([0-9A-Fa-f]{8})$/';
 
     /**
      * 厂家+产品代号 (这个字段只有在设备实例定义里出现)
